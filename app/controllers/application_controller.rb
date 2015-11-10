@@ -11,4 +11,11 @@ class ApplicationController < ActionController::Base
   def authorize
     redirect_to '/login' unless current_user
   end
+
+  def authorize_admin
+    unless current_user.is_a? Admin
+      session[:user_id] = nil
+      redirect_to '/'
+    end
+  end
 end
