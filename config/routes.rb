@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   post '/login' => 'sessions#create'
   get '/logout' => 'sessions#destroy'
 
-  resources :admins, only: [:show] do
-    resources :schools
-  end
+  resources :schools
+
+  resources :admins, only: [:show]
 end
