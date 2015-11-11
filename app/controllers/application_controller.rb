@@ -9,6 +9,19 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   def authorize
-    redirect_to '/login' unless current_user
+    if current_user
+      unless current_user.id === params[:id]
+        redirect_to '/login'
+      end
+    else
+      redirect_to '/login'
+    end
+  end
+
+  def authorize_admin
+    unless current_user.is_a? Admin
+      session[:user_id] = nil
+      redirect_to '/'
+    end
   end
 end
