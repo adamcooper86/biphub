@@ -1,9 +1,5 @@
 Rails.application.routes.draw do
 
-  get 'admins/show'
-
-  get 'admin/show'
-
   root 'welcome#index'
 
   get '/signup' => 'users#new'
@@ -13,5 +9,7 @@ Rails.application.routes.draw do
   post '/login' => 'sessions#create'
   get '/logout' => 'sessions#destroy'
 
-  get '/admins/:id' => 'admins#show'
+  resources :admins, only: [:show] do
+    resources :schools
+  end
 end
