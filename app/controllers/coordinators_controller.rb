@@ -1,4 +1,6 @@
 class CoordinatorsController < ApplicationController
+  before_filter :authorize_admin
+
   def new
     @school = School.find_by_id params[:school_id]
     @coordinator = Coordinator.new
@@ -40,7 +42,6 @@ class CoordinatorsController < ApplicationController
   end
 
 private
-
   def coordinator_params
     params.require(:coordinator).permit(:first_name, :last_name, :email, :password, :password_confirmation)
   end
