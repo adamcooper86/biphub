@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
       if user.is_a? Admin
         redirect_to "/admins/#{ user.id }"
       else
-        redirect_to "/#{ user.id }"
+        redirect_to "/users/#{ user.id }"
       end
     else
       redirect_to '/login'
