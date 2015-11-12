@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   root 'welcome#index'
 
   get '/signup' => 'users#new'
@@ -9,7 +8,9 @@ Rails.application.routes.draw do
   post '/login' => 'sessions#create'
   get '/logout' => 'sessions#destroy'
 
-  resources :schools
+  resources :schools do
+    resources :coordinators
+  end
 
   resources :admins, only: [:show]
 end

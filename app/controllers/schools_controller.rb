@@ -15,6 +15,7 @@ class SchoolsController < ApplicationController
   end
   def show
     @school = School.find(params[:id])
+    @coordinators = @school.coordinators
   end
   def edit
     @school = School.find(params[:id])
