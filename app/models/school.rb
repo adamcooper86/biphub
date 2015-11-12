@@ -1,3 +1,4 @@
 class School < ActiveRecord::Base
   has_many :coordinators, dependent: :destroy
+  has_many :teachers, dependent: :destroy
 end
