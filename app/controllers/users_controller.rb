@@ -15,6 +15,7 @@ class UsersController < ApplicationController
     @user = User.find_by_id params[:id]
     @school = @user.school
     @coordinators = @school.coordinators
+    @teachers = @school.teachers
   end
 
 private

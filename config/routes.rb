@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  get 'teacher/new'
+
+  get 'teacher/edit'
+
+  get 'teacher/show'
+
   root 'welcome#index'
 
   get '/signup' => 'users#new'
