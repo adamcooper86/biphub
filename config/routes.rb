@@ -1,10 +1,4 @@
 Rails.application.routes.draw do
-  get 'teacher/new'
-
-  get 'teacher/edit'
-
-  get 'teacher/show'
-
   root 'welcome#index'
 
   get '/signup' => 'users#new'
@@ -18,6 +12,7 @@ Rails.application.routes.draw do
   resources :schools do
     resources :coordinators
     resources :teachers
+    resources :speducators
   end
 
   resources :admins, only: [:show]

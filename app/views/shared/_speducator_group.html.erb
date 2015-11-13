@@ -1,0 +1,14 @@
+<h2>Special Education Teachers</h2>
+<% if @speducators.empty? %>
+  <p>There are no special education teachers assigned to this school</p>
+<% else %>
+  <ul>
+  <% @speducators.each do |speducator|%>
+    <li><%= speducator.first_name %> <%= speducator.last_name %>
+      <%= button_to 'show', school_speducator_path(@school, speducator), method: :get %>
+      <%= button_to 'edit', edit_school_speducator_path(@school, speducator), method: :get %>
+      <%= button_to("delete", school_speducator_path(@school, speducator), method: :delete) %>
+    </li>
+  <% end %>
+  </ul>
+<% end %>
