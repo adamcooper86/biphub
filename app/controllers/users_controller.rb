@@ -17,6 +17,7 @@ class UsersController < ApplicationController
     @coordinators = @school.coordinators
     @teachers = @school.teachers
     @speducators = @school.speducators
+    @students = @school.students
   end
 
 private

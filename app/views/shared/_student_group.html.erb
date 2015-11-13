@@ -1,0 +1,14 @@
+<h2>Students</h2>
+<% if @students.empty? %>
+  <p>There are no students assigned to this school</p>
+<% else %>
+  <ul>
+  <% @students.each do |student|%>
+    <li><%= student.first_name %> <%= student.last_name %>
+      <%= button_to 'show', school_student_path(@school, student), method: :get %>
+      <%= button_to 'edit', edit_school_student_path(@school, student), method: :get %>
+      <%= button_to("delete", school_student_path(@school, student), method: :delete) %>
+    </li>
+  <% end %>
+  </ul>
+<% end %>

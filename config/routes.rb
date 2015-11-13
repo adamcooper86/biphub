@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     resources :coordinators
     resources :teachers
     resources :speducators
+    resources :students
   end
 
   resources :admins, only: [:show]

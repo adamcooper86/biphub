@@ -3,6 +3,8 @@
 <h1>Your Information:</h1>
 <%= render 'shared/user_information' %>
 <h1>Students:</h1>
+<%= link_to 'Add a Student', new_school_student_path(@school) %>
+<%= render 'shared/student_group' %>
 <h1>Special Education Teachers</h1>
 <%= link_to 'Add a Special Education Teacher', new_school_speducator_path(@school) %>
 <%= render 'shared/speducator_group' %>
