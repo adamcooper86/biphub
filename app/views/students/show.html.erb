@@ -3,4 +3,12 @@
     <td><h3>Name:</h3></td>
     <td><p><%= @student.first_name %> <%= @student.last_name %></p></td>
   </tr>
+  <tr>
+    <td><h3>SpEd Teacher:</h3></td>
+    <% if @speducator %>
+    <td><p><%= @speducator.first_name %> <%= @speducator.last_name %></p></td>
+    <% else %>
+    <td><p>No teacher assigned</p></td>
+    <% end %>
+  </tr>
 </table>

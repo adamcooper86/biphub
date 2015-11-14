@@ -18,10 +18,12 @@ class StudentsController < ApplicationController
     def show
       @school = School.find_by_id params[:school_id]
       @student = Student.find_by_id params[:id]
+      @speducator = @student.speducator
     end
 
     def edit
       @school = School.find_by_id params[:school_id]
+      @speducators = @school.speducators
       @student = Student.find_by_id params[:id]
     end
 
@@ -41,6 +43,6 @@ class StudentsController < ApplicationController
 
   private
     def student_params
-      params.require(:student).permit(:first_name, :last_name)
+      params.require(:student).permit(:first_name, :last_name, :speducator_id)
     end
 end
