@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe TeacherController, type: :controller do
+RSpec.describe TeachersController, type: :controller do
 
   describe "GET #new" do
     it "returns http success" do

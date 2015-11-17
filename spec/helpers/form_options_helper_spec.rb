@@ -1,15 +1,19 @@
 require 'rails_helper'
 
 # Specs in this file have access to a helper object that includes
-# the StudentsHelper. For example:
+# the UsersHelper. For example:
 #
-# describe StudentsHelper do
+# describe UsersHelper do
 #   describe "string concat" do
 #     it "concats two strings with spaces" do
 #       expect(helper.concat_strings("this","that")).to eq("this that")
 #     end
 #   end
 # end
-RSpec.describe StudentsHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+RSpec.describe FormOptionsHelper, type: :helper do
+  describe "#speducator_options" do
+    it "returns an empty array when speducators = []" do
+      expect(helper.speducator_options([])).to eq([])
+    end
+  end
 end
