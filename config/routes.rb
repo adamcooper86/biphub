@@ -13,10 +13,12 @@ Rails.application.routes.draw do
     resources :coordinators
     resources :teachers
     resources :speducators
-    resources :students do
-      resources :teams
-    end
+    resources :students
   end
+
+  get '/schools/:school_id/students/:id/team' => 'students#team', as: 'school_student_team'
+  post '/schools/:school_id/students/:id/team' => 'students#team', as: 'school_student_team_add'
+  delete '/schools/:school_id/students/:id/team' => 'students#team', as: 'school_student_team_remove'
 
   resources :admins, only: [:show]
 end

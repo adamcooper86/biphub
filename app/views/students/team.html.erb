@@ -1,0 +1,15 @@
+<h3>The team members assigned to this student are:</h3></td>
+<% unless @staff_members.empty? %>
+<ul>
+<% @staff_members.each do |staff| %>
+  <li><%= staff.first_name %> <%= staff.last_name %></li>
+<% end %>
+</ul>
+<% else %>
+<p>There are no staff members assigned to this students BIP team</p>
+<% end %>
+<h3>Add a staff member to this students team<h3>
+<%= form_tag(school_student_team_add_path[@school, @student]) do%>
+  <%= select_tag(:user_id, staff_options(@staff)) %>
+  <%= f.submit "Submit" %>
+<% end %>

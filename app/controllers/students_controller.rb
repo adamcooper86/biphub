@@ -19,6 +19,7 @@ class StudentsController < ApplicationController
       @school = School.find_by_id params[:school_id]
       @student = Student.find_by_id params[:id]
       @speducator = @student.speducator
+      @staff_members = @student.staff_members
     end
 
     def edit
@@ -39,6 +40,14 @@ class StudentsController < ApplicationController
       @student = Student.find_by_id params[:id]
       @student.destroy
       redirect_to "/users/#{current_user.id}"
+    end
+
+    def team
+      @school = School.find_by_id params[:school_id]
+      @staff = @school.users
+      @student = Student.find_by_id params[:id]
+      @speducator = @student.speducator
+      @staff_members = @student.staff_members
     end
 
   private

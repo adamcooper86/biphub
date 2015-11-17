@@ -11,4 +11,18 @@
     <td><p>No teacher assigned</p></td>
     <% end %>
   </tr>
+  <tr>
+    <td><h3>The team members assigned to this student are:</h3></td>
+    <td>
+      <% unless @staff_members.empty? %>
+      <ul>
+      <% @staff_members.each do |staff| %>
+        <li><%= staff.first_name %> <%= staff.last_name %> <%= button_to("Remove", school_student_team_path(@school, @student), method: :delete) %></li>
+      <% end %>
+      </ul>
+      <% else %>
+      <p>There are no staff members assigned to this students BIP team</p>
+      <% end %>
+      <%= link_to("Manage Team Members", school_student_team_path(@school, @student)) %>
+    </td>
 </table>
