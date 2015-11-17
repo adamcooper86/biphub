@@ -13,12 +13,9 @@
 <% end%>
 <%= render 'shared/speducator_group' %>
 <h1>Genderal Education Teachers</h1>
-<<<<<<< HEAD
 <%= link_to 'Add a Teacher', new_school_teacher_path(@school) %>
 <%= render 'shared/teacher_group' %>
-=======
 <% if @user.type == "Coordinator" %>
 	<%= link_to 'Add a Teacher', new_school_teacher_path(@school) %>
 <% end%>
 <%= render 'shared/teacher_group' %>
->>>>>>> master
