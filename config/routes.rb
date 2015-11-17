@@ -13,7 +13,9 @@ Rails.application.routes.draw do
     resources :coordinators
     resources :teachers
     resources :speducators
-    resources :students
+    resources :students do
+      resources :cards
+    end
   end
 
   get '/schools/:school_id/students/:id/team' => 'students#team', as: 'school_student_team'

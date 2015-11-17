@@ -1,0 +1,8 @@
+<%= form_for [@school, @student, @card] do |f| %>
+
+  Teacher: <%= f.select(:teacher_id, staff_options(@school.users)) %>
+  Start: <%= f.time_select(:start) %>
+  End: <%= f.time_select(:end) %>
+
+  <%= f.submit "Submit" %>
+<% end %>

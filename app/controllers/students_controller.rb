@@ -16,16 +16,19 @@ class StudentsController < ApplicationController
     end
 
     def show
+      @user = User
       @school = School.find_by_id params[:school_id]
       @student = Student.find_by_id params[:id]
       @speducator = @student.speducator
       @staff_members = @student.staff_members
+      @cards = @student.cards
     end
 
     def edit
       @school = School.find_by_id params[:school_id]
       @speducators = @school.speducators
       @student = Student.find_by_id params[:id]
+      @cards = @student.cards
     end
 
     def update
