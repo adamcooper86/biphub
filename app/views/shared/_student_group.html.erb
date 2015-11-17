@@ -7,7 +7,9 @@
     <li><%= student.first_name %> <%= student.last_name %>
       <%= button_to 'show', school_student_path(@school, student), method: :get %>
       <%= button_to 'edit', edit_school_student_path(@school, student), method: :get %>
-      <%= button_to("delete", school_student_path(@school, student), method: :delete) %>
+      <% if @user.type == "Coordinator" %>
+        <%= button_to("delete", school_student_path(@school, student), method: :delete) %>
+      <% end %>
     </li>
   <% end %>
   </ul>
