@@ -5,9 +5,11 @@
   <ul>
   <% @teachers.each do |teacher|%>
     <li><%= teacher.first_name %> <%= teacher.last_name %>
-      <%= button_to 'show', school_teacher_path(@school, teacher), method: :get %>
-      <%= button_to 'edit', edit_school_teacher_path(@school, teacher), method: :get %>
-      <%= button_to("delete", school_teacher_path(@school, teacher), method: :delete) %>
+      <% if @user.type == "Coordinator" %>
+        <%= button_to 'show', school_teacher_path(@school, teacher), method: :get %>
+        <%= button_to 'edit', edit_school_teacher_path(@school, teacher), method: :get %>
+        <%= button_to("delete", school_teacher_path(@school, teacher), method: :delete) %>
+      <% end %>
     </li>
   <% end %>
   </ul>
