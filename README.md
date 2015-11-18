@@ -1,5 +1,5 @@
 # Biphub
-Biphub is a web/mobile application that allows teams of teachers and administrators to accurately track the implementation behavoir interventions.
+Biphub is a web/mobile application that allows teams of teachers and administrators to accurately track the implementation of behavior interventions.
 
 - The mobile application allows for teachers to quickly and accurately enter data directly into the database
 
