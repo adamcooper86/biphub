@@ -27,12 +27,16 @@ class CardsController < ApplicationController
 
   def edit
   	@card = Card.find_by_id params[:id]
-  	@teacher = @card.teacher
   	@student = @card.student
+    @school = @student.school
   end
 
   def update
-
+    @school = School.find(params[:school_id])
+    @student = Student.find_by_id params[:student_id]
+    @card = Card.find_by_id params[:id]
+    @card.update_attributes(card_params)
+    redirect_to school_student_path @school, @student
   end
 
   def destroy
