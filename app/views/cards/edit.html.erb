@@ -1,2 +1,10 @@
-<h1>Cards#edit</h1>
-<p>Find me in app/views/cards/edit.html.erb</p>
+<h1>Edit Card</h1>
+
+<%= form_for [@school, @student, @card] do |f| %>
+
+  Teacher: <%= f.select(:teacher_id, staff_options(@school.users)) %>
+  Start: <%= f.time_select(:start) %>
+  End: <%= f.time_select(:end) %>
+
+  <%= f.submit "Submit" %>
+<% end %>
