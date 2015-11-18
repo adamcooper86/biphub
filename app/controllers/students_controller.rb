@@ -53,6 +53,22 @@ class StudentsController < ApplicationController
       @staff_members = @student.staff_members
     end
 
+    def add_member
+      @school = School.find_by_id params[:school_id]
+      @student = Student.find_by_id params[:id]
+      @user = User.find_by_id params[:user_id]
+      @student.staff_members << @user
+      redirect_to school_student_team_path @school, @student
+    end
+
+    def remove_member
+      @school = School.find_by_id params[:school_id]
+      @student = Student.find_by_id params[:student_id]
+      @user = User.find_by_id params[:id]
+      Team.where(user_id: @user.id, student_id: @student.id).first.delete
+      redirect_to school_student_team_path @school, @student
+    end
+
   private
     def student_params
       params.require(:student).permit(:first_name, :last_name, :speducator_id)

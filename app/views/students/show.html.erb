@@ -17,7 +17,7 @@
       <% unless @staff_members.empty? %>
       <ul>
       <% @staff_members.each do |staff| %>
-        <li><%= staff.first_name %> <%= staff.last_name %> <%= button_to("Remove", school_student_team_path(@school, @student), method: :delete) %></li>
+        <li><%= staff.first_name %> <%= staff.last_name %> </li>
       <% end %>
       </ul>
       <% else %>
