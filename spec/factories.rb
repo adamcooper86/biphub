@@ -5,6 +5,12 @@ FactoryGirl.define do
     password "password"
     password_confirmation "password"
   end
+  factory :admin do
+    first_name "John"
+    last_name  "Doe"
+    password "password"
+    password_confirmation "password"
+  end
   factory :teacher do
     first_name "John"
     last_name  "Doe"
