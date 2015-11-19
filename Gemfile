@@ -11,6 +11,7 @@ group :development, :test do
   gem 'byebug'
   gem "factory_girl_rails", "~> 4.0"
   gem 'capybara'
+  gem 'selenium-webdriver'
 end
 
 group :production do
