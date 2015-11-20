@@ -5,6 +5,9 @@ gem 'pg'
 gem 'uglifier', '>= 1.3.0'
 gem 'jquery-rails'
 gem 'bcrypt', '>= 3.1.7'
+gem 'sass-rails'
+gem 'bootstrap-sass', '~> 3.2.0'
+gem 'autoprefixer-rails'
 
 group :development, :test do
   gem 'rspec-rails'
