@@ -23,4 +23,10 @@ Rails.application.routes.draw do
   delete '/schools/:school_id/students/:student_id/staff/:id' => 'students#remove_member', as: 'school_student_team_remove'
 
   resources :admins, only: [:show]
+
+  namespace :api do
+    namespace :v1 do
+      post '/login' => "sessions#create"
+    end
+  end
 end
