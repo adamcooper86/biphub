@@ -1,5 +1,5 @@
 # Biphub
-Biphub is a web/mobile application that allows teams of teachers and administrators to accurately track the implementation behavoir interventions.
+Biphub is a web/mobile application that allows teams of teachers and administrators to accurately track the implementation of behavior interventions.
 
 - The mobile application allows for teachers to quickly and accurately enter data directly into the database
 
@@ -22,3 +22,4 @@ When adding features to Biphub, it is crucial that we add the necassary test to 
 1. Model test don't need to test ActiveRecord, or associations. They should test all validations and any instance or class methods on models.
 2. Controller tests need to be made for each controller action that has a route. To the greatest degree possible, models shoule be stubbed out with FactoryGirl objects.
 3. A senario (feature test) should be made for your feature, including testing for failures. All feature tests should be marked as js: true so that they are run by selenium.
+
