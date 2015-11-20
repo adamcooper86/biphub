@@ -6,5 +6,7 @@ class User < ActiveRecord::Base
 
   def create_authenticity_token
     self.authenticity_token = Digest::SHA1.hexdigest([Time.now, rand].join)
+    self.save
+    self.authenticity_token
   end
 end
