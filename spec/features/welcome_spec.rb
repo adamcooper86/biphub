@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Going to the homepage", js: true do
+feature "Going to the homepage", js: false do
   scenario "Visiting the homepage" do
     visit root_path
     expect(page).to have_content 'BipHub'
