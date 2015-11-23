@@ -19,8 +19,10 @@ class BipsController < ApplicationController
 
   def show
     @user = current_user
+    @school = School.find(params[:school_id])
+    @student = Student.find_by_id params[:student_id]
     @bip = Bip.find_by_id params[:id]
-    @student = @bip.student
+    @goals = @bip.goals
   end
 
   def edit
