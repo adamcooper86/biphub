@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 20151123181446) do
   end
 
   create_table "goals", force: :cascade do |t|
-    t.integer  "student_id"
+    t.integer  "bip_id"
     t.string   "text"
     t.string   "prompt"
     t.string   "meme"

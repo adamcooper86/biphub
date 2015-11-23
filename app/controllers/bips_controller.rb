@@ -13,7 +13,7 @@ class BipsController < ApplicationController
       student.bips << bip
       redirect_to school_student_path school, student
     else
-      redirect_to new_school_student_card_path school, student
+      redirect_to new_school_student_bip_path school, student
     end
   end
 

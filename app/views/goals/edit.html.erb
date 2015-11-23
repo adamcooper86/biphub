@@ -1,0 +1,9 @@
+<h1>Edit Bip</h1>
+
+<%= form_for [@school, @student, @bip] do |f| %>
+
+  Start: <%= f.date_select(:start) %>
+  End: <%= f.date_select(:end) %>
+
+  <%= f.submit "Submit" %>
+<% end %>
