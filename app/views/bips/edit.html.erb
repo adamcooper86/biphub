@@ -1,10 +1,9 @@
-<h1>Edit Card</h1>
+<h1>Edit Bip</h1>
 
-<%= form_for [@school, @student, @card] do |f| %>
+<%= form_for [@school, @student, @bip] do |f| %>
 
-  Teacher: <%= f.select(:teacher_id, staff_options(@school.users)) %>
-  Start: <%= f.time_select(:start) %>
-  End: <%= f.time_select(:end) %>
+  Start: <%= f.date_select(:start) %>
+  End: <%= f.date_select(:end) %>
 
   <%= f.submit "Submit" %>
 <% end %>

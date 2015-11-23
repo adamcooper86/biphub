@@ -5,49 +5,48 @@ class BipsController < ApplicationController
     @bip = Bip.new
   end
 
-#   def create
-#     school = School.find_by_id params[:school_id]
-#     student = Student.find_by_id params[:student_id]
-#     card = Card.new card_params
-#     if card.save
-#       student.cards << card
-#       redirect_to school_student_path school, student
-#     else
-#       redirect_to new_school_student_card_path school, student
-#     end
-#   end
+  def create
+    school = School.find_by_id params[:school_id]
+    student = Student.find_by_id params[:student_id]
+    bip = Bip.new bip_params
+    if bip.save
+      student.bips << bip
+      redirect_to school_student_path school, student
+    else
+      redirect_to new_school_student_card_path school, student
+    end
+  end
 
-#   def show
-#     @user = current_user
-#     @card = Card.find_by_id params[:id]
-#     @teacher = @card.teacher
-#     @student = @card.student
-#   end
+  def show
+    @user = current_user
+    @bip = Bip.find_by_id params[:id]
+    @student = @bip.student
+  end
 
-#   def edit
-#     @card = Card.find_by_id params[:id]
-#     @student = @card.student
-#     @school = @student.school
-#   end
+  def edit
+    @bip = Bip.find_by_id params[:id]
+    @student = @bip.student
+    @school = @student.school
+  end
 
-#   def update
-#     @school = School.find(params[:school_id])
-#     @student = Student.find_by_id params[:student_id]
-#     @card = Card.find_by_id params[:id]
-#     @card.update_attributes(card_params)
-#     redirect_to school_student_path @school, @student
-#   end
+  def update
+    @school = School.find(params[:school_id])
+    @student = Student.find_by_id params[:student_id]
+    @bip = Bip.find_by_id params[:id]
+    @bip.update_attributes(bip_params)
+    redirect_to school_student_path @school, @student
+  end
 
-#   def destroy
-#     @school = School.find_by_id params[:school_id]
-#     @card = Card.find_by_id params[:id]
-#     @student = @card.student
-#     @card.destroy
-#     redirect_to school_student_path @school, @student
-#   end
+  def destroy
+    @school = School.find_by_id params[:school_id]
+    @student = Student.find_by_id params[:student_id]
+    @bip = Bip.find_by_id params[:id]
+    @bip.destroy
+    redirect_to school_student_path @school, @student
+  end
 
-# private
-#   def card_params
-#     params.require(:card).permit(:teacher_id, :start, :end)
-#   end
+private
+  def bip_params
+    params.require(:bip).permit(:start, :end)
+  end
 end
