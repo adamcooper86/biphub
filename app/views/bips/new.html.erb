@@ -1,0 +1,7 @@
+<%= form_for [@school, @student, @bip] do |f| %>
+
+  Start: <%= f.date_select(:start, start_year: 2015) %>
+  End: <%= f.date_select(:end, start_year: 2015) %>
+
+  <%= f.submit "Submit" %>
+<% end %>

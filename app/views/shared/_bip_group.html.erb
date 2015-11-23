@@ -1,0 +1,20 @@
+<h2>Bips</h2>
+<% if current_user.is_a? Speducator %>
+	<%= link_to 'Create a Bip', new_school_student_bip_path(@school, @student) %>
+<% end %>
+<% if @bips.empty? %>
+  <p>There are no bips assigned to this student</p>
+<% else %>
+  <ul>
+  <% @bips.each do |bip|%>
+  <div>
+  	<p><%= bip.start %> - <%= bip.end %></p>
+    <% if current_user.is_a? Speducator %>
+      <%= button_to 'show', school_student_bip_path(@school, bip.student, bip), method: :get %>
+      <%= button_to 'edit', edit_school_student_bip_path(@school, bip.student, bip), method: :get %>
+      <%= button_to("delete", school_student_bip_path(@school, bip.student, bip), method: :delete) %>
+    <% end %>
+  </div>
+  <% end %>
+  </ul>
+<% end %>

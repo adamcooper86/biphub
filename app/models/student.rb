@@ -5,4 +5,5 @@ class Student < ActiveRecord::Base
   has_many :staff_members, through: :teams, source: :user
   has_many :cards
   has_many :teachers, through: :cards, source: :user
+  has_many :bips
 end

@@ -1,6 +1,9 @@
 require 'faker'
 
 FactoryGirl.define do
+  factory :bip do
+  end
+
   factory :user do
     email Faker::Internet.email
     first_name "John"
