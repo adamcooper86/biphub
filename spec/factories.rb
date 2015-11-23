@@ -1,6 +1,9 @@
 require 'faker'
 
 FactoryGirl.define do
+  factory :goal do
+  end
+
   factory :bip do
   end
 
