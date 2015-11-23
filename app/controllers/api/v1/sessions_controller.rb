@@ -3,11 +3,15 @@ class Api::V1::SessionsController < ApplicationController
 
   def create
     @user = User.find_by_email(params[:email])
-    if @user && @user.authenticate(params[:password])
-      token = authenticity_token
-      render :json => {token: token, id: @user.id }
+    if @user
+      if @user.authenticate(params[:password])
+        token = authenticity_token
+        render :json => {token: token, id: @user.id }
+      else
+        render :text => "User and Password Don't Match", :status => 403
+      end
     else
-      render :json => {error: true}
+      render :text => "User With That Email Not Found", :status => 403
     end
   end
 
