@@ -22,6 +22,7 @@ class StudentsController < ApplicationController
       @speducator = @student.speducator
       @staff_members = @student.staff_members
       @cards = @student.cards
+      @bips = @student.bips
     end
 
     def edit

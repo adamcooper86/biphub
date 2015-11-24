@@ -15,6 +15,9 @@ Rails.application.routes.draw do
     resources :speducators
     resources :students do
       resources :cards
+      resources :bips do
+        resources :goals
+      end
     end
   end
 

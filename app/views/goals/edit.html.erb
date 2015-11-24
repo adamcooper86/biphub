@@ -1,0 +1,10 @@
+<h1>Edit Goal:</h1>
+<%= form_for [@school, @student, @bip, @goal] do |f| %>
+
+  Prompt: <%= f.text_field :prompt %>
+  Goal Text: <%= f.text_field :text %>
+  Type: <%= f.select(:meme, [['Qualitative', 'Qualitative'],["Time", "Time"]]) %>
+
+
+  <%= f.submit "Submit" %>
+<% end %>
