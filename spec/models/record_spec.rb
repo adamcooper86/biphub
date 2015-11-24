@@ -12,7 +12,7 @@ RSpec.describe Record, type: :model do
       expect{Record.create_record_group("observation", goals)}.to raise_error ArgumentError, 'Observation arguement is not an observation'
     end
     it 'raises an error if not passed a group of goals' do
-      expect{Record.create_record_group(observation, "goals")}.to raise_error ArgumentError, 'Goals arguement is not an array'
+      expect{Record.create_record_group(observation, goal1)}.to raise_error ArgumentError, 'Goals arguement is not a collection'
       expect{Record.create_record_group(observation, ["goals"])}.to raise_error ArgumentError, 'Goals arguement contains objects that are not goals'
     end
     it 'creates record instances' do
