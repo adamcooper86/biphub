@@ -17,5 +17,9 @@ RSpec.describe Observation, type: :model do
     it 'creates Observation instances' do
       expect{Observation.create_from_cards(cards)}.to change{Observation.all.count}.by(3)
     end
+    it 'returns a collections of observations' do
+      expect(Observation.create_from_cards(cards)).to be_an Array
+      expect(Observation.create_from_cards(cards)[0]).to be_a Observation
+    end
   end
 end
