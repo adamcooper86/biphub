@@ -8,4 +8,13 @@ class Student < ActiveRecord::Base
   has_many :bips
   has_many :observations
   has_many :records, through: :observations
+
+  def self.create_daily_observations
+    observations = {}
+    self.all.each do |student|
+      observation = Observation.create_from_cards student.cards
+      observations[student.id] = observation
+    end
+    observations
+  end
 end
