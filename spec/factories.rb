@@ -3,6 +3,7 @@ require 'faker'
 FactoryGirl.define do
   factory :observation do
   end
+
   factory :record do
   end
 
@@ -10,6 +11,9 @@ FactoryGirl.define do
   end
 
   factory :bip do
+  end
+
+  factory :card do
   end
 
   factory :user do
