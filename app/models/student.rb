@@ -6,4 +6,6 @@ class Student < ActiveRecord::Base
   has_many :cards
   has_many :teachers, through: :cards, source: :user
   has_many :bips
+  has_many :observations
+  has_many :records, through: :observations
 end

@@ -1,6 +1,11 @@
 require 'faker'
 
 FactoryGirl.define do
+  factory :observation do
+  end
+  factory :record do
+  end
+
   factory :goal do
   end
 
