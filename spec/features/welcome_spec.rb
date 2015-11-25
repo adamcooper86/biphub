@@ -20,4 +20,10 @@ feature "Visiting Public Not Protected Pages", js: false do
     expect(page).not_to have_content 'Password:'
     expect(page).to have_selector 'h1'
   end
+  scenario "Going to the about page" do
+    visit root_path
+    click_on 'About'
+    expect(page).to have_content 'Student frustrations'
+    expect(page).to have_content 'Teacher frustrations'
+  end
 end
