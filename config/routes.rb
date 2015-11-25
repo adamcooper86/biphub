@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   post '/login' => 'sessions#create'
   get '/logout' => 'sessions#destroy'
 
+  get '/about' => 'welcome#about'
+
   resources :schools do
     resources :coordinators
     resources :teachers
