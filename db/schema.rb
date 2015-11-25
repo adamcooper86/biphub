@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151123181446) do
+ActiveRecord::Schema.define(version: 20151124215904) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 20151123181446) do
 
   create_table "cards", force: :cascade do |t|
     t.integer  "student_id"
-    t.integer  "teacher_id"
+    t.integer  "user_id"
     t.datetime "start"
     t.datetime "end"
     t.datetime "created_at", null: false
@@ -45,6 +45,23 @@ ActiveRecord::Schema.define(version: 20151123181446) do
     t.string   "meme"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "observations", force: :cascade do |t|
+    t.integer  "student_id"
+    t.integer  "teacher_id"
+    t.datetime "start"
+    t.datetime "end"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "records", force: :cascade do |t|
+    t.integer  "observation_id"
+    t.integer  "goal_id"
+    t.integer  "result"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "schools", force: :cascade do |t|
