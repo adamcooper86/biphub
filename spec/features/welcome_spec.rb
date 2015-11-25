@@ -13,4 +13,11 @@ feature "Visiting Public Not Protected Pages", js: false do
     expect(page).to have_content 'Password:'
     expect(page).to have_selector 'form'
   end
+  scenario "Going to the home page from login page" do
+    visit login_path
+    find('nav').click_link('BipHub')
+    expect(page).not_to have_content 'Email:'
+    expect(page).not_to have_content 'Password:'
+    expect(page).to have_selector 'h1'
+  end
 end
