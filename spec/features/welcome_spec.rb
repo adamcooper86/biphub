@@ -52,5 +52,11 @@ feature "Visiting Public Not Protected Pages", js: false do
       click_on 'Projects'
       expect(page).to have_content 'Projects'
     end
+    scenario "Going to the developer articles page" do
+      visit root_path
+      click_on 'Developer'
+      click_on 'Articles'
+      expect(page).to have_content 'Articles'
+    end
   end
 end

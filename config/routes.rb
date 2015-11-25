@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get '/projects' => 'welcome#projects'
 
   resources :blogs
+  resources :articles
 
   resources :schools do
     resources :coordinators
