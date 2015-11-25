@@ -44,3 +44,81 @@ RSpec.describe Api::V1::SessionsController, :type => :controller do
     end
   end
 end
+
+RSpec.describe SessionsController, :type => :controller do
+  let(:user){ FactoryGirl.create(:user) }
+  let(:admin){ FactoryGirl.create(:admin) }
+
+  context "GET #new" do
+    before(:each){ get :new }
+    it "responds successfully with an HTTP 200 status code" do
+      expect(response).to be_success
+      expect(response).to have_http_status(200)
+    end
+
+    it "renders the new template" do
+      expect(response).to render_template("new")
+    end
+  end
+
+  context "POST #create" do
+    context 'given valid credentials' do
+      before(:each){post :create, { email: user.email, password: user.password }}
+      it "has a 300 status code" do
+        expect(response).not_to be_success
+        expect(response).to have_http_status(302)
+      end
+
+      it "redirects to the user show page" do
+        expect(response).to redirect_to "/users/#{user.id}"
+      end
+    end
+
+    context 'given an invalid email address' do
+      before(:each){ post :create, { email: "wrongemail@gmail.com", password: user.password }}
+      it "has a 403 status code for invalid email" do
+        expect(response).not_to be_success
+        expect(response).to have_http_status(302)
+      end
+
+      it "redirects to the login page" do
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    context 'given an invalid password' do
+      before(:each){post :create, { email: user.email, password: "wrongpassword" }}
+      it "has a 302 status code for invalid password" do
+        expect(response).not_to be_success
+        expect(response).to have_http_status(302)
+      end
+
+      it "returns a text message that email is invalid" do
+        expect(response).to redirect_to login_path
+      end
+    end
+    context 'Given valid admin credentials' do
+      before(:each){post :create, { email: admin.email, password: admin.password }}
+      it "has a 300 status code" do
+        expect(response).not_to be_success
+        expect(response).to have_http_status(302)
+      end
+
+      it "redirects to the user show page" do
+        expect(response).to redirect_to "/admins/#{admin.id}"
+      end
+    end
+  end
+  context 'DELETE #destroy (logout)' do
+    before(:each){ delete :destroy }
+
+    it "has a 300 status code" do
+      expect(response).not_to be_success
+      expect(response).to have_http_status(302)
+    end
+
+    it "redirects to the user show page" do
+      expect(response).to redirect_to login_path
+    end
+  end
+end
