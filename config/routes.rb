@@ -10,6 +10,10 @@ Rails.application.routes.draw do
   get '/logout' => 'sessions#destroy'
 
   get '/about' => 'welcome#about'
+  get '/contact' => 'welcome#contact'
+  get '/bio' => 'welcome#bio'
+
+  resources :blogs
 
   resources :schools do
     resources :coordinators

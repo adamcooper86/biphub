@@ -25,4 +25,30 @@ RSpec.describe WelcomeController, :type => :controller do
       expect(response).to render_template("about")
     end
   end
+  describe "GET #contact" do
+    it "responds successfully with an HTTP 200 status code" do
+      get :contact
+      expect(response).to be_success
+      expect(response).to have_http_status(200)
+    end
+
+    it "renders the contact template" do
+      get :contact
+      expect(response).to render_template("contact")
+    end
+  end
+  describe "Developer pages" do
+    describe "GET #bio" do
+      it "responds successfully with an HTTP 200 status code" do
+        get :bio
+        expect(response).to be_success
+        expect(response).to have_http_status(200)
+      end
+
+      it "renders the bio template" do
+        get :bio
+        expect(response).to render_template("bio")
+      end
+    end
+  end
 end
