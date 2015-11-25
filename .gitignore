@@ -63,3 +63,6 @@ Temporary Items
 
 # log files
 log/
+
+#coverage files from simplecov
+coverage

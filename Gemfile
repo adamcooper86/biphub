@@ -16,6 +16,7 @@ group :development, :test do
   gem 'capybara'
   gem 'selenium-webdriver'
   gem 'faker'
+  gem 'simplecov', :require => false
 end
 
 group :production do
