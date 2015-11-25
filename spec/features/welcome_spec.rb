@@ -26,4 +26,37 @@ feature "Visiting Public Not Protected Pages", js: false do
     expect(page).to have_content 'Student frustrations'
     expect(page).to have_content 'Teacher frustrations'
   end
+  scenario "Going to the contact page" do
+    visit root_path
+    click_on 'Contact'
+    expect(page).to have_content 'Contact Us'
+    expect(page).to have_selector 'form'
+  end
+  feature 'The BIP Blog' do
+    scenario "Going to the blog index page" do
+      visit root_path
+      click_on 'Blog'
+      expect(page).to have_content 'The BIP Blog'
+    end
+  end
+  feature 'The Developer Options' do
+    scenario "Going to the developer bios page" do
+      visit root_path
+      click_on 'Developer'
+      click_on 'Bio'
+      expect(page).to have_content 'Developers'
+    end
+    scenario "Going to the developer projects page" do
+      visit root_path
+      click_on 'Developer'
+      click_on 'Projects'
+      expect(page).to have_content 'Projects'
+    end
+    scenario "Going to the developer articles page" do
+      visit root_path
+      click_on 'Developer'
+      click_on 'Articles'
+      expect(page).to have_content 'Articles'
+    end
+  end
 end
