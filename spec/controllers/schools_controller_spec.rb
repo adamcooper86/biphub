@@ -2,12 +2,16 @@ require "rails_helper"
 
 RSpec.describe SchoolsController, :type => :controller do
   let(:school){ FactoryGirl.create :school }
+  let(:user){ FactoryGirl.create :user }
   let(:school_info){{name: "Parker",
                    address: "1822 Park St",
                    city: "Miami",
                    state: "FL",
                    zip: "88654"}}
-  before(:each){ allow(controller).to receive(:authorize_admin) }
+  before(:each){
+    allow(controller).to receive(:authorize_admin)
+    allow(controller).to receive(:current_user).and_return(user)
+  }
 
   context "GET #new" do
     before(:each){ get :new }
@@ -67,7 +71,7 @@ RSpec.describe SchoolsController, :type => :controller do
     end
 
     it "redirects to the school show page" do
-      expect(response).to redirect_to root_path
+      expect(response).to redirect_to admin_path user
     end
   end
 end
