@@ -32,3 +32,5 @@ end
 end
 
 Student.create_daily_records
+
+puts "Successfully Seeded the Database"
