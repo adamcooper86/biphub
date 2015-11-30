@@ -2,7 +2,12 @@
   <section id="coordinatorPanel">
     <h1>Coordinator Panel</h1>
   </section>
+<% elsif @user.is_a? Speducator %>
+  <section id="speducatorPanel">
+    <h1>Speducator Panel</h1>
+  </section>
 <% end %>
+
 <h1>School Information:</h1>
 <%= render 'shared/school_information' %>
 <h1>Your Information:</h1>

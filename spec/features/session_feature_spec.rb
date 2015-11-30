@@ -94,6 +94,53 @@ feature "Logging in as different users", js: false do
     end
   end
 
+  feature "Logging in as a Speducator user" do
+    background do
+      speducator = Speducator.create email: 'Speducator@biphub.com', password: 'Password', password_confirmation: 'Password'
+      school.speducators << speducator
+    end
+
+    scenario "With Accurate Credentials" do
+      visit login_path
+      within "#login_form" do
+        fill_in 'email', with: "Speducator@biphub.com"
+        fill_in 'password', with: "Password"
+      end
+      click_on 'Submit'
+
+      expect(page).to have_content 'BipHub'
+      expect(page).to have_content 'Logout'
+      expect(page).to have_selector '#speducatorPanel'
+    end
+    scenario "With an incorrect email" do
+      visit login_path
+      within "#login_form" do
+        fill_in 'email', with: "NotUser@biphub.com"
+        fill_in 'password', with: "Password"
+      end
+      click_on 'Submit'
+
+      expect(page).to have_content 'BipHub'
+      expect(page).to have_content 'Login'
+      expect(page).not_to have_selector '#speducatorPanel'
+      expect(page).to have_selector '#login_form'
+    end
+    scenario "With an incorrect password" do
+      visit login_path
+      within "#login_form" do
+        fill_in 'email', with: "Speducator@biphub.com"
+        fill_in 'password', with: "NotPassword"
+      end
+      click_on 'Submit'
+
+      expect(page).to have_content 'BipHub'
+      expect(page).to have_content 'Login'
+      expect(page).not_to have_selector '#speducatorPanel'
+      expect(page).to have_selector '#login_form'
+    end
+  end
+
+
   # scenario "Going to the login page" do
   #   visit root_path
   #   click_on 'Login'
