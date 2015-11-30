@@ -18,6 +18,19 @@ feature "Logging in as different users", js: false do
       expect(page).to have_content 'Logout'
       expect(page).to have_selector '#adminPanel'
     end
+    scenario "With an incorrect email" do
+      visit login_path
+      within "#login_form" do
+        fill_in 'email', with: "NotUser@biphub.com"
+        fill_in 'password', with: "Password"
+      end
+      click_on 'Submit'
+
+      expect(page).to have_content 'BipHub'
+      expect(page).to have_content 'Login'
+      expect(page).not_to have_selector '#adminPanel'
+      expect(page).to have_selector '#login_form'
+    end
   end
 
   # scenario "Going to the login page" do
@@ -25,7 +38,6 @@ feature "Logging in as different users", js: false do
   #   click_on 'Login'
   #   expect(page).to have_content 'Email:'
   #   expect(page).to have_content 'Password:'
-  #   expect(page).to have_selector 'form'
   # end
   # scenario "Going to the home page from login page" do
   #   visit login_path
