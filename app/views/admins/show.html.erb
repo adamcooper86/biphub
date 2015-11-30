@@ -1,8 +1,12 @@
-<h1>Admin pannel</h1>
-<h2>Schools</h2>
-<%= link_to 'New School', new_school_path %>
-<ul>
-  <% @schools.each do |school| %>
-  <li><%= school.name %> <%= button_to 'show', school_path(school), method: :get %> <%= button_to 'edit', edit_school_path(school), method: :get %> <%= button_to("delete", school_path(school), method: :delete) %></li>
-  <% end %>
-</ul>
+<section id="adminPanel">
+  <h1>Admin pannel</h1>
+  <section id="schoolsPanel">
+    <h2>Schools</h2>
+    <%= link_to 'New School', new_school_path %>
+    <ul>
+      <% @schools.each do |school| %>
+      <li><%= school.name %> <%= button_to 'show', school_path(school), method: :get %> <%= button_to 'edit', edit_school_path(school), method: :get %> <%= button_to("delete", school_path(school), method: :delete) %></li>
+      <% end %>
+    </ul>
+  </section>
+</section>
