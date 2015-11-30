@@ -53,4 +53,11 @@ feature "Administrator Crud for Schools", js: false do
     expect(page).to have_selector "#schoolInformation"
     expect(page).to have_content "School-Name-Test"
   end
+  scenario 'Deleting a school' do
+    within '#schoolsPanel' do
+      click_on 'delete'
+    end
+    expect(page).not_to have_content 'TestSchool'
+    expect(page).to have_selector '#schoolsPanel'
+  end
 end
