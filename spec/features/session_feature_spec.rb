@@ -140,6 +140,51 @@ feature "Logging in as different users", js: false do
     end
   end
 
+  feature "Logging in as a Teacher user" do
+    background do
+      teacher = Teacher.create email: 'Teacher@biphub.com', password: 'Password', password_confirmation: 'Password'
+      school.teachers << teacher
+    end
+
+    scenario "With Accurate Credentials" do
+      visit login_path
+      within "#login_form" do
+        fill_in 'email', with: "Teacher@biphub.com"
+        fill_in 'password', with: "Password"
+      end
+      click_on 'Submit'
+
+      expect(page).to have_content 'BipHub'
+      expect(page).to have_content 'Logout'
+      expect(page).to have_selector '#teacherPanel'
+    end
+    scenario "With an incorrect email" do
+      visit login_path
+      within "#login_form" do
+        fill_in 'email', with: "NotUser@biphub.com"
+        fill_in 'password', with: "Password"
+      end
+      click_on 'Submit'
+
+      expect(page).to have_content 'BipHub'
+      expect(page).to have_content 'Login'
+      expect(page).not_to have_selector '#teacherPanel'
+      expect(page).to have_selector '#login_form'
+    end
+    scenario "With an incorrect password" do
+      visit login_path
+      within "#login_form" do
+        fill_in 'email', with: "Teacher@biphub.com"
+        fill_in 'password', with: "NotPassword"
+      end
+      click_on 'Submit'
+
+      expect(page).to have_content 'BipHub'
+      expect(page).to have_content 'Login'
+      expect(page).not_to have_selector '#teacherPanel'
+      expect(page).to have_selector '#login_form'
+    end
+  end
 
   # scenario "Going to the login page" do
   #   visit root_path
