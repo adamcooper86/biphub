@@ -1,27 +1,29 @@
-<table>
-  <tr>
-    <td><h3>Name:</h3></td>
-    <td><p><%= @school.name %></p></td>
-    <td><h3>address:</h3></td>
-    <td><p><%= @school.address %></p></td>
-  </tr>
-  <tr>
-    <td><h3>City:</h3></td>
-    <td><p><%= @school.city %></p></td>
-    <td><h3>State:</h3></td>
-    <td><p><%= @school.state %></p></td>
-    <td><h3>Zip:</h3></td>
-    <td><p><%= @school.zip %></p></td>
-  </tr>
-</table>
-<h2>Coordinators</h2>
-<% if @coordinators.empty? %>
-  <p>There are no coordinators assigned to this school</p>
-<% else %>
-  <ul>
-  <% @coordinators.each do |coordinator|%>
-    <li><%= coordinator.first_name %> <%= coordinator.last_name %> <%= button_to 'show', school_coordinator_path(@school, coordinator), method: :get %> <%= button_to 'edit', edit_school_coordinator_path(@school, coordinator), method: :get %> <%= button_to("delete", school_coordinator_path(@school, coordinator), method: :delete) %></li>
+<section id="schoolInformation">
+  <table>
+    <tr>
+      <td><h3>Name:</h3></td>
+      <td><p><%= @school.name %></p></td>
+      <td><h3>address:</h3></td>
+      <td><p><%= @school.address %></p></td>
+    </tr>
+    <tr>
+      <td><h3>City:</h3></td>
+      <td><p><%= @school.city %></p></td>
+      <td><h3>State:</h3></td>
+      <td><p><%= @school.state %></p></td>
+      <td><h3>Zip:</h3></td>
+      <td><p><%= @school.zip %></p></td>
+    </tr>
+  </table>
+  <h2>Coordinators</h2>
+  <% if @coordinators.empty? %>
+    <p>There are no coordinators assigned to this school</p>
+  <% else %>
+    <ul>
+    <% @coordinators.each do |coordinator|%>
+      <li><%= coordinator.first_name %> <%= coordinator.last_name %> <%= button_to 'show', school_coordinator_path(@school, coordinator), method: :get %> <%= button_to 'edit', edit_school_coordinator_path(@school, coordinator), method: :get %> <%= button_to("delete", school_coordinator_path(@school, coordinator), method: :delete) %></li>
+    <% end %>
+    </ul>
   <% end %>
-  </ul>
-<% end %>
-<%= link_to "New Coordinator", new_school_coordinator_path(@school)  %>
+  <%= link_to "New Coordinator", new_school_coordinator_path(@school)  %>
+</section>
