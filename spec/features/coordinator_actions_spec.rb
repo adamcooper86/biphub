@@ -39,5 +39,28 @@ feature "Using the coordinator panel", js: false do
       expect(page).to have_selector '#studentInformation'
       expect(page).to have_content 'TestStudent'
     end
+    scenario "editing a student" do
+      within '#studentsPanel' do
+        click_on 'edit'
+      end
+      expect(page).to have_selector '.edit_student'
+
+      within '.edit_student' do
+        fill_in 'student_first_name', with: 'TestStudentChanged'
+        fill_in 'student_last_name', with: 'TestLastName'
+      end
+      click_on 'Submit'
+
+      expect(page).to have_selector '#studentInformation'
+      expect(page).to have_content 'TestStudentChanged'
+    end
+    scenario 'deleting a student' do
+      within '#studentsPanel' do
+        click_on 'delete'
+      end
+
+      expect(page).to have_selector '#coordinatorPanel'
+      expect(page).to have_content 'There are no students assigned to this school'
+    end
   end
 end
