@@ -101,13 +101,13 @@ feature "Using the coordinator panel", js: false do
       expect(page).to have_selector '#speducatorInformation'
       expect(page).to have_content 'Jack Tester'
     end
-    # scenario "showing a speducator" do
-    #   within '#speducatorsPanel' do
-    #     click_on 'show'
-    #   end
-    #   expect(page).to have_selector '#speducatorInformation'
-    #   expect(page).to have_content 'Testspeducator'
-    # end
+    scenario "showing a speducator" do
+      within '#speducatorsPanel' do
+        click_on 'show'
+      end
+      expect(page).to have_selector '#speducatorInformation'
+      expect(page).to have_content 'TestSped Testucator'
+    end
     # scenario "editing a speducator" do
     #   within '#speducatorsPanel' do
     #     click_on 'edit'
