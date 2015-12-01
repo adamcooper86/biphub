@@ -82,4 +82,68 @@ feature "Using the coordinator panel", js: false do
       expect(page).to have_content 'There are no students assigned to this school'
     end
   end
+  feature "to manage speducators by" do
+    scenario "adding a speducator" do
+      within '#speducatorsPanel' do
+        click_on 'Add a Special Education Teacher'
+      end
+      expect(page).to have_selector '#new_speducator'
+
+      within '#new_speducator' do
+        fill_in 'speducator_first_name', with: 'Jack'
+        fill_in 'speducator_last_name', with: 'Tester'
+        fill_in 'speducator_email', with: 'jtester@gmail.com'
+        fill_in 'speducator_password', with: 'abc123'
+        fill_in 'speducator_password_confirmation', with: 'abc123'
+      end
+      click_on 'Submit'
+
+      expect(page).to have_selector '#speducatorInformation'
+      expect(page).to have_content 'Jack Tester'
+    end
+    # scenario "showing a speducator" do
+    #   within '#speducatorsPanel' do
+    #     click_on 'show'
+    #   end
+    #   expect(page).to have_selector '#speducatorInformation'
+    #   expect(page).to have_content 'Testspeducator'
+    # end
+    # scenario "editing a speducator" do
+    #   within '#speducatorsPanel' do
+    #     click_on 'edit'
+    #   end
+    #   expect(page).to have_selector '.edit_speducator'
+
+    #   within '.edit_speducator' do
+    #     fill_in 'speducator_first_name', with: 'TestspeducatorChanged'
+    #     fill_in 'speducator_last_name', with: 'TestLastName'
+    #   end
+    #   click_on 'Submit'
+
+    #   expect(page).to have_selector '#speducatorInformation'
+    #   expect(page).to have_content 'TestspeducatorChanged'
+    # end
+    # scenario "assigning a speducator to a speducator" do
+    #   within '#speducatorsPanel' do
+    #     click_on 'edit'
+    #   end
+    #   expect(page).to have_selector '.edit_speducator'
+
+    #   within '.edit_speducator' do
+    #     select 'TestSped', :from => 'speducator_speducator_id'
+    #   end
+    #   click_on 'Submit'
+
+    #   expect(page).to have_selector '#speducatorInformation'
+    #   expect(page).to have_content 'TestSped Testucator'
+    # end
+    # scenario 'deleting a speducator' do
+    #   within '#speducatorsPanel' do
+    #     click_on 'delete'
+    #   end
+
+    #   expect(page).to have_selector '#coordinatorPanel'
+    #   expect(page).to have_content 'There are no speducators assigned to this school'
+    # end
+  end
 end
