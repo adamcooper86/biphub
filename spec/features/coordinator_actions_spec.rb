@@ -126,27 +126,14 @@ feature "Using the coordinator panel", js: false do
       expect(page).to have_selector '#speducatorInformation'
       expect(page).to have_content 'Jack Tester'
     end
-    # scenario "assigning a speducator to a speducator" do
-    #   within '#speducatorsPanel' do
-    #     click_on 'edit'
-    #   end
-    #   expect(page).to have_selector '.edit_speducator'
 
-    #   within '.edit_speducator' do
-    #     select 'TestSped', :from => 'speducator_speducator_id'
-    #   end
-    #   click_on 'Submit'
+    scenario 'deleting a speducator' do
+      within '#speducatorsPanel' do
+        click_on 'delete'
+      end
 
-    #   expect(page).to have_selector '#speducatorInformation'
-    #   expect(page).to have_content 'TestSped Testucator'
-    # end
-    # scenario 'deleting a speducator' do
-    #   within '#speducatorsPanel' do
-    #     click_on 'delete'
-    #   end
-
-    #   expect(page).to have_selector '#coordinatorPanel'
-    #   expect(page).to have_content 'There are no speducators assigned to this school'
-    # end
+      expect(page).to have_selector '#coordinatorPanel'
+      expect(page).to have_content 'There are no special education teachers assigned to this school'
+    end
   end
 end
