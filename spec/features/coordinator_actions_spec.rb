@@ -3,9 +3,11 @@ require 'rails_helper'
 feature "Using the coordinator panel", js: false do
   given(:coordinator){ Coordinator.create email: 'coordinator@biphub.com', password: 'Password', password_confirmation: 'Password' }
   given(:school){ School.create name: 'TestSchool', address: 'TestAddress', city: 'TestCity', state: 'ST', zip: '00000' }
+  given(:student){ Student.create first_name: 'TestStudent', last_name: 'TestLastName' }
 
   background do
     school.coordinators << coordinator
+    school.students << student
 
     visit login_path
     within "#login_form" do
@@ -27,6 +29,13 @@ feature "Using the coordinator panel", js: false do
       end
       click_on 'Submit'
 
+      expect(page).to have_selector '#studentInformation'
+      expect(page).to have_content 'TestStudent'
+    end
+    scenario "showing a student" do
+      within '#studentsPanel' do
+        click_on 'show'
+      end
       expect(page).to have_selector '#studentInformation'
       expect(page).to have_content 'TestStudent'
     end
