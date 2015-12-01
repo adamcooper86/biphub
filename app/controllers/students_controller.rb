@@ -36,7 +36,7 @@ class StudentsController < ApplicationController
       @school = School.find(params[:school_id])
       @student = Student.find_by_id params[:id]
       @student.update_attributes(student_params)
-      redirect_to "/users/#{current_user.id}"
+      redirect_to school_student_path @school, @student
     end
 
     def destroy
