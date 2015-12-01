@@ -3,7 +3,7 @@ require 'rails_helper'
 feature "Using the coordinator panel", js: false do
   given(:coordinator){ Coordinator.create first_name: "TestCo", last_name: "Testordinator", email: 'coordinator@biphub.com', password: 'Password', password_confirmation: 'Password' }
   given(:teacher){ Teacher.create first_name: "TestTea", last_name: "Testcher", email: 'teacher@biphub.com', password: 'Password', password_confirmation: 'Password' }
-  given(:speducator){ Speducator.create first_name: "TestSped", last_name: "Testucator", email: 'teacher@biphub.com', password: 'Password', password_confirmation: 'Password' }
+  given(:speducator){ Speducator.create first_name: "TestSped", last_name: "Testucator", email: 'speducator@biphub.com', password: 'Password', password_confirmation: 'Password' }
   given(:school){ School.create name: 'TestSchool', address: 'TestAddress', city: 'TestCity', state: 'ST', zip: '00000' }
   given(:student){ Student.create first_name: 'TestStudent', last_name: 'TestLastName' }
 
