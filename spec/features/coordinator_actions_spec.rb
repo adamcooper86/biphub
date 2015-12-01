@@ -136,4 +136,58 @@ feature "Using the coordinator panel", js: false do
       expect(page).to have_content 'There are no special education teachers assigned to this school'
     end
   end
+  feature "to manage teachers by" do
+    scenario "adding a teacher" do
+      within '#teachersPanel' do
+        click_on 'Add a Teacher'
+      end
+      expect(page).to have_selector '#new_teacher'
+
+      within '#new_teacher' do
+        fill_in 'teacher_first_name', with: 'Jack'
+        fill_in 'teacher_last_name', with: 'Tester'
+        fill_in 'teacher_email', with: 'jtester@gmail.com'
+        fill_in 'teacher_password', with: 'abc123'
+        fill_in 'teacher_password_confirmation', with: 'abc123'
+      end
+      click_on 'Submit'
+
+      expect(page).to have_selector '#teacherInformation'
+      expect(page).to have_content 'Jack Tester'
+    end
+    scenario "showing a teacher" do
+      within '#teachersPanel' do
+        click_on 'show'
+      end
+      expect(page).to have_selector '#teacherInformation'
+      expect(page).to have_content 'TestTea Testcher'
+    end
+    scenario "editing a teacher" do
+      within '#teachersPanel' do
+        click_on 'edit'
+      end
+      expect(page).to have_selector '.edit_teacher'
+
+      within '.edit_teacher' do
+        fill_in 'teacher_first_name', with: 'Jack'
+        fill_in 'teacher_last_name', with: 'Tester'
+        fill_in 'teacher_email', with: 'jtester@gmail.com'
+        fill_in 'teacher_password', with: 'abc123'
+        fill_in 'teacher_password_confirmation', with: 'abc123'
+      end
+      click_on 'Submit'
+
+      expect(page).to have_selector '#teacherInformation'
+      expect(page).to have_content 'Jack Tester'
+    end
+
+    scenario 'deleting a teacher' do
+      within '#teachersPanel' do
+        click_on 'delete'
+      end
+
+      expect(page).to have_selector '#coordinatorPanel'
+      expect(page).to have_content 'There are no teachers assigned to this school'
+    end
+  end
 end
