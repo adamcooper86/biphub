@@ -26,6 +26,14 @@
 <% elsif @user.is_a? Speducator %>
   <section id="speducatorPanel">
     <h1>Speducator Panel</h1>
+    <h1>School Information:</h1>
+    <%= render 'shared/school_information' %>
+    <h1>Your Information:</h1>
+    <%= render 'shared/user_information' %>
+    <section id="studentsPanel">
+      <h1>Students:</h1>
+      <%= render 'shared/student_group' %>
+    </section>
   </section>
 <% elsif @user.is_a? Teacher %>
   <section id="teacherPanel">
