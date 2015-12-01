@@ -108,21 +108,24 @@ feature "Using the coordinator panel", js: false do
       expect(page).to have_selector '#speducatorInformation'
       expect(page).to have_content 'TestSped Testucator'
     end
-    # scenario "editing a speducator" do
-    #   within '#speducatorsPanel' do
-    #     click_on 'edit'
-    #   end
-    #   expect(page).to have_selector '.edit_speducator'
+    scenario "editing a speducator" do
+      within '#speducatorsPanel' do
+        click_on 'edit'
+      end
+      expect(page).to have_selector '.edit_speducator'
 
-    #   within '.edit_speducator' do
-    #     fill_in 'speducator_first_name', with: 'TestspeducatorChanged'
-    #     fill_in 'speducator_last_name', with: 'TestLastName'
-    #   end
-    #   click_on 'Submit'
+      within '.edit_speducator' do
+        fill_in 'speducator_first_name', with: 'Jack'
+        fill_in 'speducator_last_name', with: 'Tester'
+        fill_in 'speducator_email', with: 'jtester@gmail.com'
+        fill_in 'speducator_password', with: 'abc123'
+        fill_in 'speducator_password_confirmation', with: 'abc123'
+      end
+      click_on 'Submit'
 
-    #   expect(page).to have_selector '#speducatorInformation'
-    #   expect(page).to have_content 'TestspeducatorChanged'
-    # end
+      expect(page).to have_selector '#speducatorInformation'
+      expect(page).to have_content 'Jack Tester'
+    end
     # scenario "assigning a speducator to a speducator" do
     #   within '#speducatorsPanel' do
     #     click_on 'edit'
