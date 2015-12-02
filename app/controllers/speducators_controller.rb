@@ -26,10 +26,10 @@ class SpeducatorsController < ApplicationController
     end
 
     def update
-      @school = School.find(params[:school_id])
-      @speducator = Speducator.find_by_id params[:id]
-      @speducator.update_attributes(speducator_params)
-      redirect_to "/users/#{current_user.id}"
+      school = School.find(params[:school_id])
+      speducator = Speducator.find_by_id params[:id]
+      speducator.update_attributes(speducator_params)
+      redirect_to school_speducator_path school, speducator
     end
 
     def destroy

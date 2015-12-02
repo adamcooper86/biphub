@@ -26,10 +26,10 @@ class TeachersController < ApplicationController
   end
 
   def update
-    @school = School.find(params[:school_id])
-    @teacher = Teacher.find_by_id params[:id]
-    @teacher.update_attributes(teacher_params)
-    redirect_to "/users/#{current_user.id}"
+    school = School.find(params[:school_id])
+    teacher = Teacher.find_by_id params[:id]
+    teacher.update_attributes(teacher_params)
+    redirect_to school_teacher_path school, teacher
   end
 
   def destroy

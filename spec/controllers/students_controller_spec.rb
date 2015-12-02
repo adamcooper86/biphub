@@ -58,7 +58,7 @@ RSpec.describe StudentsController, :type => :controller do
     end
 
     it "redirects to the school coordinator show page" do
-      expect(response).to redirect_to "/users/#{coordinator.id}"
+      expect(response).to redirect_to school_student_path school, student
     end
   end
   context "delete #destroy" do
