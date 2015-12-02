@@ -21,7 +21,7 @@ class CardsController < ApplicationController
   def show
   	@user = current_user
   	@card = Card.find_by_id params[:id]
-  	@teacher = @card.teacher
+	  @teacher = @card.user
   	@student = @card.student
   end
 
