@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature "Logging in and out as different users", js: false do
-  given(:school){ School.create }
+  given(:school){ School.create name: "School", address: "2011 Place", city: "Berkeley", state: "CA", zip: "94705" }
 
   background do
     visit login_path

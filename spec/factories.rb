@@ -57,5 +57,9 @@ FactoryGirl.define do
   end
   factory :school do
     name "Success"
+    address "2011 Bienville St"
+    city "New Orleans"
+    state "LA"
+    zip "70112"
   end
 end
