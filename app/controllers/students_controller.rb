@@ -7,8 +7,8 @@ class StudentsController < ApplicationController
     def create
       school = School.find_by_id params[:school_id]
       student = Student.new student_params
+      school.students << student
       if student.save
-        school.students << student
         redirect_to school_student_path school, student
       else
         redirect_to new_school_student_path school
@@ -72,6 +72,6 @@ class StudentsController < ApplicationController
 
   private
     def student_params
-      params.require(:student).permit(:first_name, :last_name, :speducator_id)
+      params.require(:student).permit(:first_name, :last_name, :speducator_id, :school_id)
     end
 end

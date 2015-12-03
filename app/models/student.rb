@@ -9,7 +9,7 @@ class Student < ActiveRecord::Base
   has_many :observations
   has_many :records, through: :observations
 
-  validates :first_name, :last_name, presence: true
+  validates :school, :first_name, :last_name, presence: true
 
   def self.create_daily_records
     observations = self.create_daily_observations

@@ -8,6 +8,9 @@ RSpec.describe Student, type: :model do
     it 'requires an end time' do
       expect(FactoryGirl.build(:student, last_name: "")).not_to be_valid
     end
+    it 'requires a school' do
+      expect(FactoryGirl.build(:student, school: nil)).not_to be_valid
+    end
   end
 
   describe "Student Class Methods" do

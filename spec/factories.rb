@@ -58,6 +58,7 @@ FactoryGirl.define do
   factory :student do
     first_name "John"
     last_name  "Doe"
+    school
   end
   factory :school do
     name "Success"
