@@ -13,7 +13,8 @@ class ApplicationController < ActionController::Base
 
   def authorize
     if current_user
-      unless current_user.id === params[:id]
+      unless current_user.id.to_s === params[:id]
+        session[:user_id] = nil
         redirect_to '/login'
       end
     else

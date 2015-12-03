@@ -96,4 +96,40 @@ describe ApplicationController do
       end
     end
   end
+  describe '#authorize' do
+    context 'with logged in current_user matching route' do
+      before(:each){
+        session[:user_id] = user.id
+        get :show, id: user.id
+      }
+
+      it "renders the user show page" do
+        expect(response).to have_http_status(200)
+        expect(response.body).to include 'authorized'
+      end
+    end
+    context 'with current_user not matching path' do
+      before(:each){
+        session[:user_id] = admin.id.to_s
+        get :show, id: user.id
+      }
+
+      it "redirects the user" do
+        expect(response).to have_http_status(302)
+      end
+
+      it 'clears the session id' do
+        expect(session[:user_id]).to be nil
+      end
+    end
+    context 'with no current_user' do
+      before(:each){
+        get :show, id: user.id
+      }
+
+      it "redirects the user" do
+        expect(response).to have_http_status(302)
+      end
+    end
+  end
 end
