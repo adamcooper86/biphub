@@ -21,6 +21,13 @@ feature "Using the coordinator panel", js: false do
     click_on 'Submit'
   end
 
+  scenario ' by going to the dashboard' do
+    visit root_path
+    click_on 'Dashboard'
+
+    expect(page).to have_selector '#coordinatorPanel'
+  end
+
   feature "to manage student by" do
     scenario "adding a student" do
       within '#studentsPanel' do

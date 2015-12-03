@@ -29,6 +29,13 @@ feature "Using the speducator panel", js: false do
     click_on 'Submit'
   end
 
+  scenario ' by going to the dashboard' do
+    visit root_path
+    click_on 'Dashboard'
+
+    expect(page).to have_selector '#speducatorPanel'
+  end
+
   feature "to manage students by" do
     scenario "only showing a student" do
       expect(page).not_to have_content 'Add a Student'
