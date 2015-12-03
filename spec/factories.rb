@@ -14,6 +14,8 @@ FactoryGirl.define do
   end
 
   factory :card do
+    user
+    student
   end
 
   factory :user do
