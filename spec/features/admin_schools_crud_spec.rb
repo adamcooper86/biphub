@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature "Administrator Crud for Schools", js: false do
   background do
-    Admin.create email: 'AdminUser@biphub.com', password: 'Password', password_confirmation: 'Password'
+    Admin.create first_name: "joe", last_name: "black", email: 'AdminUser@biphub.com', password: 'Password', password_confirmation: 'Password'
     School.create name: 'TestSchool', address: 'TestAddress', city: 'TestCity', state: 'ST', zip: '00000'
 
     visit login_path
