@@ -1,20 +1,22 @@
-<h2>Goals</h2>
-<% if current_user.is_a? Speducator %>
-	<%= link_to 'Create a Goal', new_school_student_bip_goal_path(@school, @student, @bip) %>
-<% end %>
-<% if @goals.empty? %>
-  <p>There are no goals assigned to this Bip</p>
-<% else %>
-  <ul>
-  <% @goals.each do |goal|%>
-  <div>
-  	<p><%= goal.text %> - <%= goal.prompt %> - <%= goal.meme %></p>
-    <% if current_user.is_a? Speducator %>
-      <%= button_to 'show', school_student_bip_goal_path(@school, @student, @bip, goal), method: :get %>
-      <%= button_to 'edit', edit_school_student_bip_goal_path(@school, @student, @bip, goal), method: :get %>
-      <%= button_to("delete", school_student_bip_goal_path(@school, @student, @bip, goal), method: :delete) %>
-    <% end %>
-  </div>
+<section id="goals_group">
+  <h2>Goals</h2>
+  <% if current_user.is_a? Speducator %>
+    <%= link_to 'Create a Goal', new_school_student_bip_goal_path(@school, @student, @bip) %>
   <% end %>
-  </ul>
+  <% if @goals.empty? %>
+    <p>There are no goals assigned to this Bip</p>
+  <% else %>
+    <ul>
+    <% @goals.each do |goal|%>
+    <div>
+      <p><%= goal.text %> - <%= goal.prompt %> - <%= goal.meme %></p>
+      <% if current_user.is_a? Speducator %>
+        <%= button_to 'show', school_student_bip_goal_path(@school, @student, @bip, goal), method: :get %>
+        <%= button_to 'edit', edit_school_student_bip_goal_path(@school, @student, @bip, goal), method: :get %>
+        <%= button_to("delete", school_student_bip_goal_path(@school, @student, @bip, goal), method: :delete) %>
+      <% end %>
+    </div>
+    <% end %>
+    </ul>
 <% end %>
+</section>

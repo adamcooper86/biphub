@@ -8,6 +8,7 @@ feature "Using the speducator panel", js: false do
   given(:student){ Student.create first_name: 'TestStudent', last_name: 'TestLastName' }
   given(:card){ Card.create start: Time.now, end: Time.now  }
   given(:bip){ Bip.create start: Time.now, end: Time.now  }
+  given(:goal){ Goal.create prompt: "Prompt", text: "Text", meme: "Time"  }
 
   background do
     school.coordinators << coordinator
@@ -18,6 +19,7 @@ feature "Using the speducator panel", js: false do
     student.cards << card
     teacher.cards << card
     student.bips << bip
+    bip.goals << goal
 
     visit login_path
     within "#login_form" do
@@ -157,6 +159,62 @@ feature "Using the speducator panel", js: false do
       end
       expect(page).to have_content 'There are no bips assigned to this student'
       expect(page).to have_selector '#studentInformation'
+    end
+
+    feature 'and bip goals' do
+      background do
+        within '#bip_group' do
+          click_on 'show'
+        end
+      end
+      scenario 'by adding a goal to a bip' do
+        within '#goals_group' do
+          click_on 'Create a Goal'
+        end
+        expect(page).to have_selector '.new_goal'
+
+        within '.new_goal' do
+          fill_in 'goal_prompt', :with => 'Promp Test'
+          fill_in 'goal_text', :with => 'Text Test'
+          select 'Time', :from => 'goal_meme'
+        end
+
+        click_on "Submit"
+
+        expect(page).to have_selector '#bipInformation'
+      end
+      scenario 'by showing a goal of a bip' do
+        within '#goals_group' do
+          click_on 'show'
+        end
+        expect(page).to have_selector '#goalInformation'
+        expect(page).to have_content 'Prompt'
+        expect(page).to have_content 'Text'
+      end
+      scenario 'by editing a goal of a bip' do
+        within '#goals_group' do
+          click_on 'edit'
+        end
+        expect(page).to have_selector '.edit_goal'
+
+        within '.edit_goal' do
+          fill_in 'goal_prompt', :with => 'Prompt Test'
+          fill_in 'goal_text', :with => 'Text Test'
+          select 'Time', :from => 'goal_meme'
+        end
+
+        click_on "Submit"
+
+        expect(page).to have_selector '#bipInformation'
+        expect(page).to have_content 'Prompt Test'
+      end
+      scenario 'by deleting a goal of a bip' do
+        within '#goals_group' do
+          click_on 'delete'
+        end
+        expect(page).to have_content 'There are no goals assigned to this Bip'
+        expect(page).to have_selector '#bipInformation'
+      end
     end
   end
 end
