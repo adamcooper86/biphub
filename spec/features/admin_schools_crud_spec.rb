@@ -13,6 +13,12 @@ feature "Administrator Crud for Schools", js: false do
     click_on 'Submit'
   end
 
+  scenario 'going to the dashboard' do
+    visit root_path
+    click_on 'Dashboard'
+
+    expect(page).to have_selector '#adminPanel'
+  end
   scenario 'Creating a new school' do
     click_on 'New School'
     expect(page).to have_selector "#new_school"
