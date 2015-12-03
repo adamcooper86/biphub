@@ -16,6 +16,8 @@ FactoryGirl.define do
   factory :card do
     user
     student
+    start { Time.now }
+    finish { Time.now + 60 }
   end
 
   factory :user do

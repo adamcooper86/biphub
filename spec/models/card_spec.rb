@@ -8,5 +8,11 @@ RSpec.describe Card, type: :model do
     it 'requires a user' do
       expect(FactoryGirl.build(:card, student: nil)).not_to be_valid
     end
+    it 'requires a start time' do
+      expect(FactoryGirl.build(:card, start: nil)).not_to be_valid
+    end
+    it 'requires an end time' do
+      expect(FactoryGirl.build(:card, finish: nil)).not_to be_valid
+    end
   end
 end
