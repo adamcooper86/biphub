@@ -7,8 +7,8 @@ class TeachersController < ApplicationController
   def create
     school = School.find_by_id params[:school_id]
     teacher = Teacher.new teacher_params
+    school.teachers << teacher
     if teacher.save
-      school.teachers << teacher
       redirect_to school_teacher_path school, teacher
     else
       redirect_to new_school_teacher_path school

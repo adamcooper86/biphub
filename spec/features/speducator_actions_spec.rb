@@ -6,7 +6,7 @@ feature "Using the speducator panel", js: false do
   given(:speducator){ Speducator.create first_name: "TestSped", last_name: "Testucator", email: 'speducator@biphub.com', password: 'Password', password_confirmation: 'Password' }
   given(:school){ School.create name: 'TestSchool', address: 'TestAddress', city: 'TestCity', state: 'ST', zip: '00000' }
   given(:student){ Student.create first_name: 'TestStudent', last_name: 'TestLastName' }
-  given(:card){ Card.create start: Time.now, end: Time.now  }
+  given(:card){ Card.create start: Time.now, finish: Time.now  }
   given(:bip){ Bip.create start: Time.now, end: Time.now  }
   given(:goal){ Goal.create prompt: "Prompt", text: "Text", meme: "Time"  }
 
@@ -66,8 +66,8 @@ feature "Using the speducator panel", js: false do
         select 'TestTea', :from => 'card_user_id'
         select '06', :from => 'card_start_4i'
         select '06', :from => 'card_start_5i'
-        select '07', :from => 'card_end_4i'
-        select '07', :from => 'card_end_5i'
+        select '07', :from => 'card_finish_4i'
+        select '07', :from => 'card_finish_5i'
       end
 
       click_on "Submit"
@@ -84,8 +84,8 @@ feature "Using the speducator panel", js: false do
         select 'TestCo', :from => 'card_user_id'
         select '06', :from => 'card_start_4i'
         select '06', :from => 'card_start_5i'
-        select '07', :from => 'card_end_4i'
-        select '07', :from => 'card_end_5i'
+        select '07', :from => 'card_finish_4i'
+        select '07', :from => 'card_finish_5i'
       end
 
       click_on "Submit"

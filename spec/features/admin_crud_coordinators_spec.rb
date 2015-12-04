@@ -5,7 +5,7 @@ feature "Administrator Crud for School Coordinators", js: false do
   let(:coordinator){ Coordinator.create first_name: 'test', last_name: 'tester', email: 'test@biphub.com', password: 'abc123', password_confirmation: 'abc123' }
 
   background do
-    Admin.create email: 'AdminUser@biphub.com', password: 'Password', password_confirmation: 'Password'
+    Admin.create first_name: "joe", last_name: "black", email: 'AdminUser@biphub.com', password: 'Password', password_confirmation: 'Password'
     school.coordinators << coordinator
 
     visit login_path

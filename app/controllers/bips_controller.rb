@@ -9,8 +9,8 @@ class BipsController < ApplicationController
     school = School.find_by_id params[:school_id]
     student = Student.find_by_id params[:student_id]
     bip = Bip.new bip_params
+    student.bips << bip
     if bip.save
-      student.bips << bip
       redirect_to school_student_path school, student
     else
       redirect_to new_school_student_bip_path school, student

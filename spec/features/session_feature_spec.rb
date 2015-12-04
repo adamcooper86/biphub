@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature "Logging in and out as different users", js: false do
-  given(:school){ School.create }
+  given(:school){ School.create name: "School", address: "2011 Place", city: "Berkeley", state: "CA", zip: "94705" }
 
   background do
     visit login_path
@@ -9,7 +9,7 @@ feature "Logging in and out as different users", js: false do
 
   feature "Logging in as an Admin user" do
     background do
-      Admin.create email: 'AdminUser@biphub.com', password: 'Password', password_confirmation: 'Password'
+      Admin.create first_name: "Joe", last_name: "blow", email: 'AdminUser@biphub.com', password: 'Password', password_confirmation: 'Password'
     end
 
     scenario "With Accurate Credentials" do
@@ -63,7 +63,7 @@ feature "Logging in and out as different users", js: false do
 
   feature "Logging in as a Coordinator user" do
     background do
-      coordinator = Coordinator.create email: 'Coordinator@biphub.com', password: 'Password', password_confirmation: 'Password'
+      coordinator = Coordinator.create first_name: "joe", last_name: "blow", email: 'Coordinator@biphub.com', password: 'Password', password_confirmation: 'Password'
       school.coordinators << coordinator
     end
 
@@ -118,7 +118,7 @@ feature "Logging in and out as different users", js: false do
 
   feature "Logging in as a Speducator user" do
     background do
-      speducator = Speducator.create email: 'Speducator@biphub.com', password: 'Password', password_confirmation: 'Password'
+      speducator = Speducator.create first_name: "Joe", last_name: "Blow",email: 'Speducator@biphub.com', password: 'Password', password_confirmation: 'Password'
       school.speducators << speducator
     end
 
@@ -173,7 +173,7 @@ feature "Logging in and out as different users", js: false do
 
   feature "Logging in as a Teacher user" do
     background do
-      teacher = Teacher.create email: 'Teacher@biphub.com', password: 'Password', password_confirmation: 'Password'
+      teacher = Teacher.create first_name: "Joe", last_name: "Blow", email: 'Teacher@biphub.com', password: 'Password', password_confirmation: 'Password'
       school.teachers << teacher
     end
 

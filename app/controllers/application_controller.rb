@@ -11,9 +11,9 @@ class ApplicationController < ActionController::Base
   end
   helper_method :current_user
 
-  def authorize
+  def authorize p_id = params[:id]
     if current_user
-      unless current_user.id.to_s === params[:id]
+      unless current_user.id.to_s === p_id
         session[:user_id] = nil
         redirect_to '/login'
       end

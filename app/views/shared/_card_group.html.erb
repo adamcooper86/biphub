@@ -9,7 +9,7 @@
     <ul>
     <% @cards.each do |card|%>
     <div>
-      <p><%= card.start.in_time_zone("Eastern Time (US & Canada)") %> - <%= card.end.in_time_zone("Eastern Time (US & Canada)") %></p>
+      <p><%= card.start.in_time_zone("Eastern Time (US & Canada)") %> - <%= card.finish.in_time_zone("Eastern Time (US & Canada)") %></p>
       <p><%= card.user_id %></p>
       <% if current_user.is_a? Speducator %>
         <%= button_to 'show', school_student_card_path(@school, card.student, card), method: :get %>

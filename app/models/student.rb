@@ -9,12 +9,16 @@ class Student < ActiveRecord::Base
   has_many :observations
   has_many :records, through: :observations
 
+  validates :school, :first_name, :last_name, presence: true
+
   def self.create_daily_records
     observations = self.create_daily_observations
     self.all.each do |student|
-      goals = student.bips.last.goals
-      observations[student.id].each do |observation|
+      unless student.bips.empty?
+        goals = student.bips.last.goals
+        observations[student.id].each do |observation|
         Record.create_record_group observation, goals
+        end
       end
     end
     true

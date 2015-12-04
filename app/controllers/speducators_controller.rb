@@ -7,8 +7,8 @@ class SpeducatorsController < ApplicationController
     def create
       school = School.find_by_id params[:school_id]
       speducator = Speducator.new speducator_params
+      school.speducators << speducator
       if speducator.save
-        school.speducators << speducator
         redirect_to school_speducator_path school, speducator
       else
         redirect_to new_school_speducator_path school
