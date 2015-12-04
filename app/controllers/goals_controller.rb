@@ -11,8 +11,8 @@ class GoalsController < ApplicationController
       student = Student.find_by_id params[:student_id]
       bip = Bip.find_by_id params[:bip_id]
       goal = Goal.new goal_params
+      bip.goals << goal
       if goal.save
-        bip.goals << goal
         redirect_to school_student_bip_path school, student, bip
       else
         redirect_to new_school_student_bip_goal_path school, student, bip

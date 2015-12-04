@@ -14,6 +14,7 @@ FactoryGirl.define do
   end
 
   factory :goal do
+    bip
   end
 
   factory :bip do
