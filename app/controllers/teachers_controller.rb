@@ -7,11 +7,11 @@ class TeachersController < ApplicationController
   def create
     school = School.find_by_id params[:school_id]
     teacher = Teacher.new teacher_params
-    school.teachers << teacher
+    school.teachers << teacher if school
     if teacher.save
       redirect_to school_teacher_path school, teacher
     else
-      redirect_to new_school_teacher_path school
+      redirect_to "/schools/#{params[:school_id]}/teachers/new"
     end
   end
 
@@ -28,8 +28,11 @@ class TeachersController < ApplicationController
   def update
     school = School.find(params[:school_id])
     teacher = Teacher.find_by_id params[:id]
-    teacher.update_attributes(teacher_params)
-    redirect_to school_teacher_path school, teacher
+    if teacher.update_attributes(teacher_params)
+      redirect_to school_teacher_path school, teacher
+    else
+      redirect_to edit_school_teacher_path school, teacher
+    end
   end
 
   def destroy
