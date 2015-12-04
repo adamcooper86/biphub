@@ -13,4 +13,8 @@ class Record < ActiveRecord::Base
       self.create goal_id: goal.id, observation_id: observation.id
     end
   end
+
+  def is_answered?
+    self.result != nil
+  end
 end

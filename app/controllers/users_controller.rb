@@ -8,5 +8,6 @@ class UsersController < ApplicationController
     @teachers = @school.teachers
     @speducators = @school.speducators
     @students = @school.students
+    @observations = @user.observations
   end
 end

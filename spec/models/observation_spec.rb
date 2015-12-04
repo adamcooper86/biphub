@@ -37,4 +37,20 @@ RSpec.describe Observation, type: :model do
       expect(Observation.create_from_cards(cards)[0]).to be_a Observation
     end
   end
+
+  context "#is_answered?" do
+    let(:observation) { Observation.create }
+    let(:record) { FactoryGirl.create :record }
+
+    it 'returns true if there are no records' do
+      expect(observation.is_answered?).to be true
+    end
+
+    it 'returns false if there is unanswered records' do
+      observation.records << record
+      expect(observation.is_answered?).to be false
+    end
+
+  end
+
 end

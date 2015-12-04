@@ -14,4 +14,13 @@ class Observation < ActiveRecord::Base
     end
     observations
   end
+
+  def is_answered?
+    answer = true
+    self.records.each do |record|
+      unless record.is_answered? answer = false
+      end
+    end
+    answer
+  end
 end

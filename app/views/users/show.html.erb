@@ -38,6 +38,11 @@
 <% elsif @user.is_a? Teacher %>
   <section id="teacherPanel">
     <h1>Teacher Panel</h1>
+    <section id="observationPanel">
+      <% if @observations %>
+      <p>Your queue is empty. Good job!!</p>
+      <% end %>
+    </section>
   </section>
 <% end %>
 
