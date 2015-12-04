@@ -2,6 +2,8 @@ require 'faker'
 
 FactoryGirl.define do
   factory :observation do
+    student
+    user
   end
 
   factory :record do
