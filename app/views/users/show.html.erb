@@ -43,6 +43,25 @@
       <p>Your queue is empty. Good job!!</p>
       <% end %>
     </section>
+    <section id="observationsTable">
+      <table>
+        <% @answered_observations = @observations.select{|observation| observation.is_answered? } %>
+        <% if @answered_observations.empty? %>
+        <tr>
+          <td>We're sorry, We didn't find any answered observations assigned to you.</td>
+        </tr>
+        <% else %>
+          <% @answered_observations.each do |observation| %>
+            <tr class="observationRow">
+              <td><%= observation.user.last_name %></td>
+              <td><%= observation.student.first_name %> <%= observation.student.last_name %></td>
+              <td><%= observation.start %></td>
+              <td><%= observation.finish %></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </table>
+    </section>
   </section>
 <% end %>
 
