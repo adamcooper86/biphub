@@ -1,21 +1,17 @@
 require 'rails_helper'
 
 feature "Logging in and out as different users", js: false do
-  given(:school){ School.create name: "School", address: "2011 Place", city: "Berkeley", state: "CA", zip: "94705" }
-
+  given!(:coordinator){ FactoryGirl.create :coordinator }
   background do
     visit login_path
   end
 
   feature "Logging in as an Admin user" do
-    background do
-      Admin.create first_name: "Joe", last_name: "blow", email: 'AdminUser@biphub.com', password: 'Password', password_confirmation: 'Password'
-    end
-
+    given!(:admin){ FactoryGirl.create :admin }
     scenario "With Accurate Credentials" do
       within "#login_form" do
-        fill_in 'email', with: "AdminUser@biphub.com"
-        fill_in 'password', with: "Password"
+        fill_in 'email', with: admin.email
+        fill_in 'password', with: admin.password
       end
       click_on 'Submit'
 
@@ -25,8 +21,8 @@ feature "Logging in and out as different users", js: false do
     end
     scenario "and logging out" do
       within "#login_form" do
-        fill_in 'email', with: "AdminUser@biphub.com"
-        fill_in 'password', with: "Password"
+        fill_in 'email', with: admin.email
+        fill_in 'password', with: admin.password
       end
       click_on 'Submit'
       expect(page).to have_selector '#adminPanel'
@@ -62,15 +58,11 @@ feature "Logging in and out as different users", js: false do
   end
 
   feature "Logging in as a Coordinator user" do
-    background do
-      coordinator = Coordinator.create first_name: "joe", last_name: "blow", email: 'Coordinator@biphub.com', password: 'Password', password_confirmation: 'Password'
-      school.coordinators << coordinator
-    end
 
     scenario "With Accurate Credentials" do
       within "#login_form" do
-        fill_in 'email', with: "Coordinator@biphub.com"
-        fill_in 'password', with: "Password"
+        fill_in 'email', with: coordinator.email
+        fill_in 'password', with: coordinator.password
       end
       click_on 'Submit'
 
@@ -80,8 +72,8 @@ feature "Logging in and out as different users", js: false do
     end
     scenario "and logging out" do
       within "#login_form" do
-        fill_in 'email', with: "Coordinator@biphub.com"
-        fill_in 'password', with: "Password"
+        fill_in 'email', with: coordinator.email
+        fill_in 'password', with: coordinator.password
       end
       click_on 'Submit'
       expect(page).to have_selector '#coordinatorPanel'
@@ -117,15 +109,12 @@ feature "Logging in and out as different users", js: false do
   end
 
   feature "Logging in as a Speducator user" do
-    background do
-      speducator = Speducator.create first_name: "Joe", last_name: "Blow",email: 'Speducator@biphub.com', password: 'Password', password_confirmation: 'Password'
-      school.speducators << speducator
-    end
+    given!(:speducator){ FactoryGirl.create :speducator, school: coordinator.school }
 
     scenario "With Accurate Credentials" do
       within "#login_form" do
-        fill_in 'email', with: "Speducator@biphub.com"
-        fill_in 'password', with: "Password"
+        fill_in 'email', with: speducator.email
+        fill_in 'password', with: speducator.password
       end
       click_on 'Submit'
 
@@ -135,8 +124,8 @@ feature "Logging in and out as different users", js: false do
     end
     scenario "and logging out" do
       within "#login_form" do
-        fill_in 'email', with: "Speducator@biphub.com"
-        fill_in 'password', with: "Password"
+        fill_in 'email', with: speducator.email
+        fill_in 'password', with: speducator.password
       end
       click_on 'Submit'
       expect(page).to have_selector '#speducatorPanel'
@@ -172,15 +161,12 @@ feature "Logging in and out as different users", js: false do
   end
 
   feature "Logging in as a Teacher user" do
-    background do
-      teacher = Teacher.create first_name: "Joe", last_name: "Blow", email: 'Teacher@biphub.com', password: 'Password', password_confirmation: 'Password'
-      school.teachers << teacher
-    end
+    given!(:teacher){ FactoryGirl.create :teacher, school: coordinator.school }
 
     scenario "With Accurate Credentials" do
       within "#login_form" do
-        fill_in 'email', with: "Teacher@biphub.com"
-        fill_in 'password', with: "Password"
+        fill_in 'email', with: teacher.email
+        fill_in 'password', with: teacher.password
       end
       click_on 'Submit'
 
@@ -190,8 +176,8 @@ feature "Logging in and out as different users", js: false do
     end
     scenario "and logging out" do
       within "#login_form" do
-        fill_in 'email', with: "Teacher@biphub.com"
-        fill_in 'password', with: "Password"
+        fill_in 'email', with: teacher.email
+        fill_in 'password', with: teacher.password
       end
       click_on 'Submit'
       expect(page).to have_selector '#teacherPanel'

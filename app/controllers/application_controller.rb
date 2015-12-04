@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
 
   def authorize p_id = params[:id]
     if current_user
-      unless current_user.id.to_s === p_id
+      unless current_user.id.to_s == p_id
         session[:user_id] = nil
         redirect_to '/login'
       end
@@ -26,6 +26,16 @@ class ApplicationController < ActionController::Base
     unless current_user.is_a? Admin
       session[:user_id] = nil
       redirect_to '/'
+    end
+  end
+
+  def authorize_coordinator school_id
+    if current_user.is_a?(Coordinator) && current_user.school.id.to_s == school_id
+      true
+    else
+      session[:user_id] = nil
+      redirect_to '/login'
+      false
     end
   end
 end
