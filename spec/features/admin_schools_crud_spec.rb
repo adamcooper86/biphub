@@ -1,14 +1,13 @@
 require 'rails_helper'
 
 feature "Administrator Crud for Schools", js: false do
+  given!(:school){ FactoryGirl.create(:school) }
+  given!(:admin){ FactoryGirl.create(:admin) }
   background do
-    Admin.create first_name: "joe", last_name: "black", email: 'AdminUser@biphub.com', password: 'Password', password_confirmation: 'Password'
-    School.create name: 'TestSchool', address: 'TestAddress', city: 'TestCity', state: 'ST', zip: '00000'
-
     visit login_path
     within "#login_form" do
-      fill_in 'email', with: "AdminUser@biphub.com"
-      fill_in 'password', with: "Password"
+      fill_in 'email', with: admin.email
+      fill_in 'password', with: admin.password
     end
     click_on 'Submit'
   end
@@ -39,7 +38,7 @@ feature "Administrator Crud for Schools", js: false do
       click_on 'show'
     end
     expect(page).to have_selector "#schoolInformation"
-    expect(page).to have_content "TestSchool"
+    expect(page).to have_content "Success"
   end
   scenario 'Editing the school information' do
     within '#schoolsPanel' do

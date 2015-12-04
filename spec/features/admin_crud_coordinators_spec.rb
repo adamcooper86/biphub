@@ -1,20 +1,17 @@
 require 'rails_helper'
 
 feature "Administrator Crud for School Coordinators", js: false do
-  let(:school){ School.create name: 'TestSchool', address: 'TestAddress', city: 'TestCity', state: 'ST', zip: '00000' }
-  let(:coordinator){ Coordinator.create first_name: 'test', last_name: 'tester', email: 'test@biphub.com', password: 'abc123', password_confirmation: 'abc123' }
+  given!(:coordinator){ FactoryGirl.create(:coordinator) }
+  given!(:admin){ FactoryGirl.create(:admin) }
 
   background do
-    Admin.create first_name: "joe", last_name: "black", email: 'AdminUser@biphub.com', password: 'Password', password_confirmation: 'Password'
-    school.coordinators << coordinator
-
     visit login_path
     within "#login_form" do
-      fill_in 'email', with: "AdminUser@biphub.com"
-      fill_in 'password', with: "Password"
+      fill_in 'email', with: admin.email
+      fill_in 'password', with: admin.password
     end
     click_on 'Submit'
-    visit "/schools/#{School.first.id}"
+    visit "/schools/#{coordinator.school.id}"
   end
 
   scenario 'Creating a new school coordinator' do

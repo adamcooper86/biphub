@@ -1,22 +1,16 @@
 require 'rails_helper'
 
 feature "Using the coordinator panel", js: false do
-  given(:coordinator){ Coordinator.create first_name: "TestCo", last_name: "Testordinator", email: 'coordinator@biphub.com', password: 'Password', password_confirmation: 'Password' }
-  given(:teacher){ Teacher.create first_name: "TestTea", last_name: "Testcher", email: 'teacher@biphub.com', password: 'Password', password_confirmation: 'Password' }
-  given(:speducator){ Speducator.create first_name: "TestSped", last_name: "Testucator", email: 'speducator@biphub.com', password: 'Password', password_confirmation: 'Password' }
-  given(:school){ School.create name: 'TestSchool', address: 'TestAddress', city: 'TestCity', state: 'ST', zip: '00000' }
-  given(:student){ Student.create first_name: 'TestStudent', last_name: 'TestLastName' }
+  given!(:coordinator){ FactoryGirl.create :coordinator }
+  given!(:teacher){ FactoryGirl.create :teacher, school: coordinator.school }
+  given!(:speducator){ FactoryGirl.create :speducator, school: coordinator.school }
+  given!(:student){ FactoryGirl.create :student, school: coordinator.school }
 
   background do
-    school.coordinators << coordinator
-    school.students << student
-    school.teachers << teacher
-    school.speducators << speducator
-
     visit login_path
     within "#login_form" do
-      fill_in 'email', with: "coordinator@biphub.com"
-      fill_in 'password', with: "Password"
+      fill_in 'email', with: coordinator.email
+      fill_in 'password', with: coordinator.password
     end
     click_on 'Submit'
   end
@@ -49,7 +43,7 @@ feature "Using the coordinator panel", js: false do
         click_on 'show'
       end
       expect(page).to have_selector '#studentInformation'
-      expect(page).to have_content 'TestStudent'
+      expect(page).to have_content student.first_name
     end
     scenario "editing a student" do
       within '#studentsPanel' do
@@ -73,12 +67,12 @@ feature "Using the coordinator panel", js: false do
       expect(page).to have_selector '.edit_student'
 
       within '.edit_student' do
-        select 'TestSped', :from => 'student_speducator_id'
+        select speducator.first_name, :from => 'student_speducator_id'
       end
       click_on 'Submit'
 
       expect(page).to have_selector '#studentInformation'
-      expect(page).to have_content 'TestSped Testucator'
+      expect(page).to have_content speducator.first_name
     end
     scenario 'deleting a student' do
       within '#studentsPanel' do
@@ -113,7 +107,7 @@ feature "Using the coordinator panel", js: false do
         click_on 'show'
       end
       expect(page).to have_selector '#speducatorInformation'
-      expect(page).to have_content 'TestSped Testucator'
+      expect(page).to have_content speducator.first_name
     end
     scenario "editing a speducator" do
       within '#speducatorsPanel' do
@@ -167,7 +161,7 @@ feature "Using the coordinator panel", js: false do
         click_on 'show'
       end
       expect(page).to have_selector '#teacherInformation'
-      expect(page).to have_content 'TestTea Testcher'
+      expect(page).to have_content teacher.first_name
     end
     scenario "editing a teacher" do
       within '#teachersPanel' do
