@@ -1,4 +1,6 @@
 class TeachersController < ApplicationController
+  before_filter{ |controller| controller.authorize_coordinator params[:school_id] }
+
   def new
     @school = School.find_by_id params[:school_id]
     @user = Teacher.new

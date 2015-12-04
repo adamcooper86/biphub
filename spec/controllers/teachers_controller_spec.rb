@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe TeachersController, :type => :controller, focus: true do
+RSpec.describe TeachersController, :type => :controller do
   let!(:coordinator){ FactoryGirl.create(:coordinator) }
   let(:teacher){ FactoryGirl.create :teacher, school: coordinator.school}
   let(:user_info){{first_name: "joe",
@@ -13,12 +13,18 @@ RSpec.describe TeachersController, :type => :controller, focus: true do
                            email: "@gmail.com",
                            password: "abc1234",
                            password_confirmation: "abc123"}}
-  before(:each){ allow(controller).to receive(:current_user).and_return(coordinator) }
+  before(:each){
+    allow(controller).to receive(:current_user).and_return(coordinator)
+    allow(controller).to receive(:authorize_coordinator)
+  }
 
 
   context "GET #new" do
     subject{ get :new, school_id: coordinator.school.id }
-    it { is_expected.to be_success }
+    it "revieves a call to authorize user" do
+      expect(controller).to receive :authorize_coordinator
+      is_expected.to be_success
+    end
     it { is_expected.to have_http_status 200 }
     it { is_expected.to render_template "new" }
   end
