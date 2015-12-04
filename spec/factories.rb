@@ -18,6 +18,7 @@ FactoryGirl.define do
   end
 
   factory :bip do
+    student
   end
 
   factory :card do
@@ -55,6 +56,7 @@ FactoryGirl.define do
     last_name  "Doe"
     password "password"
     password_confirmation "password"
+    school
   end
   factory :speducator do
     email Faker::Internet.email

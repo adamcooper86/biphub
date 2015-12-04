@@ -9,8 +9,8 @@ class CoordinatorsController < ApplicationController
   def create
     school = School.find_by_id params[:school_id]
     coordinator = Coordinator.new coordinator_params
+    school.coordinators << coordinator
     if coordinator.save
-      school.coordinators << coordinator
       redirect_to school_coordinator_path school, coordinator
     else
       redirect_to new_school_coordinator_path school
