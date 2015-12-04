@@ -61,6 +61,7 @@ FactoryGirl.define do
     last_name  "Doe"
     password "password"
     password_confirmation "password"
+    school
   end
   factory :student do
     first_name "John"
