@@ -9,6 +9,8 @@ FactoryGirl.define do
   end
 
   factory :record do
+    observation
+    goal
   end
 
   factory :goal do
