@@ -5,6 +5,15 @@ RSpec.describe Observation, type: :model do
     it 'requires a User' do
       expect(FactoryGirl.build(:observation, user: nil)).not_to be_valid
     end
+    it 'requires a Student' do
+      expect(FactoryGirl.build(:observation, student: nil)).not_to be_valid
+    end
+    it 'requires a start time' do
+      expect(FactoryGirl.build(:observation, start: nil)).not_to be_valid
+    end
+    it 'requires an end time' do
+      expect(FactoryGirl.build(:observation, finish: nil)).not_to be_valid
+    end
   end
 
   context '.create_from_cards' do
