@@ -2,65 +2,35 @@ require "rails_helper"
 
 RSpec.describe WelcomeController, :type => :controller do
   describe "GET #index" do
-    it "responds successfully with an HTTP 200 status code" do
-      get :index
-      expect(response).to be_success
-      expect(response).to have_http_status(200)
-    end
-
-    it "renders the index template" do
-      get :index
-      expect(response).to render_template("index")
-    end
+    subject{ get :index }
+    it { is_expected.to be_success }
+    it { is_expected.to have_http_status 200 }
+    it { is_expected.to render_template "index" }
   end
   describe "GET #about" do
-    it "responds successfully with an HTTP 200 status code" do
-      get :about
-      expect(response).to be_success
-      expect(response).to have_http_status(200)
-    end
-
-    it "renders the about template" do
-      get :about
-      expect(response).to render_template("about")
-    end
+    subject{ get :about }
+    it { is_expected.to be_success }
+    it { is_expected.to have_http_status 200 }
+    it { is_expected.to render_template "about" }
   end
   describe "GET #contact" do
-    it "responds successfully with an HTTP 200 status code" do
-      get :contact
-      expect(response).to be_success
-      expect(response).to have_http_status(200)
-    end
-
-    it "renders the contact template" do
-      get :contact
-      expect(response).to render_template("contact")
-    end
+    subject{ get :contact }
+    it { is_expected.to be_success }
+    it { is_expected.to have_http_status 200 }
+    it { is_expected.to render_template "contact" }
   end
   describe "Developer pages" do
     describe "GET #bio" do
-      it "responds successfully with an HTTP 200 status code" do
-        get :bio
-        expect(response).to be_success
-        expect(response).to have_http_status(200)
-      end
-
-      it "renders the bio template" do
-        get :bio
-        expect(response).to render_template("bio")
-      end
+      subject{ get :bio }
+      it { is_expected.to be_success }
+      it { is_expected.to have_http_status 200 }
+      it { is_expected.to render_template "bio" }
     end
     describe "GET #projects" do
-      it "responds successfully with an HTTP 200 status code" do
-        get :projects
-        expect(response).to be_success
-        expect(response).to have_http_status(200)
-      end
-
-      it "renders the projects template" do
-        get :projects
-        expect(response).to render_template("projects")
-      end
+      subject{ get :projects }
+      it { is_expected.to be_success }
+      it { is_expected.to have_http_status 200 }
+      it { is_expected.to render_template "projects" }
     end
   end
 end
