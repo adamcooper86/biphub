@@ -1,9 +1,8 @@
 require "rails_helper"
 
-RSpec.describe SpeducatorsController, :type => :controller, focus: true do
-  let(:school){ FactoryGirl.create :school }
-  let(:speducator){ FactoryGirl.create :speducator}
-  let(:coordinator){ FactoryGirl.create(:coordinator) }
+RSpec.describe SpeducatorsController, :type => :controller do
+  let!(:coordinator){ FactoryGirl.create(:coordinator) }
+  let(:speducator){ FactoryGirl.create :speducator, school: coordinator.school }
   let(:user_info){{first_name: "joe",
                    last_name: "blow",
                    email: "jb@gmail.com",
@@ -20,7 +19,7 @@ RSpec.describe SpeducatorsController, :type => :controller, focus: true do
   }
 
   context "GET #new" do
-    subject{ get :new, school_id: school.id }
+    subject{ get :new, school_id: coordinator.school.id }
     it "is protected by :authorize_coordinator" do
       expect(controller).to receive :authorize_coordinator
       subject
@@ -31,13 +30,13 @@ RSpec.describe SpeducatorsController, :type => :controller, focus: true do
   end
   context "POST #create" do
     context 'Valid information' do
-      subject{ post :create, school_id: school.id, speducator: user_info }
+      subject{ post :create, school_id: coordinator.school.id, speducator: user_info }
       it "is protected by authorize_coordinator" do
         expect(controller).to receive :authorize_coordinator
         subject
       end
       it { is_expected.to have_http_status 302 }
-      it { is_expected.to redirect_to school_speducator_path school, Speducator.last }
+      it { is_expected.to redirect_to school_speducator_path coordinator.school, Speducator.last }
     end
     context 'Invalid information' do
       subject{ post :create, school_id: '123456789', speducator: user_info }
@@ -46,7 +45,7 @@ RSpec.describe SpeducatorsController, :type => :controller, focus: true do
     end
   end
   context "Get #show" do
-    subject{ get :show, school_id: school.id, id: speducator.id }
+    subject{ get :show, school_id: coordinator.school.id, id: speducator.id }
     it "is protected by authorize_coordinator" do
       expect(controller).to receive :authorize_coordinator
       is_expected.to be_success
@@ -55,7 +54,7 @@ RSpec.describe SpeducatorsController, :type => :controller, focus: true do
     it { is_expected.to render_template "show" }
   end
   context "Get #edit" do
-    subject{ get :edit, school_id: school.id, id: speducator.id }
+    subject{ get :edit, school_id: coordinator.school.id, id: speducator.id }
     it "is protected by authorize_coordinator" do
       expect(controller).to receive :authorize_coordinator
       is_expected.to be_success
@@ -80,7 +79,7 @@ RSpec.describe SpeducatorsController, :type => :controller, focus: true do
     end
   end
   context "delete #destroy" do
-    subject{ delete :destroy, school_id: school.id, id: speducator.id }
+    subject{ delete :destroy, school_id: coordinator.school.id, id: speducator.id }
     it "is protected by authorize_coordinator" do
       expect(controller).to receive :authorize_coordinator
       subject
