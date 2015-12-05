@@ -1,97 +1,108 @@
 require "rails_helper"
 
 RSpec.describe StudentsController, :type => :controller do
-  let(:school){ FactoryGirl.create :school }
-  let(:student){ FactoryGirl.create :student}
-  let(:teacher){ FactoryGirl.create :teacher}
   let(:coordinator){ FactoryGirl.create(:coordinator) }
+  let(:student){ FactoryGirl.create :student, school: coordinator.school}
+  let(:teacher){ FactoryGirl.create :teacher, school: coordinator.school}
   let(:student_info){{first_name: "joe",
-                   last_name: "blow"}}
-  before(:each){ allow(controller).to receive(:current_user).and_return(coordinator) }
-
+                      last_name: "blow"}}
+  let(:invalid_student_info){{first_name: "",
+                              last_name: "blow"}}
+  before(:each){
+    allow(controller).to receive(:current_user).and_return(coordinator)
+    allow(controller).to receive(:authorize_coordinator)
+  }
 
   context "GET #new" do
-    before(:each){ get :new, school_id: school.id }
-    it "responds successfully with an HTTP 200 status code" do
-      expect(response).to be_success
-      expect(response).to have_http_status(200)
+    subject{ get :new, school_id: coordinator.school.id }
+    it "is protected by authorize_coordinator" do
+      expect(controller).to receive :authorize_coordinator
+      is_expected.to be_success
     end
-
-    it "renders the new template" do
-      expect(response).to render_template("new")
-    end
+    it { is_expected.to have_http_status 200 }
+    it { is_expected.to render_template "new" }
   end
   context "POST #create" do
-    before(:each){ post :create, school_id: school.id, student: student_info }
-    it "responds successfully with an redirect HTTP 300 status code" do
-      expect(response).to have_http_status(302)
+    context 'Valid information' do
+      subject{ post :create, school_id: coordinator.school.id, student: student_info }
+      it "is protected by authorize_coordinator" do
+        expect(controller).to receive :authorize_coordinator
+        subject
+      end
+      it { is_expected.to have_http_status 302 }
+      it { is_expected.to redirect_to school_student_path coordinator.school, Student.last }
     end
-
-    it "redirects to the student show page" do
-      expect(response).to redirect_to school_student_path(school, Student.last)
+    context 'Invalid information' do
+      subject{ post :create, school_id: '123456789', student: student_info }
+      it { is_expected.to have_http_status 302 }
+      it { is_expected.to redirect_to "/schools/123456789/students/new" }
     end
   end
   context "Get #show" do
-    before(:each){ get :show, school_id: school.id, id: student.id }
-    it "responds successfully with an HTTP 200 status code" do
-      expect(response).to have_http_status(200)
+    subject{ get :show, school_id: coordinator.school.id, id: student.id }
+    it "is not protected by authorize_coordinator" do
+      expect(controller).not_to receive :authorize_coordinator
+      is_expected.to be_success
     end
-
-    it "renders the show template" do
-      expect(response).to render_template("show")
-    end
+    it { is_expected.to have_http_status 200 }
+    it { is_expected.to render_template "show" }
   end
   context "Get #edit" do
-    before(:each){ get :edit, school_id: school.id, id: student.id }
-    it "responds successfully with an HTTP 200 status code" do
-      expect(response).to have_http_status(200)
+    subject{ get :edit, school_id: coordinator.school.id, id: student.id }
+    it "is protected by authorize_coordinator" do
+      expect(controller).to receive :authorize_coordinator
+      is_expected.to be_success
     end
-
-    it "renders the edit template" do
-      expect(response).to render_template("edit")
-    end
+    it { is_expected.to have_http_status 200 }
+    it { is_expected.to render_template "edit" }
   end
   context "put #update" do
-    before(:each){ put :update, school_id: school.id, id: student.id, student: student_info }
-    it "responds successfully with an redirect HTTP 300 status code" do
-      expect(response).to have_http_status(302)
+    context "Valid information" do
+      subject{ put :update, school_id: coordinator.school.id, id: student.id, student: student_info }
+      it "is protected by authorize_coordinator" do
+        expect(controller).to receive :authorize_coordinator
+        subject
+      end
+      it { is_expected.to have_http_status 302 }
+      it { is_expected.to redirect_to school_student_path coordinator.school, student }
+    end
+    context "Invalid information" do
+      subject{ put :update, school_id: coordinator.school.id, id: student.id, student: invalid_student_info }
+      it { is_expected.to have_http_status 302 }
+      it { is_expected.to redirect_to edit_school_student_path coordinator.school, student }
     end
 
-    it "redirects to the school coordinator show page" do
-      expect(response).to redirect_to school_student_path school, student
-    end
   end
   context "delete #destroy" do
-    before(:each){ delete :destroy, school_id: school.id, id: student.id }
-    it "responds successfully with an redirect HTTP 300 status code" do
-      expect(response).to have_http_status(302)
+    subject{ delete :destroy, school_id: coordinator.school.id, id: student.id }
+    it "is protected by authorize_coordinator" do
+      expect(controller).to receive :authorize_coordinator
+      subject
     end
-
-    it "redirects to the school coordinator show page" do
-      expect(response).to redirect_to "/users/#{coordinator.id}"
-    end
+    it { is_expected.to have_http_status 302 }
+    it { is_expected.to redirect_to "/users/#{coordinator.id}" }
   end
   context "POST #add_member" do
-    before(:each){ post :add_member, school_id: school.id, id: student.id, user_id: teacher.id }
+    before(:each){ post :add_member, school_id: coordinator.school.id, id: student.id, user_id: teacher.id }
     it "responds successfully with an redirect HTTP 300 status code" do
       expect(response).to have_http_status(302)
     end
 
     it "redirects to the student show page" do
-      expect(response).to redirect_to school_student_team_path(school, student)
+      expect(response).to redirect_to school_student_team_path(coordinator.school, student)
     end
   end
   context "POST #add_member" do
     before(:each){
       Team.create user_id: teacher.id, student_id: student.id
-      delete :remove_member, school_id: school.id, student_id: student.id, id: teacher.id
+      delete :remove_member, school_id: coordinator.school.id, student_id: student.id, id: teacher.id
     }
     it "responds successfully with an redirect HTTP 300 status code" do
       expect(response).to have_http_status(302)
     end
 
     it "redirects to the student show page" do
-      expect(response).to redirect_to school_student_team_path(school, student)
+      expect(response).to redirect_to school_student_team_path(coordinator.school, student)
     end
   end
 end

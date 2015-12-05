@@ -68,9 +68,11 @@
                 <td>There were no records associated with this observation.</td>
               <% else %>
                 <% observation.records.each do |record| %>
+                  <td><%= record.goal.prompt %></td>
                   <td><%= record.result %></td>
                 <% end %>
               <% end %>
+              <td><%= link_to 'edit', edit_observation_path(observation) %></td>
             </tr>
           <% end %>
         <% end %>

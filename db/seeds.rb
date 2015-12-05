@@ -22,13 +22,13 @@ end
 
   Teacher.all.each do |teacher|
     time = Faker::Time.forward(1, :day)
-    card = Card.create user_id: teacher.id, start: time, end: time + 60
+    card = Card.create user_id: teacher.id, start: time, finish: time + 60
     student.cards << card
   end
 
   bip = Bip.create
   student.bips << bip
-  bip.goals << [Goal.create, Goal.create, Goal.create]
+  bip.goals << [Goal.create(prompt: 'How many:'), Goal.create(prompt: 'How long:'), Goal.create(prompt: 'How well:')]
 end
 
 Student.create_daily_records
