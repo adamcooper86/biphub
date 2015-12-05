@@ -1,0 +1,9 @@
+<%= form_for(@observation) do |f| %>
+
+  Suporvising Teacher: <%= f.select(:user_id, staff_options(@staff)) %>
+  Student: <%= @observation.student.first_name %>
+  Start: <%= f.time_select(:start) %>
+  End: <%= f.time_select(:finish) %>
+  <%= f.submit "Submit" %>
+
+<% end %>

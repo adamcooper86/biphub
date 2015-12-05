@@ -1,9 +1,11 @@
 require 'rails_helper'
 
-feature "Using teacher dashboard", js: false  do
+feature "Using teacher dashboard", js: false do
   given(:teacher){ FactoryGirl.create :teacher }
+  given(:teacher_2){ FactoryGirl.create :teacher, school: teacher.school, first_name: 'TestTeacher' }
   given(:observation){ FactoryGirl.create :observation, user: teacher }
   given(:record){ FactoryGirl.create :record, observation: observation }
+
   background do
     visit login_path
     within "#login_form" do
@@ -51,6 +53,20 @@ feature "Using teacher dashboard", js: false  do
       record.update_attribute(:result, 10)
       click_on 'Dashboard'
       expect(page).to have_content "10"
+    end
+    scenario 'by editing/updating the record results for a observation'  do
+      record.update_attribute(:result, 10)
+      teacher_2
+      click_on 'Dashboard'
+      click_on 'edit'
+      expect(page).to have_selector '.edit_observation'
+      within '.edit_observation' do
+        select 'TestTeacher', :from => 'observation_user_id'
+      end
+      click_on 'Submit'
+
+      expect(page).to have_selector '#observationInformation'
+      expect(page).to have_content 'TestTeacher'
     end
   end
 end
