@@ -39,9 +39,24 @@ RSpec.describe ObservationsController, type: :controller do
 end
 
 RSpec.describe Api::V1::ObservationsController, :type => :controller, focus: true do
-  let(:user){ FactoryGirl.create(:user) }
+  let(:user){ FactoryGirl.create(:user, authenticity_token: "token") }
 
-  subject { xhr :get, :index, user_id: user.id}
+  subject { xhr :get, :index, user_id: user.id, authenticity_token: user.authenticity_token}
 
   it { is_expected.to be_success}
+
+  context 'no authenticity_token provided' do
+    subject { xhr :get, :index, user_id: user.id}
+    it "has a 403 status code for invalid email" do
+      subject
+      expect(response).not_to be_success
+      expect(response).to have_http_status(403)
+    end
+
+    it "returns a text message that email is invalid" do
+      subject
+      expect(response.body).to be_a String
+      expect(response.body).to eq "Error: Authenticity token not provided"
+    end
+  end
 end
