@@ -1,9 +1,15 @@
-<%= form_for(@observation) do |f| %>
+<%= form_for @observation do |f| %>
 
-  Suporvising Teacher: <%= f.select(:user_id, staff_options(@staff)) %>
+  Supervising Teacher: <%= f.select(:user_id, staff_options(@staff)) %>
   Student: <%= @observation.student.first_name %>
   Start: <%= f.time_select(:start) %>
   End: <%= f.time_select(:finish) %>
-  <%= f.submit "Submit" %>
 
+  <% @records.each_with_index do |record, index| %>
+    <%= record.goal.prompt %>
+    <input type="text" value="<%= record.result %>" name="observation[records_attributes][<%= index %>][result]" id="observation_records_attributes_<%= index %>_result">
+    <input type="hidden" value="<%= record. id %>" name="observation[records_attributes][<%= index %>][id]" id="observation_records_attributes_<%= index %>_id">
+  <% end %>
+
+  <%= f.submit "Submit" %>
 <% end %>

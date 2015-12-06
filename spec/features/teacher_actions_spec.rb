@@ -54,6 +54,20 @@ feature "Using teacher dashboard", js: false do
       click_on 'Dashboard'
       expect(page).to have_content "10"
     end
+    scenario 'by editing/updating an observation with no records' do
+      observation
+      teacher_2
+      click_on 'Dashboard'
+      click_on 'edit'
+      within '.edit_observation' do
+        select 'TestTeacher', :from => 'observation_user_id'
+      end
+      click_on 'Submit'
+
+      expect(page).to have_selector '#observationInformation'
+      expect(page).to have_content 'TestTeacher'
+      expect(find('#observationRecords')).to have_content "There are no records associated with this observation"
+    end
     scenario 'by editing/updating the record results for a observation'  do
       record.update_attribute(:result, 10)
       teacher_2
@@ -62,11 +76,13 @@ feature "Using teacher dashboard", js: false do
       expect(page).to have_selector '.edit_observation'
       within '.edit_observation' do
         select 'TestTeacher', :from => 'observation_user_id'
+        fill_in 'observation_records_attributes_0_result', with: 1
       end
       click_on 'Submit'
 
       expect(page).to have_selector '#observationInformation'
       expect(page).to have_content 'TestTeacher'
+      expect(find('#observationRecords')).to have_content 1
     end
   end
 end

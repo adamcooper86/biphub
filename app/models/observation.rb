@@ -3,6 +3,8 @@ class Observation < ActiveRecord::Base
   belongs_to :student
   has_many :records
 
+  accepts_nested_attributes_for :records
+
   validates :user, :student, :start, :finish, presence: true
 
   def self.create_from_cards cards
