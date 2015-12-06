@@ -1,21 +1,94 @@
-<h1>School Information:</h1>
-<%= render 'shared/school_information' %>
-<h1>Your Information:</h1>
-<%= render 'shared/user_information' %>
-<h1>Students:</h1>
-<% if @user.type == "Coordinator" %>
-	<%= link_to 'Add a Student', new_school_student_path(@school) %>
+<% if @user.is_a? Coordinator %>
+  <section id="coordinatorPanel">
+    <h1>Coordinator Panel</h1>
+    <h1>School Information:</h1>
+    <%= render 'shared/school_information' %>
+    <h1>Your Information:</h1>
+    <%= render 'shared/user_information' %>
+    <section id="studentsPanel">
+      <h1>Students:</h1>
+      <%= link_to 'Add a Student', new_school_student_path(@school) %>
+      <%= render 'shared/student_group' %>
+    </section>
+    <section id="speducatorsPanel">
+      <h1>Special Education Teachers</h1>
+      <% if @user.type == "Coordinator" %>
+        <%= link_to 'Add a Special Education Teacher', new_school_speducator_path(@school) %>
+      <% end%>
+      <%= render 'shared/speducator_group' %>
+    </section>
+    <h1>Genderal Education Teachers</h1>
+      <section id="teachersPanel">
+        <%= link_to 'Add a Teacher', new_school_teacher_path(@school) %>
+        <%= render 'shared/teacher_group' %>
+      </section>
+  </section>
+<% elsif @user.is_a? Speducator %>
+  <section id="speducatorPanel">
+    <h1>Speducator Panel</h1>
+    <h1>School Information:</h1>
+    <%= render 'shared/school_information' %>
+    <h1>Your Information:</h1>
+    <%= render 'shared/user_information' %>
+    <section id="studentsPanel">
+      <h1>Students:</h1>
+      <%= render 'shared/student_group' %>
+    </section>
+  </section>
+<% elsif @user.is_a? Teacher %>
+  <section id="teacherPanel">
+    <h1>Teacher Panel</h1>
+    <section id="observationPanel">
+      <% if @observations %>
+      <p>Your queue is empty. Good job!!</p>
+      <% end %>
+    </section>
+    <section id="observationsTable">
+    <% unless @observations.empty? %>
+      <div id="filterBar">
+        <h2>Filter Table: </h2>
+        <%= form_tag users_path(@user), method: "get", id: 'studentFilter' do%>
+          Student: <%= select_tag 'student_id', options_for_select(observations_students_options(@observations)) %>
+          <%= submit_tag "Filter Results" %>
+        <% end %>
+      </div>
+    <% end %>
+      <table>
+        <tr>
+          <th>Teacher</th>
+          <th>Student</th>
+          <th>Started</th>
+          <th>Ended</th>
+          <th>Results</th>
+        </tr>
+        <% @answered_observations = @observations.select{|observation| observation.is_answered? } %>
+        <% @answered_observations = @answered_observations.select{|observation| observation.student == @student } if @student %>
+        <% if @answered_observations.empty? %>
+        <tr>
+          <td colspan="5">We're sorry, We didn't find any answered observations assigned to you.</td>
+        </tr>
+        <% else %>
+          <% @answered_observations.each do |observation| %>
+            <tr class="observationRow">
+              <td><%= observation.user.last_name %></td>
+              <td><%= observation.student.first_name %> <%= observation.student.last_name %></td>
+              <td><%= observation.start %></td>
+              <td><%= observation.finish %></td>
+              <% if observation.records.empty? %>
+                <td>There were no records associated with this observation.</td>
+              <% else %>
+                <% observation.records.each do |record| %>
+                  <td><%= record.goal.prompt %></td>
+                  <td><%= record.result %></td>
+                <% end %>
+              <% end %>
+              <td><%= link_to 'edit', edit_observation_path(observation) %></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </table>
+    </section>
+  </section>
 <% end %>
-<%= render 'shared/student_group' %>
-<h1>Special Education Teachers</h1>
-<% if @user.type == "Coordinator" %>
-	<%= link_to 'Add a Special Education Teacher', new_school_speducator_path(@school) %>
-<% end%>
-<%= render 'shared/speducator_group' %>
-<h1>Genderal Education Teachers</h1>
-<%= link_to 'Add a Teacher', new_school_teacher_path(@school) %>
-<%= render 'shared/teacher_group' %>
-<% if @user.type == "Coordinator" %>
-	<%= link_to 'Add a Teacher', new_school_teacher_path(@school) %>
-<% end%>
-<%= render 'shared/teacher_group' %>
+
+

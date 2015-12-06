@@ -20,28 +20,32 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand active" href="index.html">BipHub</a>
+          <%= link_to "BipHub", root_path, class: "navbar-brand active" %>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="blog/blog-index.html">Blog</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="contact.html">Contact</a></li>
+            <li><%= link_to "Blog", blogs_path %></li>
+            <li><%= link_to "About", about_path %></li>
+            <li><%= link_to "Contact", contact_path %></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Developer <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="developer.html">Bio</a></li>
-                <li><a href="projects.html">Projects</a></li>
-                <li><a href="articles.html">Articles</a></li>
+                <li><%= link_to "Bio", bio_path %></li>
+                <li><%= link_to "Projects", projects_path %></li>
+                <li><%= link_to "Articles", articles_path %></li>
               </ul>
             </li>
           </ul>
           <ul class="nav navbar-nav" style="float: right">
             <% if current_user %>
+              <% if current_user.is_a? Admin %>
+                <li><%= link_to "Dashboard", admin_path(current_user) %></li>
+              <% else %>
+                <li><%= link_to "Dashboard", users_path(current_user) %></li>
+              <% end %>
               <li><%= link_to "Logout", '/logout' %></li>
             <% else %>
               <li><%= link_to 'Login', '/login' %></li>
-              <li><%= link_to 'Signup', '/signup' %></li>
             <% end %>
           </ul>
         </div><!--/.nav-collapse -->

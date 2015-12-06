@@ -23,3 +23,9 @@ When adding features to Biphub, it is crucial that we add the necassary test to 
 2. Controller tests need to be made for each controller action that has a route. To the greatest degree possible, models shoule be stubbed out with FactoryGirl objects.
 3. A senario (feature test) should be made for your feature, including testing for failures. All feature tests should be marked as js: true so that they are run by selenium.
 
+## Information:
+Types of goals:
+- qualitative: scale of 1-5
+- incident: an integer of the # of incedences
+- time(length): an integer representing the number of seconds/minutes
+- percent: an integer 0-100 representing a percentage

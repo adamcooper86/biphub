@@ -1,13 +1,19 @@
 Rails.application.routes.draw do
   root 'welcome#index'
 
-  get '/signup' => 'users#new'
-  post '/users' => 'users#create'
-  get '/users/:id' => 'users#show'
+  get '/users/:id' => 'users#show', as: 'users'
 
   get '/login' => 'sessions#new'
   post '/login' => 'sessions#create'
   get '/logout' => 'sessions#destroy'
+
+  get '/about' => 'welcome#about'
+  get '/contact' => 'welcome#contact'
+  get '/bio' => 'welcome#bio'
+  get '/projects' => 'welcome#projects'
+
+  resources :blogs
+  resources :articles
 
   resources :schools do
     resources :coordinators
@@ -15,8 +21,13 @@ Rails.application.routes.draw do
     resources :speducators
     resources :students do
       resources :cards
+      resources :bips do
+        resources :goals
+      end
     end
   end
+
+  resources :observations, only: [:edit, :update, :show]
 
   get '/schools/:school_id/students/:id/team' => 'students#team', as: 'school_student_team'
   post '/schools/:school_id/students/:id/team' => 'students#add_member', as: 'school_student_team_add'

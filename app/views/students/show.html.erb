@@ -1,32 +1,34 @@
-<table>
-  <tr>
-    <td><h3>Name:</h3></td>
-    <td><p><%= @student.first_name %> <%= @student.last_name %></p></td>
-  </tr>
-  <tr>
-    <td><h3>SpEd Teacher:</h3></td>
-    <% if @speducator %>
-    <td><p><%= @speducator.first_name %> <%= @speducator.last_name %></p></td>
-    <% else %>
-    <td><p>No teacher assigned</p></td>
-    <% end %>
-  </tr>
-  <tr>
-    <td><h3>The team members assigned to this student are:</h3></td>
-    <td>
-      <% unless @staff_members.empty? %>
-      <ul>
-      <% @staff_members.each do |staff| %>
-        <li><%= staff.first_name %> <%= staff.last_name %> </li>
-      <% end %>
-      </ul>
+<section id="studentInformation">
+  <table>
+    <tr>
+      <td><h3>Name:</h3></td>
+      <td><p><%= @student.first_name %> <%= @student.last_name %></p></td>
+    </tr>
+    <tr>
+      <td><h3>SpEd Teacher:</h3></td>
+      <% if @speducator %>
+      <td><p><%= @speducator.first_name %> <%= @speducator.last_name %></p></td>
       <% else %>
-      <p>There are no staff members assigned to this students BIP team</p>
+      <td><p>No teacher assigned</p></td>
       <% end %>
-      <%= link_to("Manage Team Members", school_student_team_path(@school, @student)) %>
-    </td>
-</table>
+    </tr>
+    <tr>
+      <td><h3>The team members assigned to this student are:</h3></td>
+      <td>
+        <% unless @staff_members.empty? %>
+        <ul>
+        <% @staff_members.each do |staff| %>
+          <li><%= staff.first_name %> <%= staff.last_name %> </li>
+        <% end %>
+        </ul>
+        <% else %>
+        <p>There are no staff members assigned to this students BIP team</p>
+        <% end %>
+        <%= link_to("Manage Team Members", school_student_team_path(@school, @student)) %>
+      </td>
+  </table>
 
 
-<%= render 'shared/card_group' %>
-
+  <%= render 'shared/card_group' %>
+  <%= render 'shared/bip_group' %>
+</section>

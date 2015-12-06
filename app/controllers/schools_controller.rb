@@ -28,7 +28,7 @@ class SchoolsController < ApplicationController
   def destroy
     @school = School.find(params[:id])
     @school.destroy
-    redirect_to '/'
+    redirect_to "/admins/#{current_user.id}"
   end
 
   private

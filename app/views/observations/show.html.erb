@@ -1,0 +1,20 @@
+<section id="observationInformation">
+  <h4>Teacher:</h4>
+  <p><%= @observation.user.first_name %> <%= @observation.user.last_name %></p>
+  <h4>Student:</h4>
+  <p><%= @observation.student.first_name %> <%= @observation.student.last_name %></p>
+  <h4>Start:</h4>
+  <p><%= @observation.start %></p>
+  <h4>End:</h4>
+  <p><%= @observation.finish %></p>
+  <div id="observationRecords">
+    <h4>Records:</h4>
+    <% if @records.empty? %>
+      <p>There are no records associated with this observation.</p>
+    <% else %>
+      <% @records.each do |record| %>
+        <h5><%= record.goal.prompt %> : <%= record.result %></h4>
+      <% end %>
+    <% end %>
+  </div>
+</section>
