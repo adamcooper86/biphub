@@ -8,6 +8,7 @@ class UsersController < ApplicationController
     @teachers = @school.teachers
     @speducators = @school.speducators
     @students = @school.students
-    @observations = @user.observations
+    @observations = @user.observations.order('created_at DESC')
+    @student = Student.find(params[:student_id]) if params[:student_id]
   end
 end

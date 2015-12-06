@@ -67,8 +67,8 @@ FactoryGirl.define do
     school
   end
   factory :student do
-    first_name "John"
-    last_name  "Doe"
+    first_name Faker::Name.first_name
+    last_name  Faker::Name.last_name
     school
   end
   factory :school do
