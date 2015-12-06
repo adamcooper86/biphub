@@ -37,3 +37,11 @@ RSpec.describe ObservationsController, type: :controller do
     end
   end
 end
+
+RSpec.describe Api::V1::ObservationsController, :type => :controller, focus: true do
+  let(:user){ FactoryGirl.create(:user) }
+
+  subject { xhr :get, :index, user_id: user.id}
+
+  it { is_expected.to be_success}
+end
