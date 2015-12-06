@@ -84,6 +84,29 @@ feature "Using teacher dashboard", js: false do
       expect(page).to have_content 'TestTeacher'
       expect(find('#observationRecords')).to have_content 1
     end
+    feature "Filtering the results of the table" do
+      given(:observation1){ FactoryGirl.create :observation, user: teacher, student: FactoryGirl.create(:student, first_name: 'test') }
+
+      scenario 'by not seeing the filter form if there are no observations'  do
+        expect(page).to have_selector "#observationsTable"
+        expect(page).not_to have_selector "#filterBar"
+      end
+      scenario 'by using the filter form to select only one student'  do
+        observation
+        observation1
+        click_on 'Dashboard'
+        expect(page).to have_selector "#observationsTable"
+        expect(page).to have_selector "#filterBar"
+
+        within '#studentFilter' do
+          select observation1.student.first_name, :from => 'student_id'
+        end
+        click_on 'Filter Results'
+
+        expect(page).to have_content observation1.student.first_name
+        expect(find("#observationsTable table")).not_to have_content observation.student.first_name
+      end
+    end
   end
 end
 

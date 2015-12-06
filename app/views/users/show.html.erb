@@ -44,6 +44,15 @@
       <% end %>
     </section>
     <section id="observationsTable">
+    <% unless @observations.empty? %>
+      <div id="filterBar">
+        <h2>Filter Table: </h2>
+        <%= form_tag users_path(@user), method: "get", id: 'studentFilter' do%>
+          Student: <%= select_tag 'student_id', options_for_select(observations_students_options(@observations)) %>
+          <%= submit_tag "Filter Results" %>
+        <% end %>
+      </div>
+    <% end %>
       <table>
         <tr>
           <th>Teacher</th>
@@ -53,6 +62,7 @@
           <th>Results</th>
         </tr>
         <% @answered_observations = @observations.select{|observation| observation.is_answered? } %>
+        <% @answered_observations = @answered_observations.select{|observation| observation.student == @student } if @student %>
         <% if @answered_observations.empty? %>
         <tr>
           <td colspan="5">We're sorry, We didn't find any answered observations assigned to you.</td>
