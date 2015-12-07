@@ -1,7 +1,6 @@
 require_relative 'api_controller'
 
 class Api::V1::ObservationsController < ApiController
-  skip_before_action :verify_authenticity_token
 
   def index
     if params[:authenticity_token] && params[:user_id]
@@ -18,11 +17,5 @@ class Api::V1::ObservationsController < ApiController
     else
       render text: "Error: User_id not provided", status: 403
     end
-  end
-
-  private
-  def authenticated_user user_id, authenticity_token
-    user = User.find(user_id)
-    user if user.authenticity_token == authenticity_token
   end
 end
