@@ -109,7 +109,7 @@ RSpec.describe Api::V1::ObservationsController, :type => :controller, focus: tru
     end
   end
   context 'patch #update' do
-    subject { xhr :patch, :update, id: observation.id, user_id: user.id, authenticity_token: user.authenticity_token, observation: "observation"}
+    subject { xhr :patch, :update, { id: observation.id, user_id: user.id, authenticity_token: user.authenticity_token, observation: {id: observation.id, records_attributes: [id: record.id, result: "answer"]}}}
 
     it { is_expected.to be_success }
   end
