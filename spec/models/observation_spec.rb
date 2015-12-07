@@ -38,6 +38,28 @@ RSpec.describe Observation, type: :model do
     end
   end
 
+  context '.unanswered_observation_collection' do
+    let(:teacher){ FactoryGirl.create :teacher }
+    let(:observations){
+      3.times do
+        observation = FactoryGirl.create :observation, user_id: teacher.id
+        FactoryGirl.create :record, observation: observation
+      end
+      teacher.observations
+    }
+
+    it 'raises an error if not passed a group of observations' do
+      expect{Observation.unanswered_observation_collection(["observation"])}.to raise_error ArgumentError, 'Observations arguement contains objects that are not observations'
+    end
+    it 'returns a collections of observations' do
+      collection = Observation.unanswered_observation_collection(observations)
+      expect(collection[0]).to be_an Array
+      expect(collection[0][0]).to be_a Observation
+      expect(collection[0][1]).to be_a ActiveRecord::Associations::CollectionProxy
+      expect(collection[0][1][0]).to be_a Record
+    end
+  end
+
   context "#is_answered?" do
     let(:observation) { Observation.create }
     let(:record) { FactoryGirl.create :record }

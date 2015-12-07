@@ -8,13 +8,18 @@ class Observation < ActiveRecord::Base
   validates :user, :student, :start, :finish, presence: true
 
   def self.create_from_cards cards
-    observations = []
-    cards.each do |card|
+    cards.map do |card|
       raise ArgumentError, 'Cards arguement contains objects that are not cards' unless card.is_a? Card
       observation = self.create student_id: card.student.id, user_id: card.user.id, start: card.start, finish: card.finish
-      observations << observation
+      observation
     end
-    observations
+  end
+
+  def self.unanswered_observation_collection observations
+    observations.map{|observation|
+      raise ArgumentError, 'Observations arguement contains objects that are not observations' unless observation.is_a? Observation
+      [observation, observation.records]
+    }
   end
 
   def is_answered?
