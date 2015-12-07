@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '4.2.3'
-gem 'rspec-rails'
+gem 'rails-api'
 gem 'pg'
 gem 'uglifier', '>= 1.3.0'
 gem 'jquery-rails'
