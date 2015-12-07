@@ -38,7 +38,7 @@ RSpec.describe ObservationsController, type: :controller do
   end
 end
 
-RSpec.describe Api::V1::ObservationsController, :type => :controller, focus: true do
+RSpec.describe Api::V1::ObservationsController, :type => :controller do
   let(:user){ FactoryGirl.create(:user, authenticity_token: "token") }
   let(:observation){ FactoryGirl.create :observation, user: user }
   let(:answered_observation){ FactoryGirl.create :observation, user: user }
@@ -109,8 +109,12 @@ RSpec.describe Api::V1::ObservationsController, :type => :controller, focus: tru
     end
   end
   context 'patch #update' do
-    subject { xhr :patch, :update, { id: observation.id, user_id: user.id, authenticity_token: user.authenticity_token, observation: {id: observation.id, records_attributes: [id: record.id, result: "answer"]}}}
+    subject { xhr :patch, :update, { id: observation.id, user_id: user.id, authenticity_token: user.authenticity_token, observation: {id: observation.id, records_attributes: [id: record.id, result: 10]}}}
 
     it { is_expected.to be_success }
+    it 'Returns a json response with the updated observation' do
+      subject
+      expect(JSON.parse(response.body)["records"][0]["result"]).to eq 10
+    end
   end
 end

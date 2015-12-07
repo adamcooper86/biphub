@@ -24,10 +24,11 @@ class Api::V1::ObservationsController < ApiController
       @user = authenticated_user params[:user_id], params[:authenticity_token]
       if @user
         @observation = Observation.find params[:id]
-        p params
-        p @observation
-        # @observation.update_attributes(observation_params)
-        render :json => {notice: "Observation updated"}
+        if @observation.update_attributes(observation_params)
+          render :json =>  { observation: @observation, records: @observation.records }
+        else
+          render text: "Error: Could not update the observation", status: 403
+        end
       else
         render text: "Error: Could not authenticate user", status: 403
       end
