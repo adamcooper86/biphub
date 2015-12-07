@@ -38,7 +38,7 @@ RSpec.describe ObservationsController, type: :controller do
   end
 end
 
-RSpec.describe Api::V1::ObservationsController, :type => :controller, focus: true do
+RSpec.describe Api::V1::ObservationsController, :type => :controller do
   let(:user){ FactoryGirl.create(:user, authenticity_token: "token") }
   let(:observation){ FactoryGirl.create :observation, user: user }
   let(:record){ FactoryGirl.create :record, observation: observation}
