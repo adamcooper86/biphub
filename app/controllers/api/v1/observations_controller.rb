@@ -1,4 +1,6 @@
-class Api::V1::ObservationsController < ApplicationController
+require_relative 'api_controller'
+
+class Api::V1::ObservationsController < ApiController
   skip_before_action :verify_authenticity_token
 
   def index
