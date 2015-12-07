@@ -38,7 +38,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       post '/login' => "sessions#create"
-      resources :observations, only: [:index]
+      resources :observations, only: [:index, :update]
     end
   end
 end

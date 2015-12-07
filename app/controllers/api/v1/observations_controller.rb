@@ -18,4 +18,7 @@ class Api::V1::ObservationsController < ApiController
       render text: "Error: User_id not provided", status: 403
     end
   end
+
+  def update
+  end
 end
