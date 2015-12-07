@@ -38,10 +38,12 @@ RSpec.describe ObservationsController, type: :controller do
   end
 end
 
-RSpec.describe Api::V1::ObservationsController, :type => :controller do
+RSpec.describe Api::V1::ObservationsController, :type => :controller, focus: true do
   let(:user){ FactoryGirl.create(:user, authenticity_token: "token") }
   let(:observation){ FactoryGirl.create :observation, user: user }
+  let(:answered_observation){ FactoryGirl.create :observation, user: user }
   let(:record){ FactoryGirl.create :record, observation: observation}
+  let(:answered_record){ FactoryGirl.create :record, result: "answered", observation: answered_observation }
   before(:each){
     record
   }
@@ -56,6 +58,14 @@ RSpec.describe Api::V1::ObservationsController, :type => :controller do
     expect(JSON.parse(response.body)[0][1][0]['id']).to eq(record.id)
   end
 
+  it 'does not return answered observations' do
+    answered_record
+    subject
+    expect(JSON.parse(response.body)).to be_truthy
+    expect(JSON.parse(response.body)[0][0]['id']).to eq(observation.id)
+    expect(JSON.parse(response.body)[0][1][0]['id']).to eq(record.id)
+    expect(JSON.parse(response.body).size).to eq 1
+  end
   context 'no authenticity_token provided' do
     subject { xhr :get, :index, user_id: user.id}
     it "has a 403 status code for invalid email" do

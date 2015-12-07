@@ -45,6 +45,10 @@ RSpec.describe Observation, type: :model do
         observation = FactoryGirl.create :observation, user_id: teacher.id
         FactoryGirl.create :record, observation: observation
       end
+      3.times do
+        observation = FactoryGirl.create :observation, user_id: teacher.id
+        FactoryGirl.create :record, observation: observation, result: 'answered'
+      end
       teacher.observations
     }
 
@@ -57,6 +61,7 @@ RSpec.describe Observation, type: :model do
       expect(collection[0][0]).to be_a Observation
       expect(collection[0][1]).to be_a ActiveRecord::Associations::CollectionProxy
       expect(collection[0][1][0]).to be_a Record
+      expect(collection.size).to eq 3
     end
   end
 

@@ -16,10 +16,11 @@ class Observation < ActiveRecord::Base
   end
 
   def self.unanswered_observation_collection observations
-    observations.map{|observation|
+    observations = observations.reject {|observation|
       raise ArgumentError, 'Observations arguement contains objects that are not observations' unless observation.is_a? Observation
-      [observation, observation.records]
+      observation.is_answered?
     }
+    observations.map{|observation| [observation, observation.records] }
   end
 
   def is_answered?
