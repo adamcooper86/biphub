@@ -38,7 +38,7 @@ RSpec.describe ObservationsController, type: :controller do
   end
 end
 
-RSpec.describe Api::V1::ObservationsController, :type => :controller, focus: true do
+RSpec.describe Api::V1::ObservationsController, :type => :controller do
   let(:user){ FactoryGirl.create(:user, authenticity_token: "token") }
   let(:observation){ FactoryGirl.create :observation, user: user }
   let(:answered_observation){ FactoryGirl.create :observation, user: user }
@@ -59,6 +59,7 @@ RSpec.describe Api::V1::ObservationsController, :type => :controller, focus: tru
       expect(JSON.parse(response.body)[0][0]['id']).to eq observation.id
       expect(JSON.parse(response.body)[0][1][0]['id']).to eq record.id
       expect(JSON.parse(response.body)[0][1][0]['prompt']).to eq goal.prompt
+      expect(JSON.parse(response.body)[0][2]['nickname']).to eq observation.student.nickname
     end
 
     it 'does not return answered observations' do

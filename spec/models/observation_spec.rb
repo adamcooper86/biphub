@@ -59,8 +59,11 @@ RSpec.describe Observation, type: :model do
       collection = Observation.unanswered_observation_collection(observations)
       expect(collection[0]).to be_an Array
       expect(collection[0][0]).to be_a Observation
-      expect(collection[0][1]).to be_a ActiveRecord::Associations::CollectionProxy
-      expect(collection[0][1][0]).to be_a Record
+      expect(collection[0][1]).to be_a Array
+      expect(collection[0][1][0][:id]).to be_truthy
+      expect(collection[0][2]).to be_a Hash
+      expect(collection[0][2][:nickname]).to eq observations[0].student.nickname
+
       expect(collection.size).to eq 3
     end
   end
@@ -85,7 +88,7 @@ RSpec.describe Observation, type: :model do
     let(:record) { FactoryGirl.create :record, observation: observation, goal: goal }
 
     it 'returns a collection of records with prompts added' do
-      expect(observation.records_with_prompt).to be truthy
+      expect(observation.records_with_prompt).to be_truthy
     end
   end
 end

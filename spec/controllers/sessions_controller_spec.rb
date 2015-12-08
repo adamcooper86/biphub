@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Api::V1::SessionsController, :type => :controller, focus: true do
+RSpec.describe Api::V1::SessionsController, :type => :controller do
   let(:user){ FactoryGirl.create(:teacher) }
 
   context "POST #create" do

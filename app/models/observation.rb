@@ -20,7 +20,7 @@ class Observation < ActiveRecord::Base
       raise ArgumentError, 'Observations arguement contains objects that are not observations' unless observation.is_a? Observation
       observation.is_answered?
     }
-    observations.map{|observation| [observation, observation.records_with_prompt] }
+    observations.map{|observation| [observation, observation.records_with_prompt, {nickname: observation.student.nickname}] }
   end
 
   def records_with_prompt
