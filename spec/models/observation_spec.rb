@@ -79,5 +79,13 @@ RSpec.describe Observation, type: :model do
     end
 
   end
+  context "#records_with_prompt" do
+    let(:goal){ FactoryGirl.create :goal, prompt: "How many?" }
+    let(:observation) { Observation.create }
+    let(:record) { FactoryGirl.create :record, observation: observation, goal: goal }
 
+    it 'returns a collection of records with prompts added' do
+      expect(observation.records_with_prompt).to be truthy
+    end
+  end
 end
