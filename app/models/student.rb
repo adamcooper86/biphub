@@ -31,4 +31,14 @@ class Student < ActiveRecord::Base
     end
     observations
   end
+
+  def nickname
+    self.create_nickname unless self.alias
+    self.alias
+  end
+  def create_nickname
+    nickname = self.first_name.slice(0..1).upcase
+    nickname += self.last_name.slice(0..1).upcase
+    self.update_attribute :alias, nickname
+  end
 end

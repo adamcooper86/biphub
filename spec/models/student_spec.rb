@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Student, type: :model do
+  let(:student){ FactoryGirl.create :student, first_name: 'Joseph', last_name: 'Hammond' }
+
   context 'validations' do
     it 'requires a first_name' do
       expect(FactoryGirl.build(:student, first_name: "")).not_to be_valid
@@ -13,8 +15,23 @@ RSpec.describe Student, type: :model do
     end
   end
 
+  describe '#nickname' do
+    it 'Sets the students alias if it has not been set yet' do
+      expect{student.nickname}.to change{ student.alias }
+    end
+    it 'Returns the students alias if it has been set' do
+      student.update_attribute(:alias, 'alias')
+      expect(student.nickname).to eq 'alias'
+    end
+  end
+  describe '#create_nickname' do
+    it 'Takes the first two letters of first and last and puts them together' do
+      student.nickname
+      expect(student.alias).to eq 'JOHA'
+    end
+  end
+
   describe "Student Class Methods" do
-    let(:student){ FactoryGirl.create :student }
     let(:teacher){ FactoryGirl.create :teacher }
     let(:bip){ FactoryGirl.create :bip }
     before(:each){
