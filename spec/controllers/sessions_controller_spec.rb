@@ -1,7 +1,7 @@
 require "rails_helper"
 
-RSpec.describe Api::V1::SessionsController, :type => :controller do
-  let(:user){ FactoryGirl.create(:user) }
+RSpec.describe Api::V1::SessionsController, :type => :controller, focus: true do
+  let(:user){ FactoryGirl.create(:teacher) }
 
   context "POST #create" do
     context 'given valid credentials' do
@@ -14,6 +14,15 @@ RSpec.describe Api::V1::SessionsController, :type => :controller do
       it "returns a json object with a token" do
         expect(JSON.parse(response.body)["token"]).to be_truthy
         expect(JSON.parse(response.body)["token"]).to be_a String
+      end
+
+      it "returns a json object with a first and last name" do
+        expect(JSON.parse(response.body)["first_name"]).to eq user.first_name
+        expect(JSON.parse(response.body)["last_name"]).to eq user.last_name
+      end
+
+      it "returns a json object with a school_name" do
+        expect(JSON.parse(response.body)["school_name"]).to eq user.school.name
       end
     end
 

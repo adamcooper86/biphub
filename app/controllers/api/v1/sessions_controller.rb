@@ -7,7 +7,7 @@ class Api::V1::SessionsController < ApiController
     if @user
       if @user.authenticate(params[:password])
         token = authenticity_token
-        render :json => {token: token, id: @user.id }
+        render :json => {token: token, id: @user.id, first_name: @user.first_name, last_name: @user.last_name, school_name: @user.school.name }
       else
         render :text => "User and Password Don't Match", :status => 403
       end
