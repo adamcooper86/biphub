@@ -26,7 +26,8 @@ class Observation < ActiveRecord::Base
   def records_with_prompt
     self.records.map do |record|
       prompt = record.goal.prompt
-      {id: record.id, result: record.result, prompt: prompt}
+      meme = record.goal.meme
+      {id: record.id, result: record.result, meme: meme, prompt: prompt}
     end
   end
 
