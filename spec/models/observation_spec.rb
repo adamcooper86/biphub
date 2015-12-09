@@ -61,6 +61,8 @@ RSpec.describe Observation, type: :model do
       expect(collection[0][0]).to be_a Observation
       expect(collection[0][1]).to be_a Array
       expect(collection[0][1][0][:id]).to be_truthy
+      expect(collection[0][1][0][:meme]).to eq observations[0].records[0].goal.meme
+      expect(collection[0][1][0][:prompt]).to eq observations[0].records[0].goal.prompt
       expect(collection[0][2]).to be_a Hash
       expect(collection[0][2][:nickname]).to eq observations[0].student.nickname
 
