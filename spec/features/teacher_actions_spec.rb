@@ -23,8 +23,26 @@ feature "Using teacher dashboard", js: false do
   end
 
   feature "Teacher panel contents" do
-    scenario 'there is a confirmation message that the card queue is empty' do
-      expect(page).to have_content "Your queue is empty. Good job!!"
+    context "There are no records" do
+      scenario 'there is a confirmation message that the card queue is empty' do
+        expect(page).to have_content "Your queue is empty. Good job!!"
+      end
+    end
+
+    context "There are unanswered observations" do
+      background do
+        3.times do
+          record
+        end
+        click_on 'Dashboard'
+      end
+      scenario 'by seeing if the empty queue message is not there' do
+        expect(page).not_to have_content "Your queue is empty. Good job!!"
+      end
+      scenario 'by seeing if there is an unanswered observation' do
+        expect(page).to have_selector "#liveObservation"
+        expect(page).to have_content observation.student.first_name
+      end
     end
   end
 
