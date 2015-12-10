@@ -39,8 +39,12 @@
   <section id="teacherPanel">
     <h1>Teacher Panel</h1>
     <section id="observationPanel">
-      <% if @observations %>
-      <p>Your queue is empty. Good job!!</p>
+      <% if @observations.empty? %>
+        <p>Your queue is empty. Good job!!</p>
+      <% else %>
+        <div id="liveObservation">
+          <%= render partial: "shared/observation_form", locals: {observation: @observations.first}  %>
+        </div>
       <% end %>
     </section>
     <section id="observationsTable">
