@@ -52,6 +52,46 @@ RSpec.describe Api::V1::SessionsController, :type => :controller do
       end
     end
   end
+  context "POST #show" do
+    context 'given valid credentials' do
+      before(:each){xhr :post, :show, { user_id: user.id, token: user.authenticity_token }}
+      it "has a 200 status code" do
+        expect(response).to be_success
+        expect(response).to have_http_status(200)
+      end
+
+      it "returns a json object with a token" do
+        expect(JSON.parse(response.body)["token"]).to be_truthy
+        expect(JSON.parse(response.body)["token"]).to be_a String
+      end
+    end
+
+    context 'given an invalid user id' do
+      before(:each){xhr :post, :show, { user_id: nil, token: user.authenticity_token }}
+      it "has a 403 status code for invalid user_id" do
+        expect(response).not_to be_success
+        expect(response).to have_http_status(403)
+      end
+
+      it "returns a text message that id is invalid" do
+        expect(response.body).to be_a String
+        expect(response.body).to eq "User With That Id Not Found"
+      end
+    end
+
+    context 'given an invalid token' do
+      before(:each){xhr :post, :show, { user_id: user.id, token: "wrongtoken" }}
+      it "has a 403 status code for invalid token" do
+        expect(response).not_to be_success
+        expect(response).to have_http_status(403)
+      end
+
+      it "returns a text message that token is invalid" do
+        expect(response.body).to be_a String
+        expect(response.body).to eq "User Id and Token Don't Match"
+      end
+    end
+  end
 end
 
 RSpec.describe SessionsController, :type => :controller do
