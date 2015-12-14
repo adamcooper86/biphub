@@ -70,6 +70,13 @@ RSpec.describe Api::V1::ObservationsController, :type => :controller do
       expect(JSON.parse(response.body)[0][1][0]['id']).to eq(record.id)
       expect(JSON.parse(response.body).size).to eq 1
     end
+    it 'returns an empty array if there are no unanswered observations' do
+      record.update_attribute(:result, 10)
+      subject
+      expect(JSON.parse(response.body)).to be_truthy
+      expect(JSON.parse(response.body)[0]).to be_falsey
+    end
+
     context 'no authenticity_token provided' do
       subject { xhr :get, :index, user_id: user.id}
       it "has a 403 status code for invalid email" do
