@@ -80,7 +80,7 @@ RSpec.describe Api::V1::SessionsController, :type => :controller do
     end
 
     context 'given an invalid token' do
-      before(:each){xhr :post, :show, { user_id: user.id, token: "wrongtoken" }}
+      before(:each){xhr :post, :show, { user_id: user.id, authenticity_token: "wrongtoken" }}
       it "has a 403 status code for invalid token" do
         expect(response).not_to be_success
         expect(response).to have_http_status(403)

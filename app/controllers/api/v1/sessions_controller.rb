@@ -19,7 +19,7 @@ class Api::V1::SessionsController < ApiController
   def show
     @user = User.where(id: params[:user_id]).first
     if @user
-      if authenticated_user @user.id, params[:token]
+      if authenticated_user @user.id, params[:authenticity_token]
         token = authenticity_token
         render :json => {token: token, id: @user.id }
       else
