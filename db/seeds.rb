@@ -28,7 +28,15 @@ end
 
   bip = Bip.create
   student.bips << bip
-  bip.goals << [Goal.create(prompt: 'How many:'), Goal.create(prompt: 'How long:'), Goal.create(prompt: 'How well:')]
+  number = Random.new.rand
+  puts number
+  p number > 0.5
+
+  if Random.new.rand > 0.5
+    bip.goals << [Goal.create(prompt: 'How well did the student show enthusiasm?', text: "Student will demonstrate enthusiasm for classroom activities.", meme: "Qualitative"), Goal.create(prompt: 'How long did the student work uninterupted:', text: "Student will increase work stamina to 10 minutes of uninterupted work.", meme: "Time"), Goal.create(prompt: 'What percentage of inclass work did the student complete?', text: "The student will increase their inclass work completion to 60%", meme: "Percentage")]
+  else
+    bip.goals << [Goal.create(prompt: 'How many times did the student get out of their seat?', text: "Student will remain in their assigned seat during class time.", meme: "Incidence"), Goal.create(prompt: 'Did the student leave the classroom or school?', text: "Student will reduce roaming in the hallways by staying in class, unless given a hallpasss.", meme: "Boolean"), Goal.create(prompt: 'What percentage of inclass work did the student complete?', text: "The student will increase their inclass work completion to 60%", meme: "Percentage")]
+  end
 end
 
 Student.create_daily_records
