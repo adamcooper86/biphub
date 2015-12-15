@@ -1,18 +1,17 @@
 # Biphub
 Biphub is a web/mobile application that allows teams of teachers and administrators to accurately track the implementation of behavior interventions.
 
-- The mobile application allows for teachers to quickly and accurately enter data directly into the database
+- The mobile application allows for teachers to quickly and accurately enter data directly into the database. You can see the mobile app repo at https://github.com/adamfluke/BipHubMobile.
 
-- The web application allows for Sped. teachers and service coordinators to view and query the data.
+- The web application allows for Special Educaiton Teachers and service coordinators to view and query the data.
 
 ## Contributing:
 Biphub is being built by a cadre of generous developers. Develelopement is coordinated through a trello board, https://trello.com/b/KrmMLQ2l/biphub-project-board.
 
 ### Current Contributors
-Adam Fluke
-Jacob Rogers
-Harvey Ngo
-Chris Scott
+<li>Adam Fluke</li>
+<li>Charlotte Manetta</li>
+<li>Anderw Patterson</li>
 
 ## Current Alpa Deployement
 The developement app is released to heroku at: https://biphub.herokuapp.com/
