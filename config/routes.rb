@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
   resources :blogs
   resources :articles
+  resources :reports, only: [:index]
 
   resources :schools do
     resources :coordinators
