@@ -1,2 +1,24 @@
 .navbar
-  background-color: $red
+  background-color: $bright-blue
+
+  ul.nav a, a.navbar-brand
+    color: $white
+    text-shadow: 1px 1px $dark-blue
+
+  ul.nav a:hover, a.navbar-brand:hover
+    color: $dark-blue
+    background-color: $white
+    text-shadow: none
+    font-size: 15px
+
+  a.navbar-brand:hover
+    font-size: 19px
+
+  a.active
+    background-color: $muted-blue
+
+  a.active:hover
+    color: $white
+    background-color: $muted-blue !important
+    text-shadow: 1px 1px $dark-blue
+    font-size: 18px
