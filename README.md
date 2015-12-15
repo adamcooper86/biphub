@@ -27,7 +27,7 @@ When adding features to Biphub, it is crucial that we add the necassary test to 
 </ol>
 
 ## Terms:
-###Types of goals:
+### Types of goals:
 It is important that BipHub corrently manange divergent types of data. To help this, goals are given a meme type, which helps define how the data is tracked, and how the UI is styled. The types of goals are:
 <ul>
   <li>Qualitative: scale of 1-5. This is styled as a slider in the mobile app, and a select box in the wwebsite.</li>
@@ -35,3 +35,12 @@ It is important that BipHub corrently manange divergent types of data. To help t
   <li>Time(duration): an integer representing the number of seconds/minutes. Styled as select boxes for website, and datebox flipbox for the mobile app.</li>
   <li>Percent: an integer 0-100 representing a percentage. This is styled as a slider on the mobile app and a select box on the website.</li>
 </ul>
+### Types of Users
+Users, in a general sense, are the adults using the application. There are four distinct types of users, but in many cases they are interchangeable.
+<ul>
+  <li>Admin: This is a limited number of logins that manages the school accounts. They are the site administrators, not school or district employees.</li>
+  <li>Coordinator: These users are humans who work at the school, but aren't teachers or speducators. They have the most rights for managing students, speducators, and teachers.</li>
+  <li>Speducator: These users are special education teachers employeed at the school. They are special because they have case_students, students whose Bip, Goals, and Cards they directly manage.</li>
+  <li>Teacher: The teacher is the general education, classroom teacher. Their primary role is to input data into the system, and do not have students assigned to them to manage bips, or goals, etc.</li>
+</ul>
+All users owned by a school, coordinators, speducators, or teachers, can be assigned to a observation or card to input data, and can log into the mobile site.
