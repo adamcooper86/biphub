@@ -9,9 +9,11 @@ Biphub is a web/mobile application that allows teams of teachers and administrat
 Biphub is being built by a cadre of generous developers. Develelopement is coordinated through a trello board, https://trello.com/b/KrmMLQ2l/biphub-project-board.
 
 ### Current Contributors
-<li>Adam Fluke</li>
-<li>Charlotte Manetta</li>
-<li>Anderw Patterson</li>
+<ul>
+  <li>Adam Fluke</li>
+  <li>Charlotte Manetta</li>
+  <li>Anderw Patterson</li>
+</ul>
 
 ## Current Alpa Deployement
 The developement app is released to heroku at: https://biphub.herokuapp.com/
@@ -24,9 +26,12 @@ When adding features to Biphub, it is crucial that we add the necassary test to 
   <li>A senario (feature test) should be made for your feature, including testing for failures. All feature tests should be marked as js: true so that they are run by selenium.</li>
 </ol>
 
-## Information:
-Types of goals:
-- qualitative: scale of 1-5
-- incident: an integer of the # of incedences
-- time(length): an integer representing the number of seconds/minutes
-- percent: an integer 0-100 representing a percentage
+## Terms:
+###Types of goals:
+It is important that BipHub corrently manange divergent types of data. To help this, goals are given a meme type, which helps define how the data is tracked, and how the UI is styled. The types of goals are:
+<ul>
+  <li>Qualitative: scale of 1-5. This is styled as a slider in the mobile app, and a select box in the wwebsite.</li>
+  <li>Incident: an integer of the # of incedences. This is styled as an input box in both environments.</li>
+  <li>Time(duration): an integer representing the number of seconds/minutes. Styled as select boxes for website, and datebox flipbox for the mobile app.</li>
+  <li>Percent: an integer 0-100 representing a percentage. This is styled as a slider on the mobile app and a select box on the website.</li>
+</ul>
