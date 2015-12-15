@@ -1,5 +1,12 @@
 <section id="reportsPanel">
 
+<h3>Reports for: <%= @user.first_name %> <%= @user.last_name %></h3>
 
+<h2>No student selected.</h2>
+
+<%= form_tag reports_path, method: "get", id: 'studentFilter' do%>
+  Student: <%= select_tag 'student_id', options_for_select(case_studentsagit _options(@students)) %>
+  <%= submit_tag "Filter Results" %>
+<% end %>
 
 </section>

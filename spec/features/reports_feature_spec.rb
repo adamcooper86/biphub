@@ -23,15 +23,22 @@ feature "Using the reports panel", js: false, focus: true do
 
     visit login_path
     within "#login_form" do
-      fill_in 'email', with: "speducator@biphub.com"
-      fill_in 'password', with: "Password"
+      fill_in 'email', with: speducator.email
+      fill_in 'password', with: speducator.password
     end
     click_on 'Submit'
   end
 
-  scenario ' by going to the dashboard' do
+  scenario ' by going to the reports dashboard' do
     click_on 'Reports'
 
     expect(page).to have_selector '#reportsPanel'
+
+    expect(page).to have_selector '#studentFilter'
+    expect(page).to have_content speducator.last_name
+    expect(page).to have_content "No student selected."
+    expect(page).not_to have_selector ".graph"
+    expect(page).not_to have_selector ".studentData"
+
   end
 end
