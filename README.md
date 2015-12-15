@@ -6,7 +6,7 @@ Biphub is a web/mobile application that allows teams of teachers and administrat
 - The web application allows for Special Educaiton Teachers and service coordinators to view and query the data.
 
 ## Contributing:
-Biphub is being built by a cadre of generous developers. Develelopement is coordinated through a trello board, https://trello.com/b/KrmMLQ2l/biphub-project-board.
+Biphub is being built by a cadre of generous developers. Development is coordinated through a trello board, https://trello.com/b/KrmMLQ2l/biphub-project-board.
 
 ### Current Contributors
 <ul>
