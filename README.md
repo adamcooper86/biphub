@@ -18,9 +18,11 @@ The developement app is released to heroku at: https://biphub.herokuapp.com/
 
 ## Testing
 When adding features to Biphub, it is crucial that we add the necassary test to allow the project to be maintained over the long term. As such, please follow these guidelines when making tests, and before making the pull request ensure all tests are passing.
-1. Model test don't need to test ActiveRecord, or associations. They should test all validations and any instance or class methods on models.
-2. Controller tests need to be made for each controller action that has a route. To the greatest degree possible, models shoule be stubbed out with FactoryGirl objects.
-3. A senario (feature test) should be made for your feature, including testing for failures. All feature tests should be marked as js: true so that they are run by selenium.
+<ol>
+  <li>Model test don't need to test ActiveRecord, or associations. They should test all validations and any instance or class methods on models.</li>
+  <li>Controller tests need to be made for each controller action that has a route. To the greatest degree possible, models shoule be stubbed out with FactoryGirl objects.</li>
+  <li>A senario (feature test) should be made for your feature, including testing for failures. All feature tests should be marked as js: true so that they are run by selenium.</li>
+</ol>
 
 ## Information:
 Types of goals:
