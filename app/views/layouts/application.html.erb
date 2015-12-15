@@ -38,6 +38,8 @@
           </ul>
           <ul class="nav navbar-nav" style="float: right">
             <% if current_user %>
+
+              <li><%= link_to "Reports", reports_path %></li>
               <% if current_user.is_a? Admin %>
                 <li><%= link_to "Dashboard", admin_path(current_user) %></li>
               <% else %>
