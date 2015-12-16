@@ -1,0 +1,50 @@
+//styles for the navigation bar that is in the application layout
+.navbar
+  background-color: $bright-blue
+
+  //for links in navs and the brand icon link
+  ul.nav li a, a.navbar-brand
+    color: $white
+    text-shadow: 1px 1px $dark-blue
+
+  ul.nav a:hover, a.navbar-brand:hover
+    color: $dark-blue
+    background-color: $white
+    text-shadow: none
+    font-size: 15px
+
+  a.navbar-brand:hover
+    font-size: 19px
+
+  //Styles for dropdown li links
+  ul.dropdown-menu
+    background-color: $dark-blue
+
+  ul.dropdown-menu li a
+    color: $white
+    text-shadow: none
+
+  ul.dropdown-menu li a:hover
+    background-color: $muted-blue
+
+  //Dropdown boxes that have been clicked on
+  .navbar-nav li.open a.dropdown-toggle
+    background-color: $white
+    color: $dark-blue
+    text-shadow: none
+
+  //Reset the active link so that it is muted and no hover effects
+  a.active
+    background-color: $muted-blue
+
+  a.active:hover
+    color: $white
+    background-color: $muted-blue !important
+    text-shadow: 1px 1px $dark-blue
+    font-size: 18px
+
+  ul.nav li a.active:hover
+    color: $white
+    background-color: $muted-blue !important
+    text-shadow: 1px 1px $dark-blue
+    font-size: 14px
