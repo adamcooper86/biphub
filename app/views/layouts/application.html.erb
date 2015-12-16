@@ -55,13 +55,13 @@
           <ul class="nav navbar-nav" style="float: right">
             <% if current_user %>
               <% if current_user.is_a? Admin %>
-                <% if current_page?(controller: "admins", action: "show") %>
+                <% if current_page?( admin_path(current_user)) %>
                   <li><%= link_to "Dashboard", admin_path(current_user), class: "active" %></li>
                 <% else %>
                   <li><%= link_to "Dashboard", admin_path(current_user) %></li>
                 <% end %>
               <% else %>
-                <% if current_page?(controller: "users", action: "show") %>
+                <% if current_page?(users_path(current_user)) %>
                   <li><%= link_to "Dashboard", users_path(current_user), class: "active" %></li>
                 <% else %>
                   <li><%= link_to "Dashboard", users_path(current_user) %></li>
