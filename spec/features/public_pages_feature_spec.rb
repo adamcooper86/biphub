@@ -56,4 +56,12 @@ feature "Visiting Public Not Protected Pages", js: false do
       expect(page).to have_content 'Articles'
     end
   end
+  feature "Going to the license and terms and conditions page" do
+    scenario 'Goig to the license page' do
+      click_on "License and Terms of Use"
+      expect(page).to have_selector "#termsandconditions"
+      expect(page).to have_selector "#license"
+      expect(page).to have_selector "#privacy"
+    end
+  end
 end
