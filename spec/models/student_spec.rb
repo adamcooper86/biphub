@@ -76,8 +76,14 @@ RSpec.describe Student, type: :model, focus: true do
         expect(student.get_records_for_goals).to be_a Array
       end
       context 'when there is a single bip with three goals, each with a record' do
-        it 'an array is returned with goal_id, observation_id, result' do
-          expect(student.get_records_for_goals[0]).to be_a Record
+        it 'an array of hashes representing goals and associated records is returned' do
+          expect(student.get_records_for_goals[0]).to be_a Hash
+        end
+        it "each Hash has a Goal Active Record Object as the value of 'goal'" do
+          expect(student.get_records_for_goals[0]["goal"]).to be_a Goal
+        end
+        it "an array of records is returned as the value of 'records'" do
+          expect(student.get_records_for_goals[0]["records"][0]).to be_a Record
         end
       end
     end

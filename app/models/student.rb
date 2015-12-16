@@ -43,14 +43,19 @@ class Student < ActiveRecord::Base
   end
 
   def get_records_for_goals
-    student_records = []
+    student_data = []
     self.bips.each do |bip|
+      goal_with_records = {}
       bip.goals.each do |goal|
+        goal_with_records["goal"] = goal
+        all_records = []
         goal.records.each do |record|
-          student_records << record
-          return student_records
+          all_records << record
+          goal_with_records["records"] = all_records
+          student_data << goal_with_records
         end
       end
     end
+    return student_data
   end
 end
