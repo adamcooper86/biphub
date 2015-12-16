@@ -3,23 +3,34 @@ $red: rgb(231, 76, 60)
 $dark-blue: rgb(44, 62, 80)
 $bright-blue: rgb(52, 152, 219)
 $muted-blue: rgb(41, 128, 185)
+$light-muted-blue: rgba(41, 128, 185, .25)
 
-body
+body, html
   background-color: $white
   color: $dark-blue
+  height: 100%
 
 .app-wrapper
   padding: 0px
+  min-height: 100%
+  height: auto !important
+  margin: 0px 0px -25px 0px
+  position: relative
 
-  footer
-    text-align: center
-
-  div.panel
+  .panel
     background-color: $white
     border: 1px solid $dark-blue
     padding: 0px
 
-    div.panel-heading
+    .panel-heading, .panel-heading a
       background-color: $muted-blue
       color: $white
+
+    .panel-heading
       border-bottom: 1px solid $dark-blue
+
+footer
+  text-align: center
+  position: relative
+  width: 100%
+

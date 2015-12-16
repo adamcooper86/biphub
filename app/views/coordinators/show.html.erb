@@ -1,12 +1,15 @@
-<section id="coordinatorInformation">
-  <table>
-    <tr>
-      <td><h3>Name:</h3></td>
-      <td><p><%= @coordinator.first_name %> <%= @coordinator.last_name %></p></td>
-    </tr>
-    <tr>
-      <td><h3>Email:</h3></td>
-      <td><p><%= @coordinator.email %></p></td>
-    </tr>
-  </table>
+<section id="adminPanel" class="row">
+  <div class="col-sm-1"></div>
+  <div class="col-sm-10">
+    <h1><%= link_to("Admin Panel", admin_path(current_user)) %> > <%= link_to(@school.name, school_path(@school)) %> > <%= @coordinator.first_name %></h1>
+    <div class="row">
+      <section id="coordinatorInformation" class="panel panel-default col-sm-5">
+        <div class="panel-body">
+          <h3>First Name: <span class="aright"><%= @coordinator.first_name %></span></h3>
+          <h3>Last name:<span class="aright"><%= @school.address %></span></h3>
+          <h3>Email:      <span class="aright"><%= @school.city %></span></h3>
+        </div>
+      </section>
+    </div>
+  </div>
 </section>

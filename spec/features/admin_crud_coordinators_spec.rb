@@ -25,7 +25,7 @@ feature "Administrator Crud for School Coordinators", js: false do
       fill_in 'coordinator_password', with: 'abc123'
       fill_in 'coordinator_password_confirmation', with: 'abc123'
     end
-    click_on 'Submit'
+    click_on 'Create Coordinator'
 
     expect(page).to have_selector '#coordinatorInformation'
   end
@@ -48,7 +48,7 @@ feature "Administrator Crud for School Coordinators", js: false do
       fill_in 'coordinator_password', with: 'abc123'
       fill_in 'coordinator_password_confirmation', with: 'abc123'
     end
-    click_on 'Submit'
+    click_on 'Update Coordinator'
 
     expect(page).to have_selector '#coordinators'
     expect(page).to have_content 'JackChanged'
