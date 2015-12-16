@@ -10,9 +10,9 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <div class="container-fluid">
+  <div class="container-fluid app-wrapper">
     <nav class="navbar navbar-default">
-      <div class="container-fluid">
+      <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
@@ -20,13 +20,29 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <%= link_to "BipHub", root_path, class: "navbar-brand active" %>
+          <% if current_page?(controller: "welcome", action: "index") %>
+            <%= link_to "BipHub", root_path, class: "navbar-brand active" %>
+          <% else %>
+            <%= link_to "BipHub", root_path, class: "navbar-brand" %>
+          <% end %>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><%= link_to "Blog", blogs_path %></li>
-            <li><%= link_to "About", about_path %></li>
-            <li><%= link_to "Contact", contact_path %></li>
+            <% if current_page?(controller: "blogs", action: "index") %>
+              <li><%= link_to "Blog", blogs_path, class: "active" %></li>
+            <% else %>
+              <li><%= link_to "Blog", blogs_path %></li>
+            <% end %>
+            <% if current_page?(controller: "welcome", action: "about") %>
+              <li><%= link_to "About", about_path, class: "active" %></li>
+            <% else %>
+              <li><%= link_to "About", about_path %></li>
+            <% end %>
+            <% if current_page?(controller: "welcome", action: "contact") %>
+              <li><%= link_to "Contact", contact_path, class: "active" %></li>
+            <% else %>
+              <li><%= link_to "Contact", contact_path %></li>
+            <% end %>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Developer <span class="caret"></span></a>
               <ul class="dropdown-menu">
@@ -41,13 +57,25 @@
 
               <li><%= link_to "Reports", reports_path %></li>
               <% if current_user.is_a? Admin %>
-                <li><%= link_to "Dashboard", admin_path(current_user) %></li>
+                <% if current_page?( admin_path(current_user)) %>
+                  <li><%= link_to "Dashboard", admin_path(current_user), class: "active" %></li>
+                <% else %>
+                  <li><%= link_to "Dashboard", admin_path(current_user) %></li>
+                <% end %>
               <% else %>
-                <li><%= link_to "Dashboard", users_path(current_user) %></li>
+                <% if current_page?(users_path(current_user)) %>
+                  <li><%= link_to "Dashboard", users_path(current_user), class: "active" %></li>
+                <% else %>
+                  <li><%= link_to "Dashboard", users_path(current_user) %></li>
+                <% end %>
               <% end %>
               <li><%= link_to "Logout", '/logout' %></li>
             <% else %>
-              <li><%= link_to 'Login', '/login' %></li>
+              <% if current_page?(controller: "sessions", action: "new") %>
+                <li><%= link_to 'Login', '/login', class: "active" %></li>
+              <% else %>
+                <li><%= link_to 'Login', '/login' %></li>
+              <% end %>
             <% end %>
           </ul>
         </div><!--/.nav-collapse -->
@@ -57,8 +85,7 @@
     <%= yield %>
 
     <footer class="footer row">
-      <div class="col-sm-2"></div>
-      <p class="col-sm-10">Website design and developement by &copy;Adam Fluke. <a href="LICENSE">License and Terms of Use</a></p>
+      <p class="col-sm-12">Website design and developement by &copy;Adam Fluke. <%= link_to 'License and Terms of Use', legal_path %></p>
     </footer>
   </div>
 </body>

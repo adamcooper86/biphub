@@ -33,4 +33,10 @@ RSpec.describe WelcomeController, :type => :controller do
       it { is_expected.to render_template "projects" }
     end
   end
+  describe "GET #legal" do
+    subject{ get :legal }
+    it { is_expected.to be_success }
+    it { is_expected.to have_http_status 200 }
+    it { is_expected.to render_template "legal" }
+  end
 end
