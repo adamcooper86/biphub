@@ -4,15 +4,22 @@ $dark-blue: rgb(44, 62, 80)
 $bright-blue: rgb(52, 152, 219)
 $muted-blue: rgb(41, 128, 185)
 
-body
+body, html
   background-color: $white
   color: $dark-blue
+  height: 100%
 
 .app-wrapper
   padding: 0px
+  min-height: 100%
+  height: auto !important
+  margin: 0px 0px -25px 0px
+  position: relative
 
   footer
     text-align: center
+    position: relative
+    width: 100%
 
   div.panel
     background-color: $white
