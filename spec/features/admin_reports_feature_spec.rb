@@ -26,7 +26,6 @@ feature "Using the reports panel", js: false do
     click_on 'Reports'
     expect(page).to have_selector '#reportsPanel'
     expect(page).to have_selector '#schoolFilter'
-    expect(page).to have_content school.name
     expect(page).to have_content "No school selected."
     expect(page).not_to have_selector ".graph"
     expect(page).not_to have_selector ".schoolData"

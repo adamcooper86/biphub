@@ -1,6 +1,15 @@
 require 'rails_helper'
 
-RSpec.describe FormOptionsHelper, type: :helper, focus: true do
+RSpec.describe FormOptionsHelper, type: :helper do
+  context "#school_options" do
+    it "returns an empty array when there are no schools = []" do
+      expect(helper.schools_options([])).to eq([])
+    end
+    it "returns a nested array of options" do
+      school1, school2 = FactoryGirl.create(:school), FactoryGirl.create(:school)
+      expect(helper.schools_options [school1, school2]).to eq([[school1.name, school1.id],[school2.name, school2.id]])
+    end
+  end
   context "#speducator_options" do
     it "returns an empty array when speducators = []" do
       expect(helper.speducator_options([])).to eq([])
