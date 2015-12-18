@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe FormOptionsHelper, type: :helper do
+RSpec.describe FormOptionsHelper, type: :helper, focus: true do
   context "#speducator_options" do
     it "returns an empty array when speducators = []" do
       expect(helper.speducator_options([])).to eq([])
@@ -26,6 +26,15 @@ RSpec.describe FormOptionsHelper, type: :helper do
     it "returns a nested array of options" do
       observation_1, observation_2, observation_3 = FactoryGirl.create(:observation), FactoryGirl.create(:observation), FactoryGirl.create(:observation)
       expect(helper.observations_students_options [observation_1, observation_2, observation_3]).to eq([[observation_1.student.first_name, observation_1.student.id],[observation_2.student.first_name, observation_2.student.id], [observation_3.student.first_name, observation_3.student.id]])
+    end
+  end
+  context "#case_students_options" do
+    it "returns an empty array when @students = []" do
+      expect(helper.case_students_options([])).to eq([])
+    end
+    it "returns a nested array of options" do
+      student_1, student_2, student_3 = FactoryGirl.create(:student), FactoryGirl.create(:student), FactoryGirl.create(:student)
+      expect(helper.case_students_options [student_1, student_2, student_3]).to eq([[student_1.first_name, student_1.id],[student_2.first_name, student_2.id], [student_3.first_name, student_3.id]])
     end
   end
 end

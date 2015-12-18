@@ -1,0 +1,62 @@
+<section id="reportsPanel">
+
+<h3>Reports for: <%= @user.first_name %> <%= @user.last_name %></h3>
+
+<% unless @student %>
+  <h2>No student selected.</h2>
+<% end %>
+<!--<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+  google.load("visualization", "1.1", {packages:["table"]});
+  google.setOnLoadCallback(drawTable);
+
+      function drawTable() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Goal Prompt');
+        data.addColumn('number', 'Record');
+        data.addRows([['This is a goal', 777]['this is another goal', 888]
+          ]);
+
+        var table = new google.visualization.Table(document.getElementById('studentTable'));
+
+        table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+      }
+</script> -->
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1.1", {packages:["table"]});
+      google.setOnLoadCallback(drawTable);
+
+      function drawTable() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Goal Prompt');
+        data.addColumn('number', 'Record');
+        // package up the data using models and helpers and deliver it to .addRows as an instance variable
+        data.addRows([
+          ['Mike',  3],
+          ['Jim',   4],
+          ['Alice', 5],
+          ['Bob',   6]
+        ]);
+
+        var table = new google.visualization.Table(document.getElementById('studentTable'));
+
+        table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+      }
+</script>
+
+<% if @student %>
+  <div class="studentData">
+    <h1><%= @student.first_name %> <%= @student.last_name %></h1>
+
+    <div id="studentTable"></div>
+    <div class="graph"></div>
+  </div>
+<% end %>
+
+<%= form_tag reports_path, method: "get", id: 'studentFilter' do%>
+  Student: <%= select_tag 'student_id', options_for_select(case_students_options(@students)) %>
+  <%= submit_tag "Filter Results" %>
+<% end %>
+
+</section>

@@ -9,4 +9,7 @@ module FormOptionsHelper
     students = observations.map{ |observation| observation.student }
     students.map { |student|[student.first_name, student.id] }
   end
+  def case_students_options students
+    students.map { |student| [student.first_name, student.id] }
+  end
 end

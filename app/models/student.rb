@@ -41,4 +41,21 @@ class Student < ActiveRecord::Base
     nickname += self.last_name.slice(0..1).upcase
     self.update_attribute :alias, nickname
   end
+
+  def get_records_for_goals
+    student_data = []
+    self.bips.each do |bip|
+      goal_with_records = {}
+      bip.goals.each do |goal|
+        goal_with_records["goal"] = goal
+        all_records = []
+        goal.records.each do |record|
+          all_records << record
+          goal_with_records["records"] = all_records
+          student_data << goal_with_records
+        end
+      end
+    end
+    return student_data
+  end
 end

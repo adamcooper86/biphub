@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Student, type: :model do
+RSpec.describe Student, type: :model, focus: true do
   let(:student){ FactoryGirl.create :student, first_name: 'Joseph', last_name: 'Hammond' }
 
   context 'validations' do
@@ -36,8 +36,19 @@ RSpec.describe Student, type: :model do
     let(:bip){ FactoryGirl.create :bip }
     before(:each){
       student.bips << bip
-      3.times{ bip.goals << FactoryGirl.create(:goal) }
+      3.times do
+        goal = FactoryGirl.create(:goal)
+        bip.goals << goal
+      end
       3.times{ student.cards << FactoryGirl.create(:card, user: teacher, student: student) }
+      student.cards.each do |card|
+        observation = FactoryGirl.create(:observation, student: student, user: teacher)
+      end
+      student.bips.first.goals.each do |goal|
+        student.observations.each do |observation|
+          goal.records << FactoryGirl.create(:record, observation: observation, result: rand(1..10))
+        end
+      end
     }
 
     context '.create_daily_records' do
@@ -58,6 +69,22 @@ RSpec.describe Student, type: :model do
       end
       it 'creates record instances' do
         expect{Student.create_daily_observations}.to change{Observation.all.count}.by(3)
+      end
+    end
+    context '.get_records_for_goals' do
+      it 'returns a collection of records' do
+        expect(student.get_records_for_goals).to be_a Array
+      end
+      context 'when there is a single bip with three goals, each with a record' do
+        it 'an array of hashes representing goals and associated records is returned' do
+          expect(student.get_records_for_goals[0]).to be_a Hash
+        end
+        it "each Hash has a Goal Active Record Object as the value of 'goal'" do
+          expect(student.get_records_for_goals[0]["goal"]).to be_a Goal
+        end
+        it "an array of records is returned as the value of 'records'" do
+          expect(student.get_records_for_goals[0]["records"][0]).to be_a Record
+        end
       end
     end
   end
