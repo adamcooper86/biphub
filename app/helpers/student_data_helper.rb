@@ -8,9 +8,9 @@ module StudentDataHelper
     rows = []
     student_data.each do |goal|
       goal_row = []
-      goal_row << goal["goal"].text
-      goal_row << goal["goal"].prompt
-      goal["records"].each do |record|
+      goal_row << goal[:goal].text
+      goal_row << goal[:goal].prompt
+      goal[:records].each do |record|
         goal_row << record.result
       end
       rows << goal_row
