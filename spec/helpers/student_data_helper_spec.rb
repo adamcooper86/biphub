@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe StudentDataHelper, type: :helper, focus: true do
+RSpec.describe StudentDataHelper, type: :helper do
   let(:goal){ FactoryGirl.create(:goal, text: "Test text", prompt: "Test Prompt") }
   let(:record){ FactoryGirl.create(:record, result: 10) }
   context "#chart_row_formatter" do
