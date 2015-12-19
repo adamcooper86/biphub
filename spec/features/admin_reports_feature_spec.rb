@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature "Using the reports panel", js: false do
-  given(:school){ FactoryGirl.create :school }
+  given(:school){ FactoryGirl.create :school, name: "test name" }
   given(:speducator){ FactoryGirl.create :speducator, school: school }
   given(:student){ FactoryGirl.create :student, speducator: speducator }
   given(:teacher){ FactoryGirl.create :teacher, school: school  }
@@ -31,24 +31,17 @@ feature "Using the reports panel", js: false do
     expect(page).not_to have_selector ".schoolData"
   end
 
-  # scenario 'by selecting a student to view' do
-  #   click_on 'Reports'
-  #   #within the form select a student and submit the form
-  #   within '#studentFilter' do
-  #     select student.first_name, :from => 'student_id'
-  #   end
-  #   click_on 'Filter Results'
-  #   expect(page).to have_selector '#reportsPanel'
-  #   expect(page).to have_selector '#studentFilter'
-  #   expect(page).to have_selector ".graph"
-  #   expect(page).to have_selector ".studentData"
+  scenario 'by selecting a school to view' do
+    click_on 'Reports'
+    within '#schoolFilter' do
+      select school.name, :from => 'school_id'
+    end
+    click_on 'Filter Results'
+    expect(page).to have_selector '#reportsPanel'
+    expect(page).to have_selector '#schoolFilter'
+    expect(page).to have_selector ".graph"
+    expect(page).to have_selector ".schoolData"
 
-  #   expect(page).not_to have_content "No student selected."
-  #   expect(page).to have_content speducator.last_name
-
-  #   expect(page).to have_content student.last_name
-  #   expect(page).to have_content goal.prompt
-  #   expect(page).to have_content record.result
-
-  # end
+    expect(page).not_to have_content "No school selected."
+  end
 end

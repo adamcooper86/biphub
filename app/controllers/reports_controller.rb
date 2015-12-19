@@ -4,7 +4,10 @@ class ReportsController < ApplicationController
   def index
     @user = current_user
     if @user.is_a? Admin
-      @schools = [School.new]
+      @schools = School.all
+      if params[:school_id]
+        @school = School.find(params[:school_id])
+      end
       render "admin_index"
     elsif @user
       @students = @user.case_students
