@@ -14,5 +14,8 @@ RSpec.describe Card, type: :model do
     it 'requires an end time' do
       expect(FactoryGirl.build(:card, finish: nil)).not_to be_valid
     end
+    it 'requires the start to be before the end' do
+      expect(FactoryGirl.build(:card, start: Time.new(2015), finish: Time.new(2014))).not_to be_valid
+    end
   end
 end
