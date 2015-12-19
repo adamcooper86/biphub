@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CardsController, type: :controller, focus: true do
+RSpec.describe CardsController, type: :controller do
   let(:teacher){ FactoryGirl.create :teacher, school: school }
   let(:student){ FactoryGirl.create :student, school: school }
   let(:school){ FactoryGirl.create :school }

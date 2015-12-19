@@ -30,6 +30,16 @@ RSpec.describe Student, type: :model do
       expect(student.alias).to eq 'JOHA'
     end
   end
+  describe '#staff_members' do
+    let(:teacher){ FactoryGirl.create :teacher }
+    it "returns a empty collection if there are to cards for a student" do
+      expect(student.staff_members.empty?).to be_truthy
+    end
+    it "returns a collections of staff that observe the student" do
+      FactoryGirl.create :card, student: student, user: teacher
+      expect(student.staff_members[0]).to eq teacher
+    end
+  end
 
   describe "Student Class Methods" do
     let(:teacher){ FactoryGirl.create :teacher }

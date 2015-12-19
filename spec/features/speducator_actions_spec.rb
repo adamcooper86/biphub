@@ -15,7 +15,7 @@ feature "Using the speducator panel", js: false do
     school.students << student
     school.teachers << teacher
     school.speducators << speducator
-    speducator.students << student
+    speducator.case_students << student
     student.cards << card
     teacher.cards << card
     student.bips << bip

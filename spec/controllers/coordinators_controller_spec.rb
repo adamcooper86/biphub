@@ -8,6 +8,10 @@ RSpec.describe CoordinatorsController, :type => :controller do
                    email: "jb@gmail.com",
                    password: "abc123",
                    password_confirmation: "abc123"}}
+  let(:invalid_user_info){{first_name: "joe",
+                   last_name: "blow",
+                   email: "jb@gmail.com"}}
+
   before(:each){ allow(controller).to receive(:authorize_admin) }
 
   context "GET #new" do
@@ -29,6 +33,13 @@ RSpec.describe CoordinatorsController, :type => :controller do
 
     it "redirects to the coordinator show page" do
       expect(response).to redirect_to school_coordinator_path(school, Coordinator.last)
+    end
+
+    context 'given invalid information' do
+      subject{ post :create, school_id: school.id, coordinator: invalid_user_info }
+
+      it{ is_expected.to have_http_status 302 }
+      it{ is_expected.to redirect_to new_school_coordinator_path school }
     end
   end
   context "Get #show" do
