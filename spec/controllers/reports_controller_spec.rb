@@ -7,12 +7,19 @@ RSpec.describe ReportsController, type: :controller do
   it{ is_expected.to be_success }
   it{ is_expected.to render_template "index" }
 
-  context "Admin user" do
+  describe "Admin user" do
     let(:admin){ FactoryGirl.create :admin }
     before(:each){ session[:user_id] = admin.id }
 
     it{ is_expected.to be_success }
     it{ is_expected.to render_template "admin_index"}
+
+    context "With a school selected" do
+      subject{ get :index, school_id: user.school.id }
+
+      it{ is_expected.to be_success }
+      it{ is_expected.to render_template "admin_index"}
+    end
   end
 
   context "No user signed in" do
