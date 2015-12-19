@@ -7,7 +7,7 @@ feature "Using the reports panel", js: false do
   given(:school){ School.create name: 'TestSchool', address: 'TestAddress', city: 'TestCity', state: 'ST', zip: '00000' }
   given(:student){ Student.create first_name: 'TestStudent', last_name: 'TestLastName' }
   given(:card){ Card.create start: Time.now, finish: Time.now  }
-  given(:bip){ Bip.create start: Time.now, end: Time.now  }
+  given(:bip){ Bip.create start: Date.today, finish: Date.tomorrow  }
   given(:goal){ Goal.create prompt: "Goal 1 Prompt", text: "Goal 1 Text", meme: "Time"  }
   given(:observation){ Observation.create student_id: student.id, user_id: teacher.id, start:Time.now, finish:Time.now}
   given(:record){ Record.create observation_id: observation.id, result: 7}

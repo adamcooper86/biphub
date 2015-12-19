@@ -49,6 +49,6 @@ class BipsController < ApplicationController
 
 private
   def bip_params
-    params.require(:bip).permit(:start, :end)
+    params.require(:bip).permit(:start, :finish)
   end
 end

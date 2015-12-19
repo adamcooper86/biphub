@@ -5,7 +5,8 @@ RSpec.describe BipsController, type: :controller do
   let(:student){ FactoryGirl.create :student }
   let(:speducator){ FactoryGirl.create :speducator }
   let(:bip){ FactoryGirl.create :bip }
-  let(:bip_params){{"start(1i)"=>"2015", "start(2i)"=>"11", "start(3i)"=>"23", "end(1i)"=>"2015", "end(2i)"=>"11", "end(3i)"=>"23"}}
+  let(:bip_params){{"start(1i)"=>"2015", "start(2i)"=>"11", "start(3i)"=>"23", "finish(1i)"=>"2015", "finish(2i)"=>"11", "finish(3i)"=>"23"}}
+  let(:invalid_bip_params){{"start(1i)"=>"2015", "start(2i)"=>"11", "start(3i)"=>"23", "finish(1i)"=>"2014", "finish(2i)"=>"11", "finish(3i)"=>"23"}}
   before(:each){ allow(controller).to receive(:current_user).and_return(speducator) }
 
 
@@ -28,6 +29,13 @@ RSpec.describe BipsController, type: :controller do
 
     it "redirects to the student show page" do
       expect(response).to redirect_to school_student_path(school, student)
+    end
+
+    context 'given invalid bip information' do
+      subject{ post :create, school_id: school.id, student_id: student.id, bip: invalid_bip_params }
+
+      it{ is_expected.to have_http_status 302 }
+      it{ is_expected.to redirect_to new_school_student_bip_path(school, student) }
     end
   end
   context "Get #show" do

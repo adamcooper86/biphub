@@ -9,7 +9,7 @@
     <ul>
     <% @bips.each do |bip|%>
     <div>
-      <p><%= bip.start %> - <%= bip.end %></p>
+      <p><%= bip.start %> - <%= bip.finish %></p>
       <% if current_user.is_a? Speducator %>
         <%= button_to 'show', school_student_bip_path(@school, bip.student, bip), method: :get %>
         <%= button_to 'edit', edit_school_student_bip_path(@school, bip.student, bip), method: :get %>

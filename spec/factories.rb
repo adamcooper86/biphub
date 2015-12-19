@@ -22,6 +22,8 @@ FactoryGirl.define do
 
   factory :bip do
     student
+    start Date.today
+    finish Date.tomorrow
   end
 
   factory :card do
