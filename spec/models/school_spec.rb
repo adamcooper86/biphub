@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe School, type: :model do
+  let(:school){ FactoryGirl.create :school }
+  let(:student){ FactoryGirl.create :student, school: school }
+  let(:bip){ FactoryGirl.create :bip, student: student }
+
   context 'validations' do
     it 'requires a school name' do
       expect(FactoryGirl.build(:school, name: "")).not_to be_valid
@@ -20,7 +24,6 @@ RSpec.describe School, type: :model do
   end
   context '#users' do
     it 'returns an array of coordinators, teachers, and speducators' do
-      school = FactoryGirl.create(:school)
       teacher = FactoryGirl.create(:teacher)
       school.teachers << teacher
       speducator = FactoryGirl.create(:speducator)
@@ -28,6 +31,12 @@ RSpec.describe School, type: :model do
       coordinator = FactoryGirl.create(:coordinator)
       school.coordinators << coordinator
       expect(school.users).to eq [coordinator, teacher, speducator]
+    end
+  end
+  context '#active_goals' do
+    it 'returns an array of goal objects' do
+      3.times{ FactoryGirl.create(:goal, bip: bip) }
+      expect(school.active_goals).to eq Goal.all
     end
   end
 end

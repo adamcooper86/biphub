@@ -9,4 +9,7 @@ class School < ActiveRecord::Base
   def users
   	self.coordinators + self.teachers + self.speducators
   end
+  def active_goals
+    self.students.map{ |student| student.active_goals }.flatten
+  end
 end
