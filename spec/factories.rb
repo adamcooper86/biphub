@@ -15,6 +15,9 @@ FactoryGirl.define do
 
   factory :goal do
     bip
+    text "Goals Text"
+    prompt "Goal Prompt"
+    meme "Time"
   end
 
   factory :bip do
