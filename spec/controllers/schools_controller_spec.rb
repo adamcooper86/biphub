@@ -8,6 +8,10 @@ RSpec.describe SchoolsController, :type => :controller do
                    city: "Miami",
                    state: "FL",
                    zip: "88654"}}
+  let(:invalid_school_info){{name: "Parker",
+                   address: "1822 Park St",
+                   city: "Miami",
+                   state: "FL"}}
   before(:each){
     allow(controller).to receive(:authorize_admin)
     allow(controller).to receive(:current_user).and_return(user)
@@ -32,6 +36,12 @@ RSpec.describe SchoolsController, :type => :controller do
 
     it "redirects to the coordinator show page" do
       expect(response).to redirect_to school_path(School.last)
+    end
+    context 'if given invalid school information' do
+      subject{ post :create, school: invalid_school_info}
+
+      it{ is_expected.to have_http_status 302 }
+      it{ is_expected.to redirect_to new_school_path }
     end
   end
   context "Get #show" do

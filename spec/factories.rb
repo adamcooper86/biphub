@@ -15,10 +15,15 @@ FactoryGirl.define do
 
   factory :goal do
     bip
+    text "Goals Text"
+    prompt "Goal Prompt"
+    meme "Time"
   end
 
   factory :bip do
     student
+    start Date.today
+    finish Date.tomorrow
   end
 
   factory :card do

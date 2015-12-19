@@ -1,4 +1,7 @@
 module FormOptionsHelper
+  def schools_options schools
+    schools.map{ |school| [school.name, school.id] }
+  end
   def speducator_options speducators
     speducators.map { |speducator|[speducator.first_name, speducator.id] }
   end

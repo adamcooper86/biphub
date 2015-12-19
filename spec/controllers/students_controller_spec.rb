@@ -82,27 +82,4 @@ RSpec.describe StudentsController, :type => :controller do
     it { is_expected.to have_http_status 302 }
     it { is_expected.to redirect_to "/users/#{coordinator.id}" }
   end
-  context "POST #add_member" do
-    before(:each){ post :add_member, school_id: coordinator.school.id, id: student.id, user_id: teacher.id }
-    it "responds successfully with an redirect HTTP 300 status code" do
-      expect(response).to have_http_status(302)
-    end
-
-    it "redirects to the student show page" do
-      expect(response).to redirect_to school_student_team_path(coordinator.school, student)
-    end
-  end
-  context "POST #add_member" do
-    before(:each){
-      Team.create user_id: teacher.id, student_id: student.id
-      delete :remove_member, school_id: coordinator.school.id, student_id: student.id, id: teacher.id
-    }
-    it "responds successfully with an redirect HTTP 300 status code" do
-      expect(response).to have_http_status(302)
-    end
-
-    it "redirects to the student show page" do
-      expect(response).to redirect_to school_student_team_path(coordinator.school, student)
-    end
-  end
 end

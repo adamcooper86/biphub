@@ -7,6 +7,7 @@ RSpec.describe GoalsController, type: :controller do
   let(:bip){ FactoryGirl.create :bip }
   let(:goal){ FactoryGirl.create :goal }
   let(:goal_params){{text: "Goal text", prompt: "Goal prompt", meme: "qualitative"}}
+  let(:invalid_goal_params){{ prompt: "Goal prompt", meme: "qualitative"}}
   before(:each){
     school.students << student
     student.bips << bip
@@ -34,6 +35,12 @@ RSpec.describe GoalsController, type: :controller do
 
     it "redirects to the bip show page" do
       expect(response).to redirect_to school_student_bip_path(school, student, bip)
+    end
+    context 'given invalid bip id' do
+      subject{ post :create, school_id: school.id, student_id: student.id, bip_id: bip.id, goal: invalid_goal_params }
+
+      it{ is_expected.to have_http_status 302 }
+      it{ is_expected.to redirect_to new_school_student_bip_goal_path(school, student, bip)}
     end
   end
   context "Get #show" do

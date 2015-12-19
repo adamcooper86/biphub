@@ -3,7 +3,7 @@
 <%= form_for [@school, @student, @bip] do |f| %>
 
   Start: <%= f.date_select(:start) %>
-  End: <%= f.date_select(:end) %>
+  End: <%= f.date_select(:finish) %>
 
   <%= f.submit "Submit" %>
 <% end %>

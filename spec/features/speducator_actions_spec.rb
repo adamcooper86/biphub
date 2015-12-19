@@ -7,7 +7,7 @@ feature "Using the speducator panel", js: false do
   given(:school){ School.create name: 'TestSchool', address: 'TestAddress', city: 'TestCity', state: 'ST', zip: '00000' }
   given(:student){ Student.create first_name: 'TestStudent', last_name: 'TestLastName' }
   given(:card){ Card.create start: Time.now, finish: Time.now  }
-  given(:bip){ Bip.create start: Time.now, end: Time.now  }
+  given(:bip){ Bip.create start: Date.today, finish: Date.tomorrow  }
   given(:goal){ Goal.create prompt: "Prompt", text: "Text", meme: "Time"  }
 
   background do
@@ -15,7 +15,7 @@ feature "Using the speducator panel", js: false do
     school.students << student
     school.teachers << teacher
     school.speducators << speducator
-    speducator.students << student
+    speducator.case_students << student
     student.cards << card
     teacher.cards << card
     student.bips << bip
@@ -124,9 +124,9 @@ feature "Using the speducator panel", js: false do
         select '2015', :from => 'bip_start_1i'
         select 'September', :from => 'bip_start_2i'
         select '3', :from => 'bip_start_3i'
-        select '2015', :from => 'bip_end_1i'
-        select 'December', :from => 'bip_end_2i'
-        select '3', :from => 'bip_end_3i'
+        select '2015', :from => 'bip_finish_1i'
+        select 'December', :from => 'bip_finish_2i'
+        select '3', :from => 'bip_finish_3i'
       end
 
       click_on "Submit"
@@ -143,9 +143,9 @@ feature "Using the speducator panel", js: false do
         select '2015', :from => 'bip_start_1i'
         select 'September', :from => 'bip_start_2i'
         select '3', :from => 'bip_start_3i'
-        select '2015', :from => 'bip_end_1i'
-        select 'December', :from => 'bip_end_2i'
-        select '3', :from => 'bip_end_3i'
+        select '2015', :from => 'bip_finish_1i'
+        select 'December', :from => 'bip_finish_2i'
+        select '3', :from => 'bip_finish_3i'
       end
 
       click_on "Submit"
