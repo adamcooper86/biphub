@@ -59,4 +59,7 @@ class Student < ActiveRecord::Base
   def staff_members
     self.cards.map{|card| card.user }
   end
+  def active_goals
+    self.bips.map{|bip| bip.goals }.flatten
+  end
 end

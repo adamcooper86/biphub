@@ -40,6 +40,17 @@ RSpec.describe Student, type: :model do
       expect(student.staff_members[0]).to eq teacher
     end
   end
+  describe '#active_goals' do
+    it "returns an empty collection if no goals" do
+      expect(student.active_goals.empty?).to be_truthy
+    end
+    it "returns a collection of goals" do
+      bip = FactoryGirl.create(:bip, student: student)
+      goal = FactoryGirl.create(:goal, bip: bip)
+
+      expect(student.active_goals).to eq [goal]
+    end
+  end
 
   describe "Student Class Methods" do
     let(:teacher){ FactoryGirl.create :teacher }
