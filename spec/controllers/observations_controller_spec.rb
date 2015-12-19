@@ -16,14 +16,10 @@ RSpec.describe ObservationsController, type: :controller do
     end
   end
   context '#update' do
-    before(:each){ put :update, id: observation.id, observation: observation_info}
-    it "responds successfully with an HTTP 302 status code" do
-      expect(response).to have_http_status(302)
-    end
+    subject{ put :update, id: observation.id, observation: observation_info}
 
-    it "redirects to the observation show page" do
-      expect(response).to redirect_to observation_path observation
-    end
+    it{ is_expected.to have_http_status 302 }
+    it{ is_expected.to redirect_to observation_path observation }
   end
   context '#show' do
     before(:each){ get :show, id: observation.id }
@@ -125,6 +121,38 @@ RSpec.describe Api::V1::ObservationsController, :type => :controller do
     it 'Returns a json response with the updated observation' do
       subject
       expect(JSON.parse(response.body)["records"][0]["result"]).to eq 10
+    end
+    context 'if given invalid observation information' do
+      subject{ xhr :patch, :update, { id: observation.id, user_id: user.id, authenticity_token: user.authenticity_token, observation: {id: observation.id, user_id: nil, records_attributes: [id: record.id, result: 10]}}}
+
+      it{ is_expected.to have_http_status 403 }
+      it "renders the correct error message" do
+        expect(subject.body).to eq "Error: Could not update the observation"
+      end
+    end
+    context 'if given invalid user information' do
+      subject{ xhr :patch, :update, { id: observation.id, user_id: user.id, authenticity_token: "not_the_token", observation: {id: observation.id, records_attributes: [id: record.id, result: 10]}}}
+
+      it{ is_expected.to have_http_status 403 }
+      it "renders the correct error message" do
+        expect(subject.body).to eq "Error: Could not authenticate user"
+      end
+    end
+    context 'if given no authenticity_token id' do
+      subject{ xhr :patch, :update, { id: observation.id, user_id: user.id, observation: {id: observation.id, records_attributes: [id: record.id, result: 10]}}}
+
+      it{ is_expected.to have_http_status 403 }
+      it "renders the correct error message" do
+        expect(subject.body).to eq "Error: Authenticity token not provided"
+      end
+    end
+    context 'if given no user id' do
+      subject{ xhr :patch, :update, { id: observation.id, authenticity_token: user.authenticity_token, observation: {id: observation.id, records_attributes: [id: record.id, result: 10]}}}
+
+      it{ is_expected.to have_http_status 403 }
+      it "renders the correct error message" do
+        expect(subject.body).to eq "Error: User_id not provided"
+      end
     end
   end
 end
