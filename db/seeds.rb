@@ -21,8 +21,7 @@ end
   student = Student.create first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, speducator_id: speducator.id, school_id: school.id
 
   Teacher.all.each do |teacher|
-    time = Faker::Time.forward(1, :day)
-    card = Card.create user_id: teacher.id, start: time, finish: time + 60
+    card = Card.create user_id: teacher.id, start: Time.now, finish: Time.now + 60
     student.cards << card
   end
 
@@ -35,8 +34,11 @@ end
   else
     bip.goals << [Goal.create(prompt: 'How many times did the student get out of their seat?', text: "Student will remain in their assigned seat during class time.", meme: "Incidence"), Goal.create(prompt: 'Did the student leave the classroom or school?', text: "Student will reduce roaming in the hallways by staying in class, unless given a hallpasss.", meme: "Boolean"), Goal.create(prompt: 'What percentage of inclass work did the student complete?', text: "The student will increase their inclass work completion to 60%", meme: "Percentage")]
   end
-end
 
-Student.create_daily_records
+  observations = Observation.create_from_cards student.cards
+  observations.each do |observation|
+    Record.create_record_group observation, bip.goals
+  end
+end
 
 puts "Successfully Seeded the Database"
