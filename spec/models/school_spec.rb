@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe School, type: :model, focus: true do
+RSpec.describe School, type: :model do
   let(:school){ FactoryGirl.create :school }
   let(:student){ FactoryGirl.create :student, school: school }
   let(:bip){ FactoryGirl.create :bip, student: student }
@@ -88,7 +88,19 @@ RSpec.describe School, type: :model, focus: true do
 
     it 'returns a float representing average student performance' do
       expect(school.avg_student_performance).to be_a Float
-      # expect(school.avg_student_performance).to eq 100.00
+      expect(school.avg_student_performance).to eq 100.00
+    end
+    it 'returns a float representing average student performance' do
+      record.result = 0
+      record.save
+
+      expect(school.avg_student_performance).to eq 0.00
+    end
+    it 'returns a float representing average student performance' do
+      record.result = 4
+      record.save
+
+      expect(school.avg_student_performance).to eq 80.00
     end
   end
 end

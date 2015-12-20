@@ -23,7 +23,7 @@ class School < ActiveRecord::Base
     self.unanswered_observations.map{ |observation| observation.user }.uniq
   end
   def avg_student_performance
-    # self.students.map{|student| student.avg_performance }
-    0.0
+    results = self.students.map{|student| student.avg_performance }
+    average_result = results.inject(0.0) { |sum, el| sum + el } / results.size
   end
 end
