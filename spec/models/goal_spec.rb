@@ -52,5 +52,50 @@ RSpec.describe Goal, type: :model, focus: true do
         expect(goal.avg_performance).to eq 73.33333333333333
       end
     end
+    context 'percentage goals' do
+      let(:goal){ FactoryGirl.create :goal, meme: "Percentage" }
+      let(:record){ FactoryGirl.create :record, goal: goal}
+
+      it 'returns 100.00 when results are 100' do
+        record.result = 100
+        record.save
+
+        expect(goal.avg_performance).to eq 100.0
+      end
+      it 'returns 80.00 when results are 80' do
+        record.result = 80
+        record.save
+
+        expect(goal.avg_performance).to eq 80.0
+      end
+      it 'returns 60.00 when results are 60' do
+        record.result = 60
+        record.save
+
+        expect(goal.avg_performance).to eq 60.0
+      end
+      it 'returns 40.00 when results are 40' do
+        record.result = 40
+        record.save
+
+        expect(goal.avg_performance).to eq 40.0
+      end
+      it 'returns 20.00 when results are 20' do
+        record.result = 20
+        record.save
+
+        expect(goal.avg_performance).to eq 20.0
+      end
+      it 'returns 0.00 when results are 0' do
+        record.result = 0
+        record.save
+
+        expect(goal.avg_performance).to eq 0.0
+      end
+      it 'averages multiple records' do
+        record1, record2, record3 = FactoryGirl.create(:record, goal: goal, result: 55), FactoryGirl.create(:record, goal: goal, result: 34), FactoryGirl.create(:record, goal: goal, result: 22)
+        expect(goal.avg_performance).to eq 37.0
+      end
+    end
   end
 end
