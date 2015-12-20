@@ -19,4 +19,7 @@ class School < ActiveRecord::Base
     limit = DateTime.now - limit
     unanswered.select{|observation| observation.finish < limit }
   end
+  def teachers_with_unanswered_observations
+    self.unanswered_observations.map{ |observation| observation.user }.uniq
+  end
 end

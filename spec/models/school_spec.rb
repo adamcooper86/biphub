@@ -1,9 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe School, type: :model do
+RSpec.describe School, type: :model, focus: true do
   let(:school){ FactoryGirl.create :school }
   let(:student){ FactoryGirl.create :student, school: school }
   let(:bip){ FactoryGirl.create :bip, student: student }
+  let(:teacher){ FactoryGirl.create(:teacher, school: school) }
 
   context 'validations' do
     it 'requires a school name' do
@@ -24,8 +25,7 @@ RSpec.describe School, type: :model do
   end
   context '#users' do
     it 'returns an array of coordinators, teachers, and speducators' do
-      teacher = FactoryGirl.create(:teacher)
-      school.teachers << teacher
+      teacher
       speducator = FactoryGirl.create(:speducator)
       school.speducators << speducator
       coordinator = FactoryGirl.create(:coordinator)
@@ -62,6 +62,20 @@ RSpec.describe School, type: :model do
 
       expect(school.unanswered_observations(7).length).to eq 1
       expect(school.unanswered_observations(7)[0]).to eq seven_day_old
+    end
+    context "#teachers_with_unanswered_observations" do
+      it "returns a collection of teachers" do
+        expect(school.teachers_with_unanswered_observations.length).to eq 3
+      end
+      it "returns a unique collection of teachers" do
+        Observation.all.each do |observation|
+          observation.user = teacher
+          observation.save
+        end
+
+        expect(school.teachers_with_unanswered_observations.length).to eq 1
+        expect(school.teachers_with_unanswered_observations[0]).to eq teacher
+      end
     end
   end
 end
