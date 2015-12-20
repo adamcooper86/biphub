@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Student, type: :model do
+RSpec.describe Student, type: :model, focus: true do
   let(:student){ FactoryGirl.create :student, first_name: 'Joseph', last_name: 'Hammond' }
 
   context 'validations' do
@@ -49,6 +49,18 @@ RSpec.describe Student, type: :model do
       goal = FactoryGirl.create(:goal, bip: bip)
 
       expect(student.active_goals).to eq [goal]
+    end
+  end
+  describe '#avg_performance' do
+    let(:bip){ FactoryGirl.create :bip }
+    let(:qualitative_goal){ FactoryGirl.create :goal, meme: "Qualitative", bip: bip }
+    let(:qualitative_record){ FactoryGirl.create :record, goal: qualitative_goal }
+
+    context 'Only qualitative records' do
+      it 'returns a 100.00 when record is 5/5' do
+        qualitative_record
+        expect(student.avg_performance).to eq 100.00
+      end
     end
   end
 

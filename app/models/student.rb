@@ -4,6 +4,7 @@ class Student < ActiveRecord::Base
   has_many :cards
   has_many :teachers, through: :cards, source: :user
   has_many :bips
+  has_many :goals, through: :bips
   has_many :observations
   has_many :records, through: :observations
 
@@ -61,5 +62,9 @@ class Student < ActiveRecord::Base
   end
   def active_goals
     self.bips.map{|bip| bip.goals }.flatten
+  end
+  def avg_performance
+    self.goals.map{|goal| goal.avg_performance }
+    100.00
   end
 end

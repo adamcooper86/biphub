@@ -1,9 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe School, type: :model do
+RSpec.describe School, type: :model, focus: true do
   let(:school){ FactoryGirl.create :school }
   let(:student){ FactoryGirl.create :student, school: school }
   let(:bip){ FactoryGirl.create :bip, student: student }
+  let(:goal){ FactoryGirl.create :goal, bip: bip, meme: "Qualitative" }
   let(:teacher){ FactoryGirl.create(:teacher, school: school) }
 
   context 'validations' do
@@ -76,6 +77,18 @@ RSpec.describe School, type: :model do
         expect(school.teachers_with_unanswered_observations.length).to eq 1
         expect(school.teachers_with_unanswered_observations[0]).to eq teacher
       end
+    end
+  end
+  context '#avg_student_performance' do
+    let(:record){ FactoryGirl.create :record, goal: goal }
+    before(:each){
+      record.result = 5
+      record.save
+    }
+
+    it 'returns a float representing average student performance' do
+      expect(school.avg_student_performance).to be_a Float
+      # expect(school.avg_student_performance).to eq 100.00
     end
   end
 end

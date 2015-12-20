@@ -41,7 +41,7 @@ RSpec.describe Goal, type: :model, focus: true do
 
         expect(goal.avg_performance).to eq 20.0
       end
-      it 'returns 0.00 when results are 1/5' do
+      it 'returns 0.00 when results are 0/5' do
         record.result = 0
         record.save
 
@@ -95,6 +95,129 @@ RSpec.describe Goal, type: :model, focus: true do
       it 'averages multiple records' do
         record1, record2, record3 = FactoryGirl.create(:record, goal: goal, result: 55), FactoryGirl.create(:record, goal: goal, result: 34), FactoryGirl.create(:record, goal: goal, result: 22)
         expect(goal.avg_performance).to eq 37.0
+      end
+    end
+    context 'boolean goals' do
+      let(:goal){ FactoryGirl.create :goal, meme: "Boolean" }
+      let(:record){ FactoryGirl.create :record, goal: goal}
+
+      it 'returns 100.00 when results are True' do
+        record.result = 1
+        record.save
+
+        expect(goal.avg_performance).to eq 100.0
+      end
+      it 'returns 0.00 when results are False' do
+        record.result = 0
+        record.save
+
+        expect(goal.avg_performance).to eq 0.0
+      end
+      it 'averages multiple records' do
+        record1, record2, record3 = FactoryGirl.create(:record, goal: goal, result: 1), FactoryGirl.create(:record, goal: goal, result: 0), FactoryGirl.create(:record, goal: goal, result: 1)
+        expect(goal.avg_performance).to eq 66.66666666666666
+      end
+    end
+    context 'incidence goals' do
+      let(:goal){ FactoryGirl.create :goal, meme: "Incidence" }
+      let(:record){ FactoryGirl.create :record, goal: goal}
+
+      it 'returns 100.00 when results are less than target' do
+        goal.target = 2
+        goal.save
+        record.result = 1
+        record.save
+
+        expect(goal.avg_performance).to eq 100.0
+      end
+      it 'returns 0.00 when results are more than triple the target' do
+        goal.target = 1
+        goal.save
+        record.result = 4
+        record.save
+
+        expect(goal.avg_performance).to eq 0.0
+      end
+      it 'averages multiple records' do
+        goal.target = 2
+        goal.save
+        record1, record2, record3 = FactoryGirl.create(:record, goal: goal, result: 4), FactoryGirl.create(:record, goal: goal, result: 3), FactoryGirl.create(:record, goal: goal, result: 3)
+        expect(goal.avg_performance).to eq 77.77777777777779
+      end
+      context 'if goal is zero it correctly calculates performance' do
+        it 'returns 100% if results are all zero' do
+          record.result = 0
+          record.save
+
+          expect(goal.avg_performance).to eq 100.0
+        end
+        it 'returns 0.0% if results are more than triple' do
+          record.result = 4
+          record.save
+
+          expect(goal.avg_performance).to eq 0.0
+        end
+        it 'returns 66.6% if results are in the middle' do
+          record.result = 1
+          record.save
+
+          expect(goal.avg_performance).to eq 66.66666666666667
+        end
+      end
+    end
+    context 'duration goals' do
+      let(:goal){ FactoryGirl.create :goal, meme: "Time" }
+      let(:record){ FactoryGirl.create :record, goal: goal}
+
+      it 'returns 100.00 when results are greater than target' do
+        goal.target = 5
+        goal.save
+        record.result = 6
+        record.save
+
+        expect(goal.avg_performance).to eq 100.0
+      end
+      it 'returns a percentage when result is between goal and zero' do
+        goal.target = 5
+        goal.save
+        record.result = 3
+        record.save
+
+        expect(goal.avg_performance).to eq 60.0
+      end
+      it 'returns 0.00 when results are zero' do
+        goal.target = 5
+        goal.save
+        record.result = 0
+        record.save
+
+        expect(goal.avg_performance).to eq 0.0
+      end
+      it 'averages multiple records' do
+        goal.target = 5
+        goal.save
+        record1, record2, record3 = FactoryGirl.create(:record, goal: goal, result: 4), FactoryGirl.create(:record, goal: goal, result: 3), FactoryGirl.create(:record, goal: goal, result: 3)
+        expect(goal.avg_performance).to eq 66.66666666666667
+      end
+      context 'if goal is undefined it correctly calculates performance' do
+        it 'returns 100% if results are all 5' do
+          record.result = 5
+          record.save
+
+          expect(goal.avg_performance).to eq 100.0
+        end
+        it 'returns 0.0% if results are all 0' do
+          record.result = 0
+          record.save
+
+          expect(goal.avg_performance).to eq 0.0
+        end
+        it 'returns 60.0% if results are in the middle' do
+          record.result = 3
+          record.save
+
+          expect(goal.avg_performance).to eq 60.0
+        end
       end
     end
   end

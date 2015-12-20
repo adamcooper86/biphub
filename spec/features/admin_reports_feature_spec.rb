@@ -47,5 +47,6 @@ feature "Using the reports panel", js: false do
     expect(table).to have_content "Total Staff"
     expect(table).to have_content "Total Students"
     expect(table).to have_content "Open Observations"
+    expect(table).to have_content "Student Metrics"
   end
 end

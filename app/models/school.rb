@@ -22,4 +22,8 @@ class School < ActiveRecord::Base
   def teachers_with_unanswered_observations
     self.unanswered_observations.map{ |observation| observation.user }.uniq
   end
+  def avg_student_performance
+    # self.students.map{|student| student.avg_performance }
+    0.0
+  end
 end

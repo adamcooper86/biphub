@@ -60,6 +60,17 @@
           <td><%= @school.unanswered_observations(7).count %></td>
           <td><%= @school.teachers_with_unanswered_observations.count %></td>
         </tr>
+        <tr>
+          <th>Student Metrics - Whole Year</th>
+        </tr>
+        <tr>
+          <th>Average Performance</th>
+          <th>Average Growth</th>
+        </tr>
+        <tr>
+          <td><%= @school.avg_student_performance %></td>
+          <td><%= @school.avg_student_growth %></td>
+        </tr>
       </table>
       <div class="graph"></div>
     </div>
