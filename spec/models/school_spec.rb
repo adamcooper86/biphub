@@ -39,4 +39,13 @@ RSpec.describe School, type: :model do
       expect(school.active_goals).to eq Goal.all
     end
   end
+  context '#unanswered_observations' do
+    it 'returns an array of unanswered observations objects' do
+      3.times{
+        observation = FactoryGirl.create(:observation, student: student)
+        FactoryGirl.create(:record, observation: observation)
+      }
+      expect(school.unanswered_observations).to eq Observation.all
+    end
+  end
 end

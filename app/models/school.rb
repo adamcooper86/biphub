@@ -14,4 +14,7 @@ class School < ActiveRecord::Base
   def active_goals
     self.students.map{ |student| student.active_goals }.flatten
   end
+  def unanswered_observations
+    self.observations.select{|observation| !observation.is_answered? }
+  end
 end
