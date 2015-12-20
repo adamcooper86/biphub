@@ -64,7 +64,7 @@ class Student < ActiveRecord::Base
     self.bips.map{|bip| bip.goals }.flatten
   end
   def avg_performance
-    self.goals.map{|goal| goal.avg_performance }
-    100.00
+    results = self.goals.map{|goal| goal.avg_performance }
+    average_result = results.inject(0.0) { |sum, el| sum + el } / results.size
   end
 end
