@@ -40,6 +40,88 @@ RSpec.describe Student, type: :model do
       expect(student.staff_members[0]).to eq teacher
     end
   end
+  describe '#active_goals' do
+    it "returns an empty collection if no goals" do
+      expect(student.active_goals.empty?).to be_truthy
+    end
+    it "returns a collection of goals" do
+      bip = FactoryGirl.create(:bip, student: student)
+      goal = FactoryGirl.create(:goal, bip: bip)
+
+      expect(student.active_goals).to eq [goal]
+    end
+  end
+  describe '#avg_performance' do
+    let(:bip){ FactoryGirl.create :bip, student: student }
+    let(:qualitative_goal){ FactoryGirl.create :goal, meme: "Qualitative", bip: bip }
+    let(:qualitative_record){ FactoryGirl.create :record, goal: qualitative_goal }
+
+    context 'Only qualitative records' do
+      it 'returns a 100.00 when record is 5/5' do
+        qualitative_record.result = 5
+        qualitative_record.save
+
+        expect(student.avg_performance).to eq 100.00
+      end
+      it 'returns float when multiple records' do
+        record1, record2, record3 = FactoryGirl.create(:record, goal: qualitative_goal, result: 2), FactoryGirl.create(:record, goal: qualitative_goal, result: 4), FactoryGirl.create(:record, goal: qualitative_goal, result: 2)
+        expect(student.avg_performance).to eq 53.333333333333336
+      end
+    end
+    context 'A mix of goal types' do
+      let(:duration_goal){ FactoryGirl.create :goal, meme: "Time", bip: bip }
+      let(:duration_record){ FactoryGirl.create :record, goal: duration_goal }
+      let(:percentage_goal){ FactoryGirl.create :goal, meme: "Percentage", bip: bip }
+      let(:percentage_record){ FactoryGirl.create :record, goal: percentage_goal }
+      let(:boolean_goal){ FactoryGirl.create :goal, meme: "Boolean", bip: bip }
+      let(:boolean_record){ FactoryGirl.create :record, goal: boolean_goal }
+      let(:incidence_goal){ FactoryGirl.create :goal, meme: "Incidence", bip: bip }
+      let(:incidence_record){ FactoryGirl.create :record, goal: incidence_goal }
+
+      it 'returns a 100.00 when all records meet goals' do
+        qualitative_record.result = 5
+        qualitative_record.save
+        duration_record.result = 5
+        duration_record.save
+        percentage_record.result = 100
+        percentage_record.save
+        boolean_record.result = 1
+        boolean_record.save
+        incidence_record.result = 0
+        incidence_record.save
+
+        expect(student.avg_performance).to eq 100.00
+      end
+      it 'returns 0 when multiple records fail' do
+        qualitative_record.result = 0
+        qualitative_record.save
+        duration_record.result = 0
+        duration_record.save
+        percentage_record.result = 0
+        percentage_record.save
+        boolean_record.result = 0
+        boolean_record.save
+        incidence_record.result = 10
+        incidence_record.save
+
+        expect(student.avg_performance).to eq 0.0
+      end
+      it 'returns a float with mixed records' do
+        qualitative_record.result = 3
+        qualitative_record.save
+        duration_record.result = 2
+        duration_record.save
+        percentage_record.result = 50
+        percentage_record.save
+        boolean_record.result = 0
+        boolean_record.save
+        incidence_record.result = 0
+        incidence_record.save
+
+        expect(student.avg_performance).to eq 50.0
+      end
+    end
+  end
 
   describe "Student Class Methods" do
     let(:teacher){ FactoryGirl.create :teacher }

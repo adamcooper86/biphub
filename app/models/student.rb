@@ -4,6 +4,7 @@ class Student < ActiveRecord::Base
   has_many :cards
   has_many :teachers, through: :cards, source: :user
   has_many :bips
+  has_many :goals, through: :bips
   has_many :observations
   has_many :records, through: :observations
 
@@ -58,5 +59,12 @@ class Student < ActiveRecord::Base
   end
   def staff_members
     self.cards.map{|card| card.user }
+  end
+  def active_goals
+    self.bips.map{|bip| bip.goals }.flatten
+  end
+  def avg_performance
+    results = self.goals.map{|goal| goal.avg_performance }
+    average_result = results.inject(0.0) { |sum, el| sum + el } / results.size
   end
 end
