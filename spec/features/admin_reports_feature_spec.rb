@@ -45,5 +45,7 @@ feature "Using the reports panel", js: false do
 
     table = find("#schoolTable")
     expect(table).to have_content "Total Staff"
+    expect(table).to have_content "Total Students"
+    expect(table).to have_content "Open Observations"
   end
 end

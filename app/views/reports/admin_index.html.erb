@@ -34,7 +34,7 @@
           <th>Student Information</th>
         </tr>
         <tr>
-          <th>Students</th>
+          <th>Total Students</th>
           <th>Active Goals</th>
           <th>Observations</th>
           <th>Records</th>
@@ -44,6 +44,21 @@
           <td><%= @school.active_goals.count %></td>
           <td><%= @school.observations.count %></td>
           <td><%= @school.records.count %></td>
+        </tr>
+        <tr>
+          <th>Open Observations</th>
+        </tr>
+        <tr>
+          <th>Total</th>
+          <th>>1 day due</th>
+          <th>>1 week due</th>
+          <th># of teachers</th>
+        </tr>
+        <tr>
+          <td><%= @school.unanswered_observations.count %></td>
+          <td><%= @school.unanswered_observations(1).count %></td>
+          <td><%= @school.unanswered_observations(7).count %></td>
+          <td><%= @school.teachers_with_unanswered_observations.count %></td>
         </tr>
       </table>
       <div class="graph"></div>

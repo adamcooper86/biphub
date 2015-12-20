@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe School, type: :model, focus: true do
+RSpec.describe School, type: :model do
   let(:school){ FactoryGirl.create :school }
   let(:student){ FactoryGirl.create :student, school: school }
   let(:bip){ FactoryGirl.create :bip, student: student }
