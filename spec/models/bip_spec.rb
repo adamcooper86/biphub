@@ -12,7 +12,7 @@ RSpec.describe Bip, type: :model do
       expect(FactoryGirl.build(:bip, finish: nil)).not_to be_valid
     end
     it 'is invalid with a start date after finish' do
-      expect(FactoryGirl.build(:bip, start: Date.today, finish: Date.yesterday)).not_to be_valid
+      expect(FactoryGirl.build(:bip, start: Date.tomorrow, finish: Date.today)).not_to be_valid
     end
   end
 end

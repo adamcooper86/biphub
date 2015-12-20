@@ -41,7 +41,9 @@ feature "Using the reports panel", js: false do
     expect(page).to have_selector '#schoolFilter'
     expect(page).to have_selector ".graph"
     expect(page).to have_selector ".schoolData"
-
     expect(page).not_to have_content "No school selected."
+
+    table = find("#schoolTable")
+    expect(table).to have_content "Total Staff"
   end
 end

@@ -1,23 +1,52 @@
 <section id="reportsPanel">
 
-<% unless @school %>
-  <h2>No school selected.</h2>
-<% else %>
-  <h3>Reports for: <%= @school.name %></h3>
-<% end %>
+  <%= form_tag reports_path, method: "get", id: 'schoolFilter' do%>
+    School: <%= select_tag 'school_id', options_for_select(schools_options(@schools)) %>
+    <%= submit_tag "Filter Results" %>
+  <% end %>
 
-<% if @school %>
-  <div class="schoolData">
-    <h1><%= @school.name %></h1>
+  <% unless @school %>
+    <h2>No school selected.</h2>
+  <% else %>
+    <h3>Reports for: <%= @school.name %></h3>
+  <% end %>
 
-    <div id="schoolTable"></div>
-    <div class="graph"></div>
-  </div>
-<% end %>
 
-<%= form_tag reports_path, method: "get", id: 'schoolFilter' do%>
-  School: <%= select_tag 'school_id', options_for_select(schools_options(@schools)) %>
-  <%= submit_tag "Filter Results" %>
-<% end %>
-
+  <% if @school %>
+    <div class="schoolData">
+      <table id="schoolTable">
+        <tr>
+          <th>Users Information</th>
+        </tr>
+        <tr>
+          <th>Total Staff</th>
+          <th>Coordinators</th>
+          <th>Special Educators</th>
+          <th>Teachers</th>
+        </tr>
+        <tr>
+          <td><%= @school.users.count %></td>
+          <td><%= @school.coordinators.count %></td>
+          <td><%= @school.speducators.count %></td>
+          <td><%= @school.teachers.count %></td>
+        </tr>
+        <tr>
+          <th>Student Information</th>
+        </tr>
+        <tr>
+          <th>Students</th>
+          <th>Active Goals</th>
+          <th>Observations</th>
+          <th>Records</th>
+        </tr>
+        <tr>
+          <td><%= @school.students.count %></td>
+          <td><%= @school.active_goals.count %></td>
+          <td><%= @school.observations.count %></td>
+          <td><%= @school.records.count %></td>
+        </tr>
+      </table>
+      <div class="graph"></div>
+    </div>
+  <% end %>
 </section>

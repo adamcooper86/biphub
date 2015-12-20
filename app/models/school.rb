@@ -3,6 +3,8 @@ class School < ActiveRecord::Base
   has_many :teachers, dependent: :destroy
   has_many :speducators, dependent: :destroy
   has_many :students, dependent: :destroy
+  has_many :observations, through: :students
+  has_many :records, through: :students
 
   validates :name, :address, :city, :state, :zip, presence: true
 
