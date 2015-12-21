@@ -5,8 +5,12 @@ class Goal < ActiveRecord::Base
   validates :bip, :text, :prompt, :meme, presence: true
 
   def avg_performance
-    results = self.records.map{ |record| record.result }
-    average_result = results.inject(0.0) { |sum, el| sum + el } / results.size
+    results = self.records.map{ |record| record.result }.compact
+    if results.length > 0
+      average_result = results.inject(0.0) { |sum, el| sum + el } / results.size
+    else
+      raise RuntimeError, "There were no answered records"
+    end
     if self.meme == "Qualitative"
       (average_result / 5) *100
     elsif self.meme == "Percentage"
@@ -40,5 +44,7 @@ class Goal < ActiveRecord::Base
         coefficient * 100
       end
     end
+    rescue
+    nil
   end
 end

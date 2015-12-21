@@ -1,12 +1,28 @@
 require 'rails_helper'
 
-RSpec.describe Goal, type: :model do
+RSpec.describe Goal, type: :model, focus: true do
   context 'validations' do
     it 'is invalid with no bip' do
       expect(FactoryGirl.build(:goal, bip: nil)).not_to be_valid
     end
   end
   describe '#avg_performance' do
+    context 'records with nil are ignored' do
+      let(:goal){ FactoryGirl.create :goal, meme: "Qualitative" }
+      let(:record){ FactoryGirl.create :record, goal: goal}
+      let(:answered_record){ FactoryGirl.create :record, goal: goal, result: 5 }
+
+      it 'if there are no records with results for a goal' do
+        record
+        expect(goal.avg_performance).to eq nil
+      end
+      it 'if there are some answered, some not' do
+        record
+        answered_record
+
+        expect(goal.avg_performance).to eq 100.0
+      end
+    end
     context 'qualitative goals' do
       let(:goal){ FactoryGirl.create :goal, meme: "Qualitative" }
       let(:record){ FactoryGirl.create :record, goal: goal}
