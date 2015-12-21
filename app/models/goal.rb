@@ -13,8 +13,6 @@ class Goal < ActiveRecord::Base
         growth[i] = scores[i+1] - scores[i]
       end
       average_result = growth.inject(0.0) { |sum, el| sum + el } / growth.size
-    elsif results.length > 0
-      0.0
     else
       raise RuntimeError, "There were no answered records"
     end
