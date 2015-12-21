@@ -38,7 +38,28 @@ end
   observations = Observation.create_from_cards student.cards
   observations.each do |observation|
     Record.create_record_group observation, bip.goals
+    observation.records.each do |record|
+      goal = record.goal
+      if goal.meme == "Boolean"
+        result = 1
+      elsif goal.meme == "Time"
+        result = 5
+      elsif goal.meme == "Incidence"
+        result = 0
+      elsif goal.meme == "Qualitative"
+        result = 5
+      elsif goal.meme == "Percentage"
+        result = 100
+      end
+      record.update_attribute(:result, result)
+    end
   end
+
+  observations = Observation.create_from_cards student.cards
+  observations.each do |observation|
+    Record.create_record_group observation, bip.goals
+  end
+
 end
 
 puts "Successfully Seeded the Database"
