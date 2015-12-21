@@ -120,6 +120,21 @@ RSpec.describe Student, type: :model do
 
         expect(student.avg_performance).to eq 50.0
       end
+      it 'Some goals have no answered records' do
+        qualitative_record
+        duration_record.result = 5
+        duration_record.save
+        percentage_record
+
+        expect(student.avg_performance).to eq 100.0
+      end
+      it 'Student has no answered records' do
+        qualitative_record
+        duration_record
+        percentage_record
+
+        expect(student.avg_performance).to eq nil
+      end
     end
   end
 
