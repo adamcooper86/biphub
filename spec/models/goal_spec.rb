@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Goal, type: :model, focus: true do
+RSpec.describe Goal, type: :model, focus: false do
   let(:goal){ FactoryGirl.create :goal, meme: "Qualitative" }
   let(:record){ FactoryGirl.create :record, goal: goal}
   let(:answered_record){ FactoryGirl.create :record, goal: goal, result: 5 }
@@ -24,6 +24,11 @@ RSpec.describe Goal, type: :model, focus: true do
     before(:each){ record }
     it 'if there are no records with results for a goal' do
       expect(goal.avg_growth).to eq nil
+    end
+    it 'if there is only one answered record' do
+      answered_record
+
+      expect(goal.avg_growth).to eq 0.0
     end
     it 'if there are some answered, some not' do
       [answered_record1, answered_record2]
