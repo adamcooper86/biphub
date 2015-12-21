@@ -30,6 +30,24 @@ RSpec.describe Goal, type: :model, focus: true do
 
       expect(goal.avg_growth).to eq 20.0
     end
+    context 'different goal types' do
+      it 'calculates percentage gaols' do
+         record1, record2, record3 = FactoryGirl.create(:record, goal: percentage_goal, result: 1), FactoryGirl.create(:record, goal: percentage_goal, result: 2), FactoryGirl.create(:record, goal: percentage_goal, result: 3)
+         expect(percentage_goal.avg_growth).to eq 1.0
+      end
+      it 'calculates boolean goals' do
+         record1, record2, record3, record4 = FactoryGirl.create(:record, goal: boolean_goal, result: 0), FactoryGirl.create(:record, goal: boolean_goal, result: 1), FactoryGirl.create(:record, goal: boolean_goal, result: 0), FactoryGirl.create(:record, goal: boolean_goal, result: 1)
+         expect(boolean_goal.avg_growth).to eq 33.333333333333336
+      end
+      it 'calculates duration gaols' do
+         record1, record2, record3, record4 = FactoryGirl.create(:record, goal: duration_goal, result: 0), FactoryGirl.create(:record, goal: duration_goal, result: 1), FactoryGirl.create(:record, goal: duration_goal, result: 0), FactoryGirl.create(:record, goal: duration_goal, result: 1)
+         expect(duration_goal.avg_growth).to eq 6.666666666666667
+      end
+      it 'calculates incidence gaols' do
+         record1, record2, record3 = FactoryGirl.create(:record, goal: incidence_goal, result: 3), FactoryGirl.create(:record, goal: incidence_goal, result: 2), FactoryGirl.create(:record, goal: incidence_goal, result: 1)
+         expect(incidence_goal.avg_growth).to eq 8.333333333333329
+      end
+    end
   end
   describe '#avg_performance' do
     before(:each){ record }
