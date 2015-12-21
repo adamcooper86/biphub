@@ -102,5 +102,23 @@ RSpec.describe School, type: :model do
 
       expect(school.avg_student_performance).to eq 80.00
     end
+    context "some students have nil values" do
+      let(:student2){ FactoryGirl.create :student, school: school }
+      let(:bip2){ FactoryGirl.create :bip, student: student }
+      let(:goal2){ FactoryGirl.create :goal, bip: bip, meme: "Qualitative" }
+      let(:record2){ FactoryGirl.create :record, goal: goal }
+
+      it 'ignores nil values' do
+        record2
+        expect(school.avg_student_performance).to eq 100.0
+      end
+      it 'handles all nil values' do
+        record.result = nil
+        record.save
+        record2
+
+        expect(school.avg_student_performance).to eq nil
+      end
+    end
   end
 end
