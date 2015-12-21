@@ -80,11 +80,7 @@ RSpec.describe School, type: :model do
     end
   end
   context '#avg_student_performance' do
-    let(:record){ FactoryGirl.create :record, goal: goal }
-    before(:each){
-      record.result = 5
-      record.save
-    }
+    let!(:record){ FactoryGirl.create :record, goal: goal, result: 5 }
 
     it 'returns a float representing average student performance' do
       expect(school.avg_student_performance).to be_a Float
@@ -118,6 +114,57 @@ RSpec.describe School, type: :model do
         record2
 
         expect(school.avg_student_performance).to eq nil
+      end
+    end
+  end
+  context '#avg_student_growth' do
+    let(:record1){ FactoryGirl.create :record, goal: goal, result: 0 }
+    let(:record2){ FactoryGirl.create :record, goal: goal, result: 5 }
+    before(:each){
+      record1
+      record2
+    }
+
+    it 'returns a float representing average student growth' do
+      expect(school.avg_student_growth).to be_a Float
+      expect(school.avg_student_growth).to eq 100.00
+    end
+    it 'returns a float representing average student growth' do
+      record1
+      record2.update_attribute(:result, 0)
+
+      expect(school.avg_student_growth).to eq 0.00
+    end
+    it 'returns a float representing average student growth' do
+      record1
+      record2.update_attribute(:result, 4)
+
+      expect(school.avg_student_growth).to eq 80.00
+    end
+    it 'returns a float representing average student growth' do
+      record1.update_attribute(:result, 5)
+      record2.update_attribute(:result, 4)
+
+      expect(school.avg_student_growth).to eq -20.00
+    end
+    context "some students have nil values" do
+      let(:student2){ FactoryGirl.create :student, school: school }
+      let(:bip2){ FactoryGirl.create :bip, student: student }
+      let(:goal2){ FactoryGirl.create :goal, bip: bip, meme: "Qualitative" }
+      let(:record3){ FactoryGirl.create :record, goal: goal }
+
+      it 'ignores nil values' do
+        record1
+        record2
+        record3
+        expect(school.avg_student_growth).to eq 100.0
+      end
+      it 'handles all nil values' do
+        record1.update_attribute(:result, nil)
+        record2.update_attribute(:result, nil)
+        record3
+
+        expect(school.avg_student_growth).to eq nil
       end
     end
   end

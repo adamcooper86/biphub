@@ -30,4 +30,12 @@ class School < ActiveRecord::Base
       nil
     end
   end
+  def avg_student_growth
+    results = self.students.map{|student| student.avg_growth }.compact
+    if results.length > 0
+      average_result = results.inject(0.0) { |sum, el| sum + el } / results.size
+    else
+      nil
+    end
+  end
 end

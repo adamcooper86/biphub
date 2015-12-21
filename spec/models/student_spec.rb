@@ -229,7 +229,7 @@ RSpec.describe Student, type: :model, focus: false do
         duration_record2.update_attribute(:result, nil)
         percentage_record2.update_attribute(:result, nil)
 
-        expect(student.avg_performance).to eq nil
+        expect(student.avg_growth).to eq nil
       end
     end
   end
