@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Goal, type: :model, focus: false, focus: false do
+RSpec.describe Goal, type: :model, focus: false do
   let(:goal){ FactoryGirl.create :goal, meme: "Qualitative" }
   let(:record){ FactoryGirl.create :record, goal: goal}
   let(:answered_record){ FactoryGirl.create :record, goal: goal, result: 5 }
