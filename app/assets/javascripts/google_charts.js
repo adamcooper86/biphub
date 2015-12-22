@@ -12,19 +12,13 @@ $( document ).ready(function() {
     function drawChart() {
 
       // Create the data table.
-      var data = new google.visualization.DataTable();
-      data.addColumn('string', 'Topping');
-      data.addColumn('number', 'Slices');
-      data.addRows([
-        ['Mushrooms', 3],
-        ['Onions', 1],
-        ['Olives', 1],
-        ['Zucchini', 1],
-        ['Pepperoni', 2]
-      ]);
+      var input_data = $('#chart_div').data("school");
+
+
+      var data = google.visualization.arrayToDataTable(input_data);
 
       // Set chart options
-      var options = {'title':'How Much Pizza I Ate Last Night',
+      var options = {'title':'Average Performance - Whole Year',
                      'width':400,
                      'height':300};
 
