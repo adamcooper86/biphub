@@ -14,12 +14,12 @@ RSpec.describe ChartDataHelper, type: :helper, focus: false do
 
   context "#school_data" do
     it "returns an empty array when there are results" do
-      expect(helper.school_data(school)).to eq([])
+      expect(helper.school_data(school)).to eq([['Day', 'Performance Score']])
     end
     it "returns an array with average performance for each day" do
       record1
       finish_date = observation1.finish.to_date
-      expect(helper.school_data(school)).to eq([[finish_date, 100.0]])
+      expect(helper.school_data(school)).to eq([['Day', 'Performance Score'],[finish_date, 100.0]])
     end
   end
 end
