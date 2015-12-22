@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Using the reports panel", js: false, focus: false do
+feature "Using the reports panel", js: false, focus: true do
   given(:school){ FactoryGirl.create :school, name: "test name" }
   given(:speducator){ FactoryGirl.create :speducator, school: school }
   given(:student){ FactoryGirl.create :student, speducator: speducator }

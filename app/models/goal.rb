@@ -20,8 +20,14 @@ class Goal < ActiveRecord::Base
     nil
   end
 
-  def avg_performance
-    results = self.records.map{ |record| record.result }.compact
+  def avg_performance options = {}
+    trailing = options.fetch(:trailing, nil)
+    if trailing
+      records = self.records.select{ |record| record.observation.finish > Time.now - trailing.days }
+      results = records.map{|record| record.result }.compact
+    else
+      results = self.records.map{ |record| record.result }.compact
+    end
     if results.length > 0
       average_result = results.inject(0.0) { |sum, el| sum + el } / results.size
     else

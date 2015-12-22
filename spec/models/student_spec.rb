@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Student, type: :model, focus: false do
+RSpec.describe Student, type: :model, focus: true do
   let(:student){ FactoryGirl.create :student, first_name: 'Joseph', last_name: 'Hammond' }
 
   context 'validations' do
@@ -134,6 +134,15 @@ RSpec.describe Student, type: :model, focus: false do
         percentage_record
 
         expect(student.avg_performance).to eq nil
+      end
+      context 'Optional parameters' do
+        let(:old_observation){ FactoryGirl.create(:observation, student: student, start: Time.now - 8.days, finish: Time.now - 8.days ) }
+        let!(:old_record){ FactoryGirl.create :record, goal: qualitative_goal, observation: old_observation, result: 0 }
+
+        it 'ignores records that are older than the trailing days property' do
+          qualitative_record.update_attribute(:result, 5)
+          expect(student.avg_performance(trailing: 7)).to eq 100.0
+        end
       end
     end
   end

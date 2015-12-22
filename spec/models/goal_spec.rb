@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Goal, type: :model, focus: false do
+RSpec.describe Goal, type: :model, focus: true do
   let(:goal){ FactoryGirl.create :goal, meme: "Qualitative" }
   let(:record){ FactoryGirl.create :record, goal: goal}
   let(:answered_record){ FactoryGirl.create :record, goal: goal, result: 5 }
@@ -64,6 +64,15 @@ RSpec.describe Goal, type: :model, focus: false do
         answered_record
 
         expect(goal.avg_performance).to eq 100.0
+      end
+    end
+    context 'optional parameters' do
+      let(:old_observation){ FactoryGirl.create(:observation, start: Time.now - 8.days, finish: Time.now - 8.days ) }
+      let!(:old_record){ FactoryGirl.create :record, goal: goal, observation: old_observation, result: 0 }
+
+      it 'ignores records that are older than the trailing days property' do
+        record.update_attribute(:result, 5)
+        expect(goal.avg_performance(trailing: 7)).to eq 100.0
       end
     end
     context 'qualitative goals' do

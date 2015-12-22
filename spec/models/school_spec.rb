@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe School, type: :model, focus: false do
+RSpec.describe School, type: :model, focus: true do
   let(:school){ FactoryGirl.create :school }
   let(:student){ FactoryGirl.create :student, school: school }
   let(:bip){ FactoryGirl.create :bip, student: student }
@@ -87,14 +87,12 @@ RSpec.describe School, type: :model, focus: false do
       expect(school.avg_student_performance).to eq 100.00
     end
     it 'returns a float representing average student performance' do
-      record.result = 0
-      record.save
+      record.update_attribute(:result, 0)
 
       expect(school.avg_student_performance).to eq 0.00
     end
     it 'returns a float representing average student performance' do
-      record.result = 4
-      record.save
+      record.update_attribute(:result, 4)
 
       expect(school.avg_student_performance).to eq 80.00
     end
@@ -109,11 +107,18 @@ RSpec.describe School, type: :model, focus: false do
         expect(school.avg_student_performance).to eq 100.0
       end
       it 'handles all nil values' do
-        record.result = nil
-        record.save
+        record.update_attribute(:result, nil)
         record2
 
         expect(school.avg_student_performance).to eq nil
+      end
+    end
+    context 'Optional parameter for date range of results' do
+      let(:old_observation){ FactoryGirl.create(:observation, student: student, user: teacher, start: Time.now - 8.days, finish: Time.now - 8.days ) }
+      let!(:old_record){ FactoryGirl.create :record, goal: goal, observation: old_observation, result: 0 }
+
+      it 'ignores records that are older than the trailing days property' do
+        expect(school.avg_student_performance(trailing: 7)).to eq 100.0
       end
     end
   end
@@ -162,7 +167,6 @@ RSpec.describe School, type: :model, focus: false do
       it 'handles all nil values' do
         record1.update_attribute(:result, nil)
         record2.update_attribute(:result, nil)
-        record3
 
         expect(school.avg_student_growth).to eq nil
       end

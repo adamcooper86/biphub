@@ -65,10 +65,12 @@
         </tr>
         <tr>
           <th>Average Performance</th>
+          <th>Average Performance - last 5 Day</th>
           <th>Average Growth</th>
         </tr>
         <tr>
           <td><%= @school.avg_student_performance %></td>
+          <td><%= @school.avg_student_performance(trailing: 7) %></td>
           <td><%= @school.avg_student_growth %></td>
         </tr>
       </table>
