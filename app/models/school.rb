@@ -22,8 +22,26 @@ class School < ActiveRecord::Base
   def teachers_with_unanswered_observations
     self.unanswered_observations.map{ |observation| observation.user }.uniq
   end
-  def avg_student_performance
-    results = self.students.map{|student| student.avg_performance }
-    average_result = results.inject(0.0) { |sum, el| sum + el } / results.size
+  def observation_date_range
+    self.observations.map{|observation| observation.finish.to_date }.uniq
+  end
+  def avg_student_performance options = {}
+    trailing = options.fetch(:trailing, nil)
+    date = options.fetch(:date, nil)
+
+    results = self.students.map{|student| student.avg_performance(trailing: trailing, date: date) }.compact
+    if results.length > 0
+      average_result = results.inject(0.0) { |sum, el| sum + el } / results.size
+    else
+      nil
+    end
+  end
+  def avg_student_growth
+    results = self.students.map{|student| student.avg_growth }.compact
+    if results.length > 0
+      average_result = results.inject(0.0) { |sum, el| sum + el } / results.size
+    else
+      nil
+    end
   end
 end

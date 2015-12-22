@@ -63,8 +63,23 @@ class Student < ActiveRecord::Base
   def active_goals
     self.bips.map{|bip| bip.goals }.flatten
   end
-  def avg_performance
-    results = self.goals.map{|goal| goal.avg_performance }
-    average_result = results.inject(0.0) { |sum, el| sum + el } / results.size
+  def avg_performance options = {}
+    trailing = options.fetch(:trailing, nil)
+    date = options.fetch(:date, nil)
+
+    results = self.goals.map{|goal| goal.avg_performance(trailing: trailing, date: date) }.compact
+    if results.length > 0
+      average_result = results.inject(0.0) { |sum, el| sum + el } / results.size
+    else
+      nil
+    end
+  end
+  def avg_growth
+    results = self.goals.map{|goal| goal.avg_growth }.compact
+    if results.length > 0
+      average_result = results.inject(0.0) { |sum, el| sum + el } / results.size
+    else
+      nil
+    end
   end
 end

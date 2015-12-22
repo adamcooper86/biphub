@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ReportsController, type: :controller do
+RSpec.describe ReportsController, type: :controller, focus: false do
   let(:user){ FactoryGirl.create :speducator }
   before(:each){ session[:user_id] = user.id }
   subject{ get :index }

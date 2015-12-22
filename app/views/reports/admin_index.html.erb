@@ -65,14 +65,19 @@
         </tr>
         <tr>
           <th>Average Performance</th>
+          <th>Average Performance - trailing week</th>
+          <th>Average Performance - trailing month</th>
           <th>Average Growth</th>
         </tr>
         <tr>
           <td><%= @school.avg_student_performance %></td>
+          <td><%= @school.avg_student_performance(trailing: 7) %></td>
+          <td><%= @school.avg_student_performance(trailing: 30) %></td>
           <td><%= @school.avg_student_growth %></td>
         </tr>
       </table>
-      <div class="graph"></div>
+      <%= content_tag 'div', class: "graph", id: "chart_div", data: { school: school_data(@school)} do %>
+      <% end %>
     </div>
   <% end %>
 </section>
