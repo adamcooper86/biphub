@@ -22,7 +22,12 @@ class Goal < ActiveRecord::Base
 
   def avg_performance options = {}
     trailing = options.fetch(:trailing, nil)
-    if trailing
+    date = options.fetch(:date, nil)
+
+    if date
+      records = self.records.select{ |record| record.observation.finish.to_date === date.to_date }
+      results = records.map{|record| record.result }.compact
+    elsif trailing
       records = self.records.select{ |record| record.observation.finish > Time.now - trailing.days }
       results = records.map{|record| record.result }.compact
     else

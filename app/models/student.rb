@@ -65,7 +65,9 @@ class Student < ActiveRecord::Base
   end
   def avg_performance options = {}
     trailing = options.fetch(:trailing, nil)
-    results = self.goals.map{|goal| goal.avg_performance(trailing: trailing) }.compact
+    date = options.fetch(:date, nil)
+
+    results = self.goals.map{|goal| goal.avg_performance(trailing: trailing, date: date) }.compact
     if results.length > 0
       average_result = results.inject(0.0) { |sum, el| sum + el } / results.size
     else

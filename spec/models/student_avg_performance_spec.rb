@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Student, type: :model, focus: true do
+RSpec.describe Student, type: :model, focus: false do
   let(:student){ FactoryGirl.create :student, first_name: 'Joseph', last_name: 'Hammond' }
 
   describe '#avg_performance' do
@@ -95,9 +95,10 @@ RSpec.describe Student, type: :model, focus: true do
           qualitative_record.update_attribute(:result, 5)
           expect(student.avg_performance(trailing: 7)).to eq 100.0
         end
-        # it 'returns avg_prformance for a specific date' do
-          # expect(student.avg_performance(date: old_observation.finish)).to eq(0.0)
-        # end
+        it 'returns avg_performance for a specific date' do
+          qualitative_record.update_attribute(:result, 5)
+          expect(student.avg_performance(date: old_observation.finish)).to eq(0.0)
+        end
       end
     end
   end

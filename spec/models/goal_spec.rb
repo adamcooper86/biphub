@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Goal, type: :model, focus: true do
+RSpec.describe Goal, type: :model, focus: false do
   let(:goal){ FactoryGirl.create :goal, meme: "Qualitative" }
   let(:record){ FactoryGirl.create :record, goal: goal}
   let(:answered_record){ FactoryGirl.create :record, goal: goal, result: 5 }
@@ -73,6 +73,10 @@ RSpec.describe Goal, type: :model, focus: true do
       it 'ignores records that are older than the trailing days property' do
         record.update_attribute(:result, 5)
         expect(goal.avg_performance(trailing: 7)).to eq 100.0
+      end
+      it 'returns the average performance for a day' do
+        record.update_attribute(:result, 5)
+        expect(goal.avg_performance(date: old_observation.finish)).to eq 0.0
       end
     end
     context 'qualitative goals' do

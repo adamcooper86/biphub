@@ -5,6 +5,7 @@ RSpec.describe School, type: :model, focus: true do
   let(:student){ FactoryGirl.create :student, school: school }
   let(:bip){ FactoryGirl.create :bip, student: student }
   let(:goal){ FactoryGirl.create :goal, bip: bip, meme: "Qualitative" }
+  let(:observation){ FactoryGirl.create :observation, student: student }
   let(:teacher){ FactoryGirl.create(:teacher, school: school) }
 
   context 'validations' do
@@ -79,6 +80,19 @@ RSpec.describe School, type: :model, focus: true do
       end
     end
   end
+  context '#observation_date_range' do
+    let!(:record1){ FactoryGirl.create :record, goal: goal, observation: observation, result: 5 }
+    let(:observation2){ FactoryGirl.create :observation, student: student }
+    let(:record2){ FactoryGirl.create :record, goal: goal, observation: observation2, result: 5 }
+
+    it 'returns an array with the date of the observations' do
+      expect(school.observation_date_range).to eq [observation.finish.to_date]
+    end
+    it 'the array has only unique dates' do
+      record2
+      expect(school.observation_date_range).to eq [observation.finish.to_date]
+    end
+  end
   context '#avg_student_performance' do
     let!(:record){ FactoryGirl.create :record, goal: goal, result: 5 }
 
@@ -119,6 +133,9 @@ RSpec.describe School, type: :model, focus: true do
 
       it 'ignores records that are older than the trailing days property' do
         expect(school.avg_student_performance(trailing: 7)).to eq 100.0
+      end
+      it 'returns the average performance when given a date' do
+        expect(school.avg_student_performance(date: old_observation.finish)).to eq 0.0
       end
     end
   end

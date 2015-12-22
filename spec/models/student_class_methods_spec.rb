@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Student, type: :model, focus: true do
+RSpec.describe Student, type: :model, focus: false do
   let(:student){ FactoryGirl.create :student, first_name: 'Joseph', last_name: 'Hammond' }
 
   context 'validations' do
