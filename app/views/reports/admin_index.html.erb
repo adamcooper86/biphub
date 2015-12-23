@@ -79,8 +79,14 @@
           </tr>
         </table>
       </div>
-      <%= content_tag 'div', class: "graph col-sm-12 col-md-5", id: "chart_div", data: { school: school_data(@school), title: "Average Performance - Whole Year's", type: "line"} do %>
-      <% end %>
+      <div class="col-sm-12 col-md-5">
+        <%= form_tag reports_path, method: "get", id: 'sliceFilter' do%>
+          School: <%= select_tag 'grade_lvl', options_for_select(grade_level_options(@school)) %>
+          <%= submit_tag "Filter Results" %>
+        <% end %>
+        <%= content_tag 'div', class: "graph", id: "chart_div", data: { school: school_data(@school), title: "Average Performance - Whole Year's", type: "line", xlabel: 'Date', ylabel: 'Performance'} do %>
+        <% end %>
+      </div>
     </div>
   <% end %>
 </section>

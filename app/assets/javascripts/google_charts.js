@@ -15,16 +15,18 @@ $( document ).ready(function() {
       var input_data = $('#chart_div').data("school");
       var title = $('#chart_div').data("title");
       var chartType = $('#chart_div').data("type");
+      var xLabel = $('#chart_div').data("xlabel");
+      var yLabel = $('#chart_div').data("ylabel");
 
       var data = google.visualization.arrayToDataTable(input_data);
 
       // Set chart options
       var options = {'title': title,
                       hAxis: {
-                        title: 'Date'
+                        title: xLabel
                       },
                       vAxis: {
-                        title: 'Performance'
+                        title: yLabel
                       },
                      'height':300};
 
