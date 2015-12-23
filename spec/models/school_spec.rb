@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe School, type: :model, focus: false do
+RSpec.describe School, type: :model, focus: true do
   let(:school){ FactoryGirl.create :school }
   let(:student){ FactoryGirl.create :student, school: school }
   let(:bip){ FactoryGirl.create :bip, student: student }
@@ -33,6 +33,27 @@ RSpec.describe School, type: :model, focus: false do
       coordinator = FactoryGirl.create(:coordinator)
       school.coordinators << coordinator
       expect(school.users).to eq [coordinator, teacher, speducator]
+    end
+  end
+  context '#grade_levels' do
+    let(:student2){ FactoryGirl.create :student, school: school, grade: 2 }
+    it 'returns nil if there are no students with grades' do
+      expect(school.grade_levels).to eq []
+    end
+    it 'returns an array of grades for a school' do
+      student.update_attribute(:grade, 1)
+      student2
+      expect(school.grade_levels).to eq [1,2]
+    end
+    it 'returns a unique array of grades' do
+      student.update_attribute(:grade, 1)
+      student2.update_attribute(:grade, 1)
+      expect(school.grade_levels).to eq [1]
+    end
+    it 'the return is sorted' do
+      student.update_attribute(:grade, 2)
+      student2.update_attribute(:grade, 1)
+      expect(school.grade_levels).to eq [1, 2]
     end
   end
   context '#active_goals' do

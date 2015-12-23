@@ -14,6 +14,9 @@ class School < ActiveRecord::Base
   def active_goals
     self.students.map{ |student| student.active_goals }.flatten
   end
+  def grade_levels
+    self.students.map{ |student| student.grade }.uniq.sort
+  end
   def unanswered_observations limit = 0
     unanswered = self.observations.select{|observation| !observation.is_answered? }
     limit = DateTime.now - limit
