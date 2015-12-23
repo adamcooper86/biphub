@@ -14,16 +14,28 @@ $( document ).ready(function() {
       // Create the data table.
       var input_data = $('#chart_div').data("school");
       var title = $('#chart_div').data("title");
+      var chartType = $('#chart_div').data("type");
 
       var data = google.visualization.arrayToDataTable(input_data);
 
       // Set chart options
       var options = {'title': title,
-                     'width':400,
+                      hAxis: {
+                        title: 'Date'
+                      },
+                      vAxis: {
+                        title: 'Performance'
+                      },
                      'height':300};
 
       // Instantiate and draw our chart, passing in some options.
-      var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+      if(chartType == 'bar'){
+        var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+      } else if(chartType == 'line'){
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+      } else if(chartType == 'column'){
+        var chart = new google.visualization.Chart(document.getElementById('chart_div'));
+      }
       chart.draw(data, options);
     }
   }
