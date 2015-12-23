@@ -13,12 +13,12 @@ $( document ).ready(function() {
 
       // Create the data table.
       var input_data = $('#chart_div').data("school");
-
+      var title = $('#chart_div').data("title");
 
       var data = google.visualization.arrayToDataTable(input_data);
 
       // Set chart options
-      var options = {'title':'Average Performance - Whole Year',
+      var options = {'title': title,
                      'width':400,
                      'height':300};
 
