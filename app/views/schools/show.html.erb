@@ -1,31 +1,45 @@
-<section id="schoolInformation">
-  <table>
-    <tr>
-      <td><h3>Name:</h3></td>
-      <td><p><%= @school.name %></p></td>
-      <td><h3>address:</h3></td>
-      <td><p><%= @school.address %></p></td>
-    </tr>
-    <tr>
-      <td><h3>City:</h3></td>
-      <td><p><%= @school.city %></p></td>
-      <td><h3>State:</h3></td>
-      <td><p><%= @school.state %></p></td>
-      <td><h3>Zip:</h3></td>
-      <td><p><%= @school.zip %></p></td>
-    </tr>
-  </table>
-  <section id="coordinators">
-    <h2>Coordinators</h2>
-    <% if @coordinators.empty? %>
-      <p>There are no coordinators assigned to this school</p>
-    <% else %>
-      <ul>
-      <% @coordinators.each do |coordinator|%>
-        <li><%= coordinator.first_name %> <%= coordinator.last_name %> <%= button_to 'show', school_coordinator_path(@school, coordinator), method: :get %> <%= button_to 'edit', edit_school_coordinator_path(@school, coordinator), method: :get %> <%= button_to("delete", school_coordinator_path(@school, coordinator), method: :delete) %></li>
-      <% end %>
-      </ul>
-    <% end %>
-    <%= link_to "New Coordinator", new_school_coordinator_path(@school)  %>
-  </section>
+<section id="adminPanel" class="row">
+  <div class="col-sm-1"></div>
+  <div class="col-sm-10">
+    <h1><%= link_to("Admin Panel", admin_path(current_user)) %> > <%= @school.name %></h1>
+    <div class="row">
+      <section id="schoolInformation" class="panel panel-default col-sm-5">
+        <div class="panel-body">
+          <h3>Name:      <span class="aright"><%= @school.name %></span></h3>
+          <h3>Address:   <span class="aright"><%= @school.address %></span></h3>
+          <h3>City:      <span class="aright"><%= @school.city %></span></h3>
+          <h3>State:     <span class="aright"><%= @school.state %></span></h3>
+          <h3>Zip:       <span class="aright"><%= @school.zip %></span></h3>
+        </div>
+      </section>
+      <div class="col-sm-1"></div>
+      <section id="coordinators" class="panel panel-default col-sm-6 resource-panel">
+        <div class="panel-heading">
+          <%= link_to "New Coordinator", new_school_coordinator_path(@school), class: "new_resource"  %>
+          <h2 class="panel-title">Coordinators</h2>
+        </div>
+        <div class="panel-body">
+          <% if @coordinators.empty? %>
+            <p>There are no coordinators assigned to this school</p>
+          <% else %>
+            <ul>
+              <% count = 1 %>
+              <% @coordinators.each do |coordinator|%>
+                <li class="resource  <%= even_or_odd(count) %>">
+                  <%= coordinator.first_name %> <%= coordinator.last_name %>
+                  <div class="btn-group resource-btn-group" role="group">
+                    <%= button_to("delete", school_coordinator_path(@school, coordinator), method: :delete, class: "btn btn-danger") %>
+                    <%= button_to 'edit', edit_school_coordinator_path(@school, coordinator), method: :get, class: "btn btn-warning" %>
+                    <%= button_to 'show', school_coordinator_path(@school, coordinator), method: :get, class: "btn btn-default" %>
+                  </div>
+                </li>
+                <% count += 1 %>
+              <% end %>
+            </ul>
+          <% end %>
+        </div>
+      </section>
+    </div>
+  </div>
+  <div class="col-sm-1"></div>
 </section>

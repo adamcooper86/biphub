@@ -1,12 +1,27 @@
-<section id="adminPanel">
-  <h1>Admin pannel</h1>
-  <section id="schoolsPanel">
-    <h2>Schools</h2>
-    <%= link_to 'New School', new_school_path %>
-    <ul>
-      <% @schools.each do |school| %>
-      <li><%= school.name %> <%= button_to 'show', school_path(school), method: :get %> <%= button_to 'edit', edit_school_path(school), method: :get %> <%= button_to("delete", school_path(school), method: :delete) %></li>
-      <% end %>
-    </ul>
-  </section>
+<section id="adminPanel" class="row">
+  <div class="col-sm-1"></div>
+  <div class="col-sm-10">
+    <h1>Admin Panel</h1>
+    <section id="schoolsPanel" class="panel panel-default col-sm-6 resource-panel">
+      <div class="panel-heading">
+        <%= link_to 'New School', new_school_path, class: "new_resource" %>
+        <h2 class="panel-title">Schools</h2>
+      </div>
+      <div class="panel-body">
+        <ul>
+          <% count = 1 %>
+          <% @schools.each do |school| %>
+          <li class="resource  <%= even_or_odd(count) %>"><%= school.name %>
+            <div class="btn-group resource-btn-group" role="group">
+              <%= button_to("delete", school_path(school), method: :delete, class: "btn btn-danger") %>
+              <%= button_to 'edit', edit_school_path(school), method: :get, class: "btn btn-warning" %>
+              <%= button_to 'show', school_path(school), method: :get, class: "btn btn-default" %>
+            </li>
+            <% count += 1 %>
+          <% end %>
+        </ul>
+      </div>
+    </section>
+  </div>
+  <div class="col-sm-1"></div>
 </section>
