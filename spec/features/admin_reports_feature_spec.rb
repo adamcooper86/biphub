@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-feature "Using the reports panel", js: false, focus: false do
+feature "Using the reports panel", js: false, focus: true do
   given(:school){ FactoryGirl.create :school, name: "test name" }
   given(:speducator){ FactoryGirl.create :speducator, school: school }
-  given(:student){ FactoryGirl.create :student, speducator: speducator, grade: 1 }
+  given(:student){ FactoryGirl.create :student, school: school, speducator: speducator, grade: 1 }
   given(:teacher){ FactoryGirl.create :teacher, school: school  }
   given(:observation){ FactoryGirl.create :observation, student: student, user: teacher }
   given(:bip){ FactoryGirl.create :bip, student: student }
@@ -55,7 +55,6 @@ feature "Using the reports panel", js: false, focus: false do
       expect(table).to have_content "Student Metrics"
     end
     scenario 'by selecting a school to view' do
-      save_and_open_page
       within '#sliceFilter' do
         select "1", from: 'grade_lvl'
         click_on "Filter Results"
