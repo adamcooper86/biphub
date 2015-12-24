@@ -3,7 +3,7 @@ require 'rails_helper'
 feature "Using the reports panel", js: false, focus: false do
   given(:school){ FactoryGirl.create :school, name: "test name" }
   given(:speducator){ FactoryGirl.create :speducator, school: school }
-  given(:student){ FactoryGirl.create :student, speducator: speducator }
+  given(:student){ FactoryGirl.create :student, speducator: speducator, grade: 1 }
   given(:teacher){ FactoryGirl.create :teacher, school: school  }
   given(:observation){ FactoryGirl.create :observation, student: student, user: teacher }
   given(:bip){ FactoryGirl.create :bip, student: student }
@@ -31,22 +31,44 @@ feature "Using the reports panel", js: false, focus: false do
     expect(page).not_to have_selector ".schoolData"
   end
 
-  scenario 'by selecting a school to view' do
-    click_on 'Reports'
-    within '#schoolFilter' do
-      select school.name, :from => 'school_id'
+  feature "Using a selected school" do
+    background do
+      click_on 'Reports'
+      within '#schoolFilter' do
+        select school.name, :from => 'school_id'
+      end
+      click_on 'Filter Results'
     end
-    click_on 'Filter Results'
-    expect(page).to have_selector '#reportsPanel'
-    expect(page).to have_selector '#schoolFilter'
-    expect(page).to have_selector ".graph"
-    expect(page).to have_selector ".schoolData"
-    expect(page).not_to have_content "No school selected."
 
-    table = find("#schoolTable")
-    expect(table).to have_content "Total Staff"
-    expect(table).to have_content "Total Students"
-    expect(table).to have_content "Open Observations"
-    expect(table).to have_content "Student Metrics"
+    scenario 'by selecting a school to view' do
+      expect(page).to have_selector '#reportsPanel'
+      expect(page).to have_selector '#schoolFilter'
+      expect(page).to have_selector '#sliceFilter'
+      expect(page).to have_selector ".graph"
+      expect(page).to have_selector ".schoolData"
+      expect(page).not_to have_content "No school selected."
+
+      table = find("#schoolTable")
+      expect(table).to have_content "Total Staff"
+      expect(table).to have_content "Total Students"
+      expect(table).to have_content "Open Observations"
+      expect(table).to have_content "Student Metrics"
+    end
+    scenario 'by selecting a school to view' do
+      save_and_open_page
+      within '#sliceFilter' do
+        select "1", from: 'grade_lvl'
+        click_on "Filter Results"
+      end
+      expect(page).to have_selector ".graph"
+      expect(page).to have_selector ".schoolData"
+      expect(page).not_to have_content "No school selected."
+
+      table = find("#schoolTable")
+      expect(table).to have_content "Total Staff"
+      expect(table).to have_content "Total Students"
+      expect(table).to have_content "Open Observations"
+      expect(table).to have_content "Student Metrics"
+    end
   end
 end

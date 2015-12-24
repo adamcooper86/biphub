@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe FormOptionsHelper, type: :helper, focus: true do
+RSpec.describe FormOptionsHelper, type: :helper, focus: false do
   context "#school_options" do
     it "returns an empty array when there are no schools = []" do
       expect(helper.schools_options([])).to eq([])
