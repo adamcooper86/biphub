@@ -14,6 +14,9 @@ class School < ActiveRecord::Base
   def active_goals
     self.students.map{ |student| student.active_goals }.flatten
   end
+  def grade_levels
+    self.students.map{ |student| student.grade }.uniq.compact.sort
+  end
   def unanswered_observations limit = 0
     unanswered = self.observations.select{|observation| !observation.is_answered? }
     limit = DateTime.now - limit
@@ -28,8 +31,16 @@ class School < ActiveRecord::Base
   def avg_student_performance options = {}
     trailing = options.fetch(:trailing, nil)
     date = options.fetch(:date, nil)
+    grade = options.fetch(:grade, nil)
 
-    results = self.students.map{|student| student.avg_performance(trailing: trailing, date: date) }.compact
+    if grade
+      students = self.students.where(grade: grade)
+    else
+      students = self.students
+    end
+
+    results = students.map{|student| student.avg_performance(trailing: trailing, date: date) }.compact
+
     if results.length > 0
       average_result = results.inject(0.0) { |sum, el| sum + el } / results.size
     else

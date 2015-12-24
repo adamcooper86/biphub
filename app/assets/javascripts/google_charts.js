@@ -13,17 +13,31 @@ $( document ).ready(function() {
 
       // Create the data table.
       var input_data = $('#chart_div').data("school");
-
+      var title = $('#chart_div').data("title");
+      var chartType = $('#chart_div').data("type");
+      var xLabel = $('#chart_div').data("xlabel");
+      var yLabel = $('#chart_div').data("ylabel");
 
       var data = google.visualization.arrayToDataTable(input_data);
 
       // Set chart options
-      var options = {'title':'Average Performance - Whole Year',
-                     'width':400,
+      var options = {'title': title,
+                      hAxis: {
+                        title: xLabel
+                      },
+                      vAxis: {
+                        title: yLabel
+                      },
                      'height':300};
 
       // Instantiate and draw our chart, passing in some options.
-      var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+      if(chartType == 'bar'){
+        var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+      } else if(chartType == 'line'){
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+      } else if(chartType == 'column'){
+        var chart = new google.visualization.Chart(document.getElementById('chart_div'));
+      }
       chart.draw(data, options);
     }
   }

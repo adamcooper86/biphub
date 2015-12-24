@@ -1,4 +1,8 @@
 module FormOptionsHelper
+  def grade_level_options school
+    options = school.grade_levels.map{ |lvl| ["#{lvl}", lvl] }
+    [['any', nil]] + options
+  end
   def schools_options schools
     schools.map{ |school| [school.name, school.id] }
   end

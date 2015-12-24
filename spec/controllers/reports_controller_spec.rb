@@ -19,6 +19,13 @@ RSpec.describe ReportsController, type: :controller, focus: false do
 
       it{ is_expected.to be_success }
       it{ is_expected.to render_template "admin_index"}
+
+      context "With a school selected and grade" do
+        subject{ get :index, school_id: user.school.id, grade_lvl: 1 }
+
+        it{ is_expected.to be_success }
+        it{ is_expected.to render_template "admin_index"}
+      end
     end
   end
 
