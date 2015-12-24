@@ -11,6 +11,7 @@
       <h3>Reports for: <%= @school.name %></h3>
       <p>Select the subgroups from the options below to filter the graph results</p>
       <%= form_tag reports_path, method: "get", id: 'sliceFilter' do%>
+        <%= hidden_field_tag 'school_id', @school.id %>
         Grade Level: <%= select_tag 'grade_lvl', options_for_select(grade_level_options(@school)) %>
         <%= submit_tag "Filter Results" %>
       <% end %>
