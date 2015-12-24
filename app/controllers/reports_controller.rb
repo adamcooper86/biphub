@@ -8,7 +8,7 @@ class ReportsController < ApplicationController
         @school = School.find(params[:school_id])
       end
       @grade = params[:grade_lvl]
-
+      @grade = nil if @grade == ""
       render "admin_index"
     elsif @user
       @students = @user.case_students

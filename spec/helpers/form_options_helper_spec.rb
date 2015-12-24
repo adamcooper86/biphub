@@ -50,11 +50,11 @@ RSpec.describe FormOptionsHelper, type: :helper, focus: false do
     let(:school){ FactoryGirl.create :school }
     let(:student){ FactoryGirl.create :student, school: school, grade: 1 }
     it "returns an empty array when school.grade_levels = nil" do
-      expect(helper.grade_level_options(school)).to eq []
+      expect(helper.grade_level_options(school)).to eq [['any', nil]]
     end
     it "returns a formatted array of gradelevels" do
       student
-      expect(helper.grade_level_options(school)).to eq [["1", 1]]
+      expect(helper.grade_level_options(school)).to eq [['any', nil],["1", 1]]
     end
   end
 end
