@@ -8,7 +8,7 @@
     <% unless @school %>
       <h2>No school selected.</h2>
     <% else %>
-      <h3>Reports for: <%= @school.name %></h3>
+      <h3>Reports for: <%= @school.name %><%= " - Grade Level: #{@grade}" if @grade %></h3>
       <p>Select the subgroups from the options below to filter the graph results</p>
       <%= form_tag reports_path, method: "get", id: 'sliceFilter' do%>
         <%= hidden_field_tag 'school_id', @school.id %>

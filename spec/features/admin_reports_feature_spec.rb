@@ -47,6 +47,7 @@ feature "Using the reports panel", js: false, focus: true do
       expect(page).to have_selector ".graph"
       expect(page).to have_selector ".schoolData"
       expect(page).not_to have_content "No school selected."
+      expect(page).not_to have_content "- Grade Level: "
 
       table = find("#schoolTable")
       expect(table).to have_content "Total Staff"
@@ -62,6 +63,7 @@ feature "Using the reports panel", js: false, focus: true do
       expect(page).to have_selector ".graph"
       expect(page).to have_selector ".schoolData"
       expect(page).not_to have_content "No school selected."
+      expect(page).to have_content "Reports for: #{school.name} - Grade Level: #{student.grade}"
 
       table = find("#schoolTable")
       expect(table).to have_content "Total Staff"

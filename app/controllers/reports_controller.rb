@@ -1,6 +1,5 @@
 class ReportsController < ApplicationController
 
-
   def index
     @user = current_user
     if @user.is_a? Admin
@@ -8,6 +7,8 @@ class ReportsController < ApplicationController
       if params[:school_id]
         @school = School.find(params[:school_id])
       end
+      @grade = params[:grade_lvl]
+
       render "admin_index"
     elsif @user
       @students = @user.case_students
