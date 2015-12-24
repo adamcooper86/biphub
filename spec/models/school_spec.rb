@@ -55,6 +55,11 @@ RSpec.describe School, type: :model, focus: true do
       student2.update_attribute(:grade, 1)
       expect(school.grade_levels).to eq [1, 2]
     end
+    it 'The return ignores nil before sorting' do
+      student.update_attribute(:grade, nil)
+      student2.update_attribute(:grade, 1)
+      expect(school.grade_levels).to eq [1]
+    end
   end
   context '#active_goals' do
     it 'returns an array of goal objects' do
