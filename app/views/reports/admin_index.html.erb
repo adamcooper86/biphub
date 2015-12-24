@@ -1,5 +1,5 @@
-<section id="reportsPanel" class="container">
-  <div class="row">
+<section id="reportsPanel" class="container panel">
+  <div class="row panel-body">
     <%= form_tag reports_path, method: "get", id: 'schoolFilter' do%>
       School: <%= select_tag 'school_id', options_for_select(schools_options(@schools)) %>
       <%= submit_tag "Filter Results" %>
@@ -9,6 +9,11 @@
       <h2>No school selected.</h2>
     <% else %>
       <h3>Reports for: <%= @school.name %></h3>
+      <p>Select the subgroups from the options below to filter the graph results</p>
+      <%= form_tag reports_path, method: "get", id: 'sliceFilter' do%>
+        Grade Level: <%= select_tag 'grade_lvl', options_for_select(grade_level_options(@school)) %>
+        <%= submit_tag "Filter Results" %>
+      <% end %>
      <% end %>
    </div>
 
@@ -80,10 +85,6 @@
         </table>
       </div>
       <div class="col-sm-12 col-md-5">
-        <%= form_tag reports_path, method: "get", id: 'sliceFilter' do%>
-          School: <%= select_tag 'grade_lvl', options_for_select(grade_level_options(@school)) %>
-          <%= submit_tag "Filter Results" %>
-        <% end %>
         <%= content_tag 'div', class: "graph", id: "chart_div", data: { school: school_data(@school), title: "Average Performance - Whole Year's", type: "line", xlabel: 'Date', ylabel: 'Performance'} do %>
         <% end %>
       </div>
