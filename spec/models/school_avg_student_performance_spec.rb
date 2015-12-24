@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe School, type: :model, focus: true do
+RSpec.describe School, type: :model, focus: false do
   let(:school){ FactoryGirl.create :school }
-  let(:student){ FactoryGirl.create :student, school: school }
+  let(:student){ FactoryGirl.create :student, school: school, grade: 1 }
   let(:bip){ FactoryGirl.create :bip, student: student }
   let(:goal){ FactoryGirl.create :goal, bip: bip, meme: "Qualitative" }
   let(:observation){ FactoryGirl.create :observation, student: student }
@@ -51,6 +51,16 @@ RSpec.describe School, type: :model, focus: true do
       end
       it 'returns the average performance when given a date' do
         expect(school.avg_student_performance(date: old_observation.finish.to_date)).to eq 0.0
+      end
+      context 'When given a grade' do
+        let(:student2){ FactoryGirl.create :student, school: school, grade: 2 }
+        let(:bip2){ FactoryGirl.create :bip, student: student2 }
+        let(:goal2){ FactoryGirl.create :goal, bip: bip2, meme: "Qualitative" }
+        let!(:record2){ FactoryGirl.create :record, goal: goal, result: 0 }
+
+        it 'returns avg performance for only that grade' do
+          expect(school.avg_student_performance(grade: 1)).to eq 100.0
+        end
       end
     end
   end
