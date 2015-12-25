@@ -1,20 +1,49 @@
 require 'faker'
 
 #create resource methods
+def make_resources school
+  create_teachers school
+  create_speducators school
+  create_students school
+  create_cards school
+  create_bips school
+  create_goals school
+  create_records school
+  create_records school, true
+end
+
+
+def create_school name
+  School.create(name: name, address: "123 TVLand Dr.", city: "Beverly Hills", state: "CA", zip: "90210")
+end
+
+def create_speducator school, email = "patch.adams@biphub.com"
+  Speducator.create(email: email, first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, password: "abc123", password_confirmation: "abc123", school_id: school.id)
+end
+
+def create_coordinator school, email = "coordinator@biphub.com"
+  Coordinator.create(email: email, first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, password: "abc123", password_confirmation: "abc123", school_id: school.id)
+end
+
+def create_teacher school, email = "jryan@biphub.com"
+  Teacher.create(email: email, first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, password: "abc123", password_confirmation: "abc123", school_id: school.id)
+end
+
 def create_speducators school
-  7.times do
-    Speducator.create email: Faker::Internet.email, first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, password: "abc123", password_confirmation: "abc123", school_id: school.id
+  3.times do
+    create_speducator school, Faker::Internet.email
   end
 end
 
 def create_teachers school
   7.times do
-    Teacher.create email: Faker::Internet.email, first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, password: "abc123", password_confirmation: "abc123", school_id: school.id
+    create_teacher school, Faker::Internet.email
   end
 end
 
-def create_students speducator, school
+def create_students school
   8.times do
+    speducator = school.speducators.limit(1).order("RANDOM()")[0]
     variance = Random.new.rand(1...6)
     Student.create first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, speducator_id: speducator.id, school_id: school.id, grade: variance
   end
@@ -113,25 +142,14 @@ end
 
 #create the fake users
 Admin.create(email: "admin@biphub.com", first_name: "Admin", last_name: "istrator", password: "abc123", password_confirmation: "abc123")
-school = School.create(name: "Beverly Hills High", address: "123 TVLand Dr.", city: "Beverly Hills", state: "CA", zip: "90210")
 
-coordinator = Coordinator.create(email: "coordinator@biphub.com", first_name: "Cory", last_name: "Nader", password: "abc123", password_confirmation: "abc123", school_id: school.id)
+school = create_school "Beverly Hills High"
+coordinator = create_coordinator school
+speducator = create_speducator school
+teacher = create_teacher school
+make_resources school
 
-speducator = Speducator.create(email: "patch.adams@biphub.com", first_name: "Patch", last_name: "Adams", password: "abc123", password_confirmation: "abc123", school_id: school.id)
+school2 = create_school "Berkeley Falls High"
+make_resources school2
 
-teacher = Teacher.create(email: "jryan@biphub.com", first_name: "Jack", last_name: "Ryan", password: "abc123", password_confirmation: "abc123", school_id: school.id)
-
-create_teachers school
-
-create_students speducator, school
-
-create_cards school
-
-create_bips school
-
-create_goals school
-
-create_records school
-
-create_records school, true
 puts "Successfully Seeded the Database"
