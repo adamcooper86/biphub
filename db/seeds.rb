@@ -74,18 +74,35 @@ def create_records school, empty = false
       Record.create_record_group observation, bip.goals
       observation.records.each do |record|
         goal = record.goal
+        variance = Random.new.rand(0...5)
         if empty
           result = nil
         elsif goal.meme == "Boolean"
-          result = 1
+          if variance >= 3
+            result = 1
+          else
+            result = 0
+          end
         elsif goal.meme == "Time"
-          result = 5
+          result = variance
         elsif goal.meme == "Incidence"
-          result = 0
+          result = variance
         elsif goal.meme == "Qualitative"
-          result = 5
+          result = variance
         elsif goal.meme == "Percentage"
-          result = 100
+          if variance == 5
+            result = 100
+          elsif variance == 4
+            result = 90
+          elsif variance == 3
+            result = 80
+          elsif variance == 2
+            result = 70
+          elsif variance == 1
+            result = 60
+          else
+            result = 50
+          end
         end
         record.update_attribute(:result, result)
       end
