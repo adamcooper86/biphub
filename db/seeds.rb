@@ -15,7 +15,8 @@ end
 
 def create_students speducator, school
   8.times do
-    Student.create first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, speducator_id: speducator.id, school_id: school.id
+    variance = Random.new.rand(1...6)
+    Student.create first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, speducator_id: speducator.id, school_id: school.id, grade: variance
   end
 end
 
