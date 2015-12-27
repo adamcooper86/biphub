@@ -57,4 +57,20 @@ RSpec.describe FormOptionsHelper, type: :helper, focus: false do
       expect(helper.grade_level_options(school)).to eq [['any', nil],["1", 1]]
     end
   end
+  context "#race_options" do
+    let(:school){ FactoryGirl.create :school }
+    let(:student){ FactoryGirl.create :student, school: school, race: "White" }
+    it "returns an empty array when school.races = nil" do
+      expect(helper.grade_level_options(school)).to eq [['any', nil]]
+    end
+    it "returns a formatted array of races" do
+      student
+      expect(helper.race_options(school)).to eq [['any', nil],["White", "White"]]
+    end
+  end
+  context "#gender_options" do
+    it "returns a formatted array of races" do
+      expect(helper.gender).to eq [['any', nil],['Female', "female"],["Male", "male"]]
+    end
+  end
 end

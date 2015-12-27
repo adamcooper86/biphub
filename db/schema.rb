@@ -81,7 +81,7 @@ ActiveRecord::Schema.define(version: 20151227230525) do
     t.string   "alias"
     t.integer  "grade"
     t.string   "gender"
-    t.integer  "race"
+    t.string  "race"
   end
 
   create_table "users", force: :cascade do |t|

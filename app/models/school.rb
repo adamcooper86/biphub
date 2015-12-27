@@ -17,6 +17,9 @@ class School < ActiveRecord::Base
   def grade_levels
     self.students.map{ |student| student.grade }.uniq.compact.sort
   end
+  def races
+    self.students.map{ |student| student.race }.uniq.compact.sort
+  end
   def unanswered_observations limit = 0
     unanswered = self.observations.select{|observation| !observation.is_answered? }
     limit = DateTime.now - limit
