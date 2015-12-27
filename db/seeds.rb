@@ -45,7 +45,12 @@ def create_students school
   8.times do
     speducator = school.speducators.limit(1).order("RANDOM()")[0]
     variance = Random.new.rand(1...6)
-    Student.create first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, speducator_id: speducator.id, school_id: school.id, grade: variance
+    gender = "male"
+    gender = "female" if variance > 3
+    races = ["Non-Hispanic White", "African-American", "Hispanic", "Native American", "Arabic", "Southeast Asian Pacific Islander"]
+    race = races[variance - 1]
+
+    Student.create first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, speducator_id: speducator.id, school_id: school.id, grade: variance, gender: gender, race: race
   end
 end
 
