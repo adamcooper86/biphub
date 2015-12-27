@@ -47,7 +47,10 @@ def create_students school
     variance = Random.new.rand(1...6)
     gender = "male"
     gender = "female" if variance > 3
-    Student.create first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, speducator_id: speducator.id, school_id: school.id, grade: variance, gender: gender
+    races = ["Non-Hispanic White", "African-American", "Hispanic", "Native American", "Arabic", "Southeast Asian Pacific Islander"]
+    race = races[variance - 1]
+
+    Student.create first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, speducator_id: speducator.id, school_id: school.id, grade: variance, gender: gender, race: race
   end
 end
 
