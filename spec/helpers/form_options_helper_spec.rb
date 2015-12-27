@@ -70,7 +70,7 @@ RSpec.describe FormOptionsHelper, type: :helper, focus: false do
   end
   context "#gender_options" do
     it "returns a formatted array of races" do
-      expect(helper.gender).to eq [['any', nil],['Female', "female"],["Male", "male"]]
+      expect(helper.gender_options).to eq [['any', nil],['Female', "female"],["Male", "male"]]
     end
   end
 end

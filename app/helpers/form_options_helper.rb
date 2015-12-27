@@ -7,6 +7,9 @@ module FormOptionsHelper
     options = school.races.map{ |race| ["#{race}", "#{race}"] }
     [['any', nil]] + options
   end
+  def gender_options
+    [['any', nil],['Female', "female"],["Male", "male"]]
+  end
   def schools_options schools
     schools.map{ |school| [school.name, school.id] }
   end
