@@ -35,8 +35,13 @@ class School < ActiveRecord::Base
     trailing = options.fetch(:trailing, nil)
     date = options.fetch(:date, nil)
     grade = options.fetch(:grade, nil)
+    gender = options.fetch(:gender, nil)
 
-    if grade
+    if grade && gender
+      students = self.students.where(grade: grade, gender: gender)
+    elsif gender
+      students = self.students.where(gender: gender)
+    elsif grade
       students = self.students.where(grade: grade)
     else
       students = self.students

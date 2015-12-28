@@ -9,6 +9,10 @@ class ReportsController < ApplicationController
       end
       @grade = params[:grade_lvl]
       @grade = nil if @grade == ""
+
+      @gender = params[:gender]
+      @gender = nil if @gender == ""
+
       render "admin_index"
     elsif @user
       @students = @user.case_students

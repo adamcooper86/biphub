@@ -8,11 +8,13 @@
     <% unless @school %>
       <h2>No school selected.</h2>
     <% else %>
-      <h3>Reports for: <%= @school.name %><%= " - Grade Level: #{@grade}" if @grade %></h3>
+      <h3>Reports for: <%= @school.name %><%= " - Grade Level: #{@grade}" if @grade %><%= " - Gender: #{@gender.capitalize}" if @gender %></h3>
       <p>Select the subgroups from the options below to filter the graph results</p>
       <%= form_tag reports_path, method: "get", id: 'sliceFilter' do%>
         <%= hidden_field_tag 'school_id', @school.id %>
         Grade Level: <%= select_tag 'grade_lvl', options_for_select(grade_level_options(@school)) %>
+        Race: <%= select_tag 'race', options_for_select(race_options(@school)) %>
+        Gender: <%= select_tag 'gender', options_for_select(gender_options) %>
         <%= submit_tag "Filter Results" %>
       <% end %>
      <% end %>
@@ -78,9 +80,9 @@
             <th>Average Growth</th>
           </tr>
           <tr>
-            <td id="avg_student_performance"><%= @school.avg_student_performance(grade: @grade) %></td>
-            <td><%= @school.avg_student_performance(trailing: 7, grade: @grade) %></td>
-            <td><%= @school.avg_student_performance(trailing: 30, grade: @grade) %></td>
+            <td id="avg_student_performance"><%= @school.avg_student_performance(grade: @grade, gender: @gender) %></td>
+            <td><%= @school.avg_student_performance(trailing: 7, grade: @grade, gender: @gender) %></td>
+            <td><%= @school.avg_student_performance(trailing: 30, grade: @grade, gender: @gender) %></td>
             <td><%= @school.avg_student_growth %></td>
           </tr>
         </table>
