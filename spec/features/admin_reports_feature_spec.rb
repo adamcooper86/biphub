@@ -3,8 +3,9 @@ require 'rails_helper'
 feature "Using the reports panel", js: false, focus: false do
   given(:school){ FactoryGirl.create :school, name: "test name" }
   given(:speducator){ FactoryGirl.create :speducator, school: school }
+  given(:speducator2){ FactoryGirl.create :speducator, school: school, first_name: "TestName" }
   given(:student){ FactoryGirl.create :student, school: school, speducator: speducator, grade: 1, gender: "male", race: "African" }
-  given(:student2){ FactoryGirl.create :student, school: school, speducator: speducator, grade: 2, gender: "female", race: "White" }
+  given(:student2){ FactoryGirl.create :student, school: school, speducator: speducator2, grade: 2, gender: "female", race: "White" }
   given(:teacher){ FactoryGirl.create :teacher, school: school  }
   given(:observation){ FactoryGirl.create :observation, student: student, user: teacher }
   given(:observation2){ FactoryGirl.create :observation, student: student2, user: teacher }
@@ -152,6 +153,35 @@ feature "Using the reports panel", js: false, focus: false do
         click_on "Filter Results"
       end
       expect(page).not_to have_content "Reports for: #{school.name} - Race: White"
+      expect(page).to have_content "Reports for: #{school.name}"
+      expect(page).to have_selector ".graph"
+      expect(page).to have_selector ".schoolData"
+      expect(page).not_to have_content "No school selected."
+
+      table = find("#schoolTable")
+      expect(table).to have_content "Total Staff"
+      expect(table).to have_content "Total Students"
+      expect(table).to have_content "Open Observations"
+      expect(table).to have_content "Student Metrics"
+      avg = find('#avg_student_performance')
+      expect(avg).to have_content '60.0'
+    end
+    scenario 'by selecting a staff member to filter to and going back to any' do
+      within '#sliceFilter' do
+        select speducator2.first_name, from: 'speducator_id'
+        click_on "Filter Results"
+      end
+      expect(page).to have_content "Reports for: #{school.name} - Special Educator: #{speducator2.first_name}"
+
+      avg = find('#avg_student_performance')
+
+      expect(avg).to have_content '20.0'
+
+      within '#sliceFilter' do
+        select "any", from: 'speducator_id'
+        click_on "Filter Results"
+      end
+      expect(page).not_to have_content "Reports for: #{school.name} - Special Educator: #{speducator2.first_name}"
       expect(page).to have_content "Reports for: #{school.name}"
       expect(page).to have_selector ".graph"
       expect(page).to have_selector ".schoolData"

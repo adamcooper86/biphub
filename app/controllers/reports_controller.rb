@@ -16,6 +16,9 @@ class ReportsController < ApplicationController
       @race = params[:race]
       @race = nil if @race == ""
 
+      @speducator_id = params[:speducator_id]
+      @speducator_id = nil if @speducator_id == ""
+
       render "admin_index"
     elsif @user
       @students = @user.case_students

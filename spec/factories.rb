@@ -65,8 +65,8 @@ FactoryGirl.define do
   end
   factory :speducator do
     email Faker::Internet.email
-    first_name "John"
-    last_name  "Doe"
+    first_name Faker::Name.first_name
+    last_name  Faker::Name.last_name
     password "password"
     password_confirmation "password"
     school
