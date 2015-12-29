@@ -49,19 +49,19 @@ class School < ActiveRecord::Base
     #   students = self.students.where(grade: grade, speducator_id: speducator_id, race: race)
     # elsif speducator_id && gender && race
     #   students = self.students.where(speducator_id: speducator_id, gender: gender, race: race)
-    # elsif grade && gender
-    #   students = self.students.where(grade: grade, gender: gender)
-    # elsif grade && race
-    #   students = self.students.where(grade: grade, race: race)
-    # elsif gender && race
-    #   students = self.students.where(gender: gender, race: race)
-    # elsif speducator_id && gender
-    #   students = self.students.where(speducator_id: speducator_id, gender: gender)
-    # elsif speducator_id && race
-    #   students = self.students.where(speducator_id: speducator_id, race: race)
-    # elsif speducator_id && grade
-    #   students = self.students.where(grade: grade, speducator_id: speducator_id)
-    if gender
+    if grade && gender
+      students = self.students.where(grade: grade, gender: gender)
+    elsif grade && race
+      students = self.students.where(grade: grade, race: race)
+    elsif gender && race
+      students = self.students.where(gender: gender, race: race)
+    elsif speducator_id && gender
+      students = self.students.where(speducator_id: speducator_id, gender: gender)
+    elsif speducator_id && race
+      students = self.students.where(speducator_id: speducator_id, race: race)
+    elsif speducator_id && grade
+      students = self.students.where(grade: grade, speducator_id: speducator_id)
+    elsif gender
       students = self.students.where(gender: gender)
     elsif speducator_id
       students = self.students.where(speducator_id: speducator_id)
