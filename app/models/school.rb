@@ -36,13 +36,28 @@ class School < ActiveRecord::Base
     date = options.fetch(:date, nil)
     grade = options.fetch(:grade, nil)
     gender = options.fetch(:gender, nil)
+    race = options.fetch(:race, nil)
+    # puts "About to run avg_student_performance"
+    # puts "Trailing = " + trailing.to_s if trailing
+    # puts "date = " + date.to_s if date
+    # puts "grade = " + grade.to_s if grade
+    # puts "gender = " + gender.to_s if gender
+    # puts "race = " + race.to_s if race
 
-    if grade && gender
+    if grade && gender && race
+      students = self.students.where(grade: grade, gender: gender, race: race)
+    elsif grade && gender
       students = self.students.where(grade: grade, gender: gender)
+    elsif gender && race
+      students = self.students.where(gender: gender, race: race)
+    elsif grade && race
+      students = self.students.where(grade: grade, race: race)
     elsif gender
       students = self.students.where(gender: gender)
     elsif grade
       students = self.students.where(grade: grade)
+    elsif race
+      students = self.students.where(race: race)
     else
       students = self.students
     end

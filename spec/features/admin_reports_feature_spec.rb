@@ -3,8 +3,8 @@ require 'rails_helper'
 feature "Using the reports panel", js: false, focus: false do
   given(:school){ FactoryGirl.create :school, name: "test name" }
   given(:speducator){ FactoryGirl.create :speducator, school: school }
-  given(:student){ FactoryGirl.create :student, school: school, speducator: speducator, grade: 1, gender: "male" }
-  given(:student2){ FactoryGirl.create :student, school: school, speducator: speducator, grade: 2, gender: "female" }
+  given(:student){ FactoryGirl.create :student, school: school, speducator: speducator, grade: 1, gender: "male", race: "African" }
+  given(:student2){ FactoryGirl.create :student, school: school, speducator: speducator, grade: 2, gender: "female", race: "White" }
   given(:teacher){ FactoryGirl.create :teacher, school: school  }
   given(:observation){ FactoryGirl.create :observation, student: student, user: teacher }
   given(:observation2){ FactoryGirl.create :observation, student: student2, user: teacher }
@@ -123,6 +123,35 @@ feature "Using the reports panel", js: false, focus: false do
         click_on "Filter Results"
       end
       expect(page).not_to have_content "Reports for: #{school.name} - Grade Level: Female"
+      expect(page).to have_content "Reports for: #{school.name}"
+      expect(page).to have_selector ".graph"
+      expect(page).to have_selector ".schoolData"
+      expect(page).not_to have_content "No school selected."
+
+      table = find("#schoolTable")
+      expect(table).to have_content "Total Staff"
+      expect(table).to have_content "Total Students"
+      expect(table).to have_content "Open Observations"
+      expect(table).to have_content "Student Metrics"
+      avg = find('#avg_student_performance')
+      expect(avg).to have_content '60.0'
+    end
+    scenario 'by selecting a race to filter to and going back to any' do
+      within '#sliceFilter' do
+        select "White", from: 'race'
+        click_on "Filter Results"
+      end
+      expect(page).to have_content "Reports for: #{school.name} - Race: White"
+
+      avg = find('#avg_student_performance')
+
+      expect(avg).to have_content '20.0'
+
+      within '#sliceFilter' do
+        select "any", from: 'race'
+        click_on "Filter Results"
+      end
+      expect(page).not_to have_content "Reports for: #{school.name} - Race: White"
       expect(page).to have_content "Reports for: #{school.name}"
       expect(page).to have_selector ".graph"
       expect(page).to have_selector ".schoolData"
