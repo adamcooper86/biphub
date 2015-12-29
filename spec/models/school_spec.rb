@@ -61,6 +61,22 @@ RSpec.describe School, type: :model, focus: false do
       expect(school.grade_levels).to eq [1]
     end
   end
+  context '#races' do
+    let(:student2){ FactoryGirl.create :student, school: school, race: "African" }
+    it 'returns nil if there are no students with races' do
+      expect(school.races).to eq []
+    end
+    it 'returns an array of races for a school' do
+      student.update_attribute(:race, "White")
+      student2
+      expect(school.races).to eq ["African", "White"]
+    end
+    it 'returns a unique array of races' do
+      student.update_attribute(:race, "White")
+      student2.update_attribute(:race, "White")
+      expect(school.races).to eq ["White"]
+    end
+  end
   context '#active_goals' do
     it 'returns an array of goal objects' do
       3.times{ FactoryGirl.create(:goal, bip: bip) }

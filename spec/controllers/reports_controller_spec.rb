@@ -26,6 +26,25 @@ RSpec.describe ReportsController, type: :controller, focus: false do
         it{ is_expected.to be_success }
         it{ is_expected.to render_template "admin_index"}
       end
+      context "With a school selected and gender" do
+        subject{ get :index, school_id: user.school.id, gender: "female" }
+
+        it{ is_expected.to be_success }
+        it{ is_expected.to render_template "admin_index"}
+      end
+      context "With a school selected and race" do
+        subject{ get :index, school_id: user.school.id, race: "Arabic" }
+
+        it{ is_expected.to be_success }
+        it{ is_expected.to render_template "admin_index"}
+      end
+      context "With a school selected and speducator selected" do
+        let(:speducator){ FactoryGirl.create(:speducator)}
+        subject{ get :index, school_id: user.school.id, speducator_id: speducator.id }
+
+        it{ is_expected.to be_success }
+        it{ is_expected.to render_template "admin_index"}
+      end
     end
   end
 

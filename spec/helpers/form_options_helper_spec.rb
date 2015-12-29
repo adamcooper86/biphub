@@ -12,20 +12,20 @@ RSpec.describe FormOptionsHelper, type: :helper, focus: false do
   end
   context "#speducator_options" do
     it "returns an empty array when speducators = []" do
-      expect(helper.speducator_options([])).to eq([])
+      expect(helper.speducator_options([])).to eq([['any', nil]])
     end
     it "returns a nested array of options" do
       speducator1, speducator2 = FactoryGirl.create(:speducator), FactoryGirl.create(:speducator)
-      expect(helper.speducator_options [speducator1, speducator2]).to eq([[speducator1.first_name, speducator1.id],[speducator2.first_name, speducator2.id]])
+      expect(helper.speducator_options [speducator1, speducator2]).to eq([['any', nil],[speducator1.first_name, speducator1.id],[speducator2.first_name, speducator2.id]])
     end
   end
   context "#staff_options" do
-    it "returns an empty array when staff = []" do
-      expect(helper.staff_options([])).to eq([])
+    it "returns an empty array when staff = ['any', nil]" do
+      expect(helper.staff_options([])).to eq([["any", nil]])
     end
     it "returns a nested array of options" do
       speducator, coordinator, teacher = FactoryGirl.create(:speducator), FactoryGirl.create(:coordinator), FactoryGirl.create(:teacher)
-      expect(helper.speducator_options [speducator, coordinator, teacher]).to eq([[speducator.first_name, speducator.id],[coordinator.first_name, coordinator.id], [teacher.first_name, teacher.id]])
+      expect(helper.speducator_options [speducator, coordinator, teacher]).to eq([["any", nil], [speducator.first_name, speducator.id],[coordinator.first_name, coordinator.id], [teacher.first_name, teacher.id]])
     end
   end
   context "#observations_students_options" do
@@ -55,6 +55,22 @@ RSpec.describe FormOptionsHelper, type: :helper, focus: false do
     it "returns a formatted array of gradelevels" do
       student
       expect(helper.grade_level_options(school)).to eq [['any', nil],["1", 1]]
+    end
+  end
+  context "#race_options" do
+    let(:school){ FactoryGirl.create :school }
+    let(:student){ FactoryGirl.create :student, school: school, race: "White" }
+    it "returns an empty array when school.races = nil" do
+      expect(helper.grade_level_options(school)).to eq [['any', nil]]
+    end
+    it "returns a formatted array of races" do
+      student
+      expect(helper.race_options(school)).to eq [['any', nil],["White", "White"]]
+    end
+  end
+  context "#gender_options" do
+    it "returns a formatted array of races" do
+      expect(helper.gender_options).to eq [['any', nil],['Female', "female"],["Male", "male"]]
     end
   end
 end

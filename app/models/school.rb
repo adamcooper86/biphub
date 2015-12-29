@@ -17,6 +17,9 @@ class School < ActiveRecord::Base
   def grade_levels
     self.students.map{ |student| student.grade }.uniq.compact.sort
   end
+  def races
+    self.students.map{ |student| student.race }.uniq.compact.sort
+  end
   def unanswered_observations limit = 0
     unanswered = self.observations.select{|observation| !observation.is_answered? }
     limit = DateTime.now - limit
@@ -32,9 +35,40 @@ class School < ActiveRecord::Base
     trailing = options.fetch(:trailing, nil)
     date = options.fetch(:date, nil)
     grade = options.fetch(:grade, nil)
+    gender = options.fetch(:gender, nil)
+    race = options.fetch(:race, nil)
+    speducator_id = options.fetch(:speducator_id, nil)
 
-    if grade
+    # if grade && gender && race && speducator_id
+    #   students = self.students.where(grade: grade, gender: gender, race: race, speducator_id: speducator_id)
+    # elsif grade && gender && race
+    #   students = self.students.where(grade: grade, gender: gender, race: race)
+    # elsif grade && gender && speducator_id
+    #   students = self.students.where(grade: grade, gender: gender, speducator_id: speducator_id)
+    # elsif grade && speducator_id && race
+    #   students = self.students.where(grade: grade, speducator_id: speducator_id, race: race)
+    # elsif speducator_id && gender && race
+    #   students = self.students.where(speducator_id: speducator_id, gender: gender, race: race)
+    if grade && gender
+      students = self.students.where(grade: grade, gender: gender)
+    elsif grade && race
+      students = self.students.where(grade: grade, race: race)
+    elsif gender && race
+      students = self.students.where(gender: gender, race: race)
+    elsif speducator_id && gender
+      students = self.students.where(speducator_id: speducator_id, gender: gender)
+    elsif speducator_id && race
+      students = self.students.where(speducator_id: speducator_id, race: race)
+    elsif speducator_id && grade
+      students = self.students.where(grade: grade, speducator_id: speducator_id)
+    elsif gender
+      students = self.students.where(gender: gender)
+    elsif speducator_id
+      students = self.students.where(speducator_id: speducator_id)
+    elsif grade
       students = self.students.where(grade: grade)
+    elsif race
+      students = self.students.where(race: race)
     else
       students = self.students
     end

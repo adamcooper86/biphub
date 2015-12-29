@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe School, type: :model, focus: false do
   let(:school){ FactoryGirl.create :school }
-  let(:student){ FactoryGirl.create :student, school: school, grade: 1 }
+  let(:speducator){ FactoryGirl.create :speducator, school: school}
+  let(:student){ FactoryGirl.create :student, school: school, speducator: speducator, grade: 1, gender: "female", race: "White" }
   let(:bip){ FactoryGirl.create :bip, student: student }
   let(:goal){ FactoryGirl.create :goal, bip: bip, meme: "Qualitative" }
   let(:observation){ FactoryGirl.create :observation, student: student }
@@ -60,7 +61,84 @@ RSpec.describe School, type: :model, focus: false do
 
         it 'returns avg performance for only that grade' do
           old_record.update_attribute(:result, 5)
-          expect(school.avg_student_performance(grade: 1)).to eq 100.0
+          expect(school.avg_student_performance(grade: "1")).to eq 100.0
+        end
+      end
+      context 'When given a gender' do
+        let(:student2){ FactoryGirl.create :student, school: school, gender: "male" }
+        let(:bip2){ FactoryGirl.create :bip, student: student2 }
+        let(:goal2){ FactoryGirl.create :goal, bip: bip2, meme: "Qualitative" }
+        let!(:record2){ FactoryGirl.create :record, goal: goal2, result: 0 }
+
+        it 'returns avg performance for only that gender' do
+          old_record.update_attribute(:result, 5)
+          expect(school.avg_student_performance(gender: "female")).to eq 100.0
+        end
+      end
+      context 'When given a race' do
+        let(:student2){ FactoryGirl.create :student, school: school, race: "African" }
+        let(:bip2){ FactoryGirl.create :bip, student: student2 }
+        let(:goal2){ FactoryGirl.create :goal, bip: bip2, meme: "Qualitative" }
+        let!(:record2){ FactoryGirl.create :record, goal: goal2, result: 0 }
+
+        it 'returns avg performance for only that race' do
+          old_record.update_attribute(:result, 5)
+          expect(school.avg_student_performance(race: "White")).to eq 100.0
+        end
+      end
+      context 'When given a speducator_id' do
+        let(:speducator2){ FactoryGirl.create :speducator, school: school}
+        let(:student2){ FactoryGirl.create :student, school: school, speducator: speducator2 }
+        let(:bip2){ FactoryGirl.create :bip, student: student2 }
+        let(:goal2){ FactoryGirl.create :goal, bip: bip2, meme: "Qualitative" }
+        let!(:record2){ FactoryGirl.create :record, goal: goal2, result: 0 }
+
+        it 'returns avg performance for only that speducator' do
+          old_record.update_attribute(:result, 5)
+          expect(school.avg_student_performance(speducator_id: speducator.id)).to eq 100.0
+        end
+      end
+      context 'when given two slice options' do
+        let(:speducator2){ FactoryGirl.create :speducator, school: school}
+        let(:student2){ FactoryGirl.create :student, school: school, speducator: speducator2, grade: 2, gender: "male", race: "African" }
+        let(:bip2){ FactoryGirl.create :bip, student: student2 }
+        let(:goal2){ FactoryGirl.create :goal, bip: bip2, meme: "Qualitative" }
+        let!(:record2){ FactoryGirl.create :record, goal: goal2, result: 1 }
+
+        let(:student3){ FactoryGirl.create :student, school: school, speducator: speducator, grade: 2, gender: "female", race: "White" }
+        let(:bip3){ FactoryGirl.create :bip, student: student3 }
+        let(:goal3){ FactoryGirl.create :goal, bip: bip3, meme: "Qualitative" }
+        let!(:record3){ FactoryGirl.create :record, goal: goal3, result: 2 }
+
+        let(:student4){ FactoryGirl.create :student, school: school, speducator: speducator2, grade: 1, gender: "male", race: "White" }
+        let(:bip4){ FactoryGirl.create :bip, student: student4 }
+        let(:goal4){ FactoryGirl.create :goal, bip: bip4, meme: "Qualitative" }
+        let!(:record4){ FactoryGirl.create :record, goal: goal4, result: 3 }
+
+        let(:student5){ FactoryGirl.create :student, school: school, speducator: speducator, grade: 1, gender: "male", race: "White" }
+        let(:bip5){ FactoryGirl.create :bip, student: student5 }
+        let(:goal5){ FactoryGirl.create :goal, bip: bip5, meme: "Qualitative" }
+        let!(:record5){ FactoryGirl.create :record, goal: goal5, result: 0 }
+
+        before(:each){ old_record.update_attribute(:result, 5) }
+
+        it 'grade and gender' do
+          expect(school.avg_student_performance(grade: 2, gender: "male")).to eq 20.0
+        end
+        it 'grade and speducator_id' do
+          expect(school.avg_student_performance(grade: 2, speducator_id: speducator2.id)).to eq 20.0
+        end
+        it 'grade and race' do
+          expect(school.avg_student_performance(grade: 2, race: "African")).to eq 20.0
+        end
+        it 'gender and race' do
+          expect(school.avg_student_performance(gender: "male", race: "African")).to eq 20.0
+        end
+        it 'gender and speducator_id' do
+          expect(school.avg_student_performance(gender: "male", speducator_id: speducator2.id)).to eq 40.0
+        end
+        it 'race and speducator_id' do
+          expect(school.avg_student_performance(race: "White", speducator_id: speducator2.id)).to eq 60.0
         end
       end
     end
