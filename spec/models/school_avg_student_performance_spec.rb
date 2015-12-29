@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe School, type: :model, focus: false do
   let(:school){ FactoryGirl.create :school }
-  let(:student){ FactoryGirl.create :student, school: school, grade: 1, gender: "female", race: "White" }
+  let(:speducator){ FactoryGirl.create :speducator, school: school}
+  let(:student){ FactoryGirl.create :student, school: school, speducator: speducator, grade: 1, gender: "female", race: "White" }
   let(:bip){ FactoryGirl.create :bip, student: student }
   let(:goal){ FactoryGirl.create :goal, bip: bip, meme: "Qualitative" }
   let(:observation){ FactoryGirl.create :observation, student: student }
@@ -60,7 +61,7 @@ RSpec.describe School, type: :model, focus: false do
 
         it 'returns avg performance for only that grade' do
           old_record.update_attribute(:result, 5)
-          expect(school.avg_student_performance(grade: 1)).to eq 100.0
+          expect(school.avg_student_performance(grade: "1")).to eq 100.0
         end
       end
       context 'When given a gender' do
@@ -69,7 +70,7 @@ RSpec.describe School, type: :model, focus: false do
         let(:goal2){ FactoryGirl.create :goal, bip: bip2, meme: "Qualitative" }
         let!(:record2){ FactoryGirl.create :record, goal: goal2, result: 0 }
 
-        it 'returns avg performance for only that grade' do
+        it 'returns avg performance for only that gender' do
           old_record.update_attribute(:result, 5)
           expect(school.avg_student_performance(gender: "female")).to eq 100.0
         end
@@ -80,9 +81,21 @@ RSpec.describe School, type: :model, focus: false do
         let(:goal2){ FactoryGirl.create :goal, bip: bip2, meme: "Qualitative" }
         let!(:record2){ FactoryGirl.create :record, goal: goal2, result: 0 }
 
-        it 'returns avg performance for only that grade' do
+        it 'returns avg performance for only that race' do
           old_record.update_attribute(:result, 5)
           expect(school.avg_student_performance(race: "White")).to eq 100.0
+        end
+      end
+      context 'When given a speducator_id' do
+        let(:speducator2){ FactoryGirl.create :speducator, school: school}
+        let(:student2){ FactoryGirl.create :student, school: school, speducator: speducator2 }
+        let(:bip2){ FactoryGirl.create :bip, student: student2 }
+        let(:goal2){ FactoryGirl.create :goal, bip: bip2, meme: "Qualitative" }
+        let!(:record2){ FactoryGirl.create :record, goal: goal2, result: 0 }
+
+        it 'returns avg performance for only that speducator' do
+          old_record.update_attribute(:result, 5)
+          expect(school.avg_student_performance(speducator_id: speducator.id)).to eq 100.0
         end
       end
     end
