@@ -12,10 +12,10 @@
       <p>Select the subgroups from the options below to filter the graph results</p>
       <%= form_tag reports_path, method: "get", id: 'sliceFilter' do%>
         <%= hidden_field_tag 'school_id', @school.id %>
-        Grade Level: <%= select_tag 'grade_lvl', options_for_select(grade_level_options(@school)) %>
-        Race: <%= select_tag 'race', options_for_select(race_options(@school)) %>
-        Gender: <%= select_tag 'gender', options_for_select(gender_options) %>
-        Special Educator: <%= select_tag 'speducator_id', options_for_select(staff_options(@school.users)) %>
+        Grade Level: <%= select_tag 'grade_lvl', options_for_select(grade_level_options(@school), @grade) %>
+        Race: <%= select_tag 'race', options_for_select(race_options(@school), @race) %>
+        Gender: <%= select_tag 'gender', options_for_select(gender_options, @gender) %>
+        Special Educator: <%= select_tag 'speducator_id', options_for_select(speducator_options(@school.speducators), @speducator_id) %>
         <%= submit_tag "Filter Results" %>
       <% end %>
      <% end %>

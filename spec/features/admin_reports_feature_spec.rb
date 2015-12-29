@@ -166,7 +166,7 @@ feature "Using the reports panel", js: false, focus: false do
       avg = find('#avg_student_performance')
       expect(avg).to have_content '60.0'
     end
-    scenario 'by selecting a staff member to filter to and going back to any' do
+    scenario 'by selecting a special educator to filter to and going back to any' do
       within '#sliceFilter' do
         select speducator2.first_name, from: 'speducator_id'
         click_on "Filter Results"
