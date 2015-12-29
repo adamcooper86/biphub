@@ -14,10 +14,12 @@ module FormOptionsHelper
     schools.map{ |school| [school.name, school.id] }
   end
   def speducator_options speducators
-    speducators.map { |speducator|[speducator.first_name, speducator.id] }
+    options = speducators.map { |speducator|[speducator.first_name, speducator.id] }
+    return [['any', nil]] + options
   end
   def staff_options staff
-    staff.map { |user|[user.first_name, user.id] }
+    options = staff.map { |user|[user.first_name, user.id] }
+    return [['any', nil]] + options
   end
   def observations_students_options observations
     students = observations.map{ |observation| observation.student }
