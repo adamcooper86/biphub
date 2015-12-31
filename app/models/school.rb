@@ -39,36 +39,14 @@ class School < ActiveRecord::Base
     race = options.fetch(:race, nil)
     speducator_id = options.fetch(:speducator_id, nil)
 
-    # if grade && gender && race && speducator_id
-    #   students = self.students.where(grade: grade, gender: gender, race: race, speducator_id: speducator_id)
-    # elsif grade && gender && race
-    #   students = self.students.where(grade: grade, gender: gender, race: race)
-    # elsif grade && gender && speducator_id
-    #   students = self.students.where(grade: grade, gender: gender, speducator_id: speducator_id)
-    # elsif grade && speducator_id && race
-    #   students = self.students.where(grade: grade, speducator_id: speducator_id, race: race)
-    # elsif speducator_id && gender && race
-    #   students = self.students.where(speducator_id: speducator_id, gender: gender, race: race)
-    if grade && gender
-      students = self.students.where(grade: grade, gender: gender)
-    elsif grade && race
-      students = self.students.where(grade: grade, race: race)
-    elsif gender && race
-      students = self.students.where(gender: gender, race: race)
-    elsif speducator_id && gender
-      students = self.students.where(speducator_id: speducator_id, gender: gender)
-    elsif speducator_id && race
-      students = self.students.where(speducator_id: speducator_id, race: race)
-    elsif speducator_id && grade
-      students = self.students.where(grade: grade, speducator_id: speducator_id)
-    elsif gender
-      students = self.students.where(gender: gender)
-    elsif speducator_id
-      students = self.students.where(speducator_id: speducator_id)
-    elsif grade
-      students = self.students.where(grade: grade)
-    elsif race
-      students = self.students.where(race: race)
+    selectors = {}
+    selectors[:grade] = grade if grade
+    selectors[:gender] = gender if gender
+    selectors[:race] = race if race
+    selectors[:speducator_id] = speducator_id if speducator_id
+
+    if selectors.length > 0
+      students = self.students.where(selectors)
     else
       students = self.students
     end
