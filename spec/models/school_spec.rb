@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe School, type: :model, focus: false do
+
+  it_behaves_like "sliceable"
+
   let(:school){ FactoryGirl.create :school }
   let(:student){ FactoryGirl.create :student, school: school }
   let(:bip){ FactoryGirl.create :bip, student: student }
@@ -44,7 +47,9 @@ RSpec.describe School, type: :model, focus: false do
       expect(school.student_count).to eq 1
     end
 
-    context 'it accepts an optional grade level' do
+    it 'it accepts an optional grade level' do
+      student.update_attribute(:grade, 1)
+      expect(school.student_count(grade: 2)).to eq 0
     end
   end
   context '#grade_levels' do

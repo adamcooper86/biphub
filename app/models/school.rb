@@ -1,4 +1,6 @@
 class School < ActiveRecord::Base
+  include Sliceable
+
   has_many :coordinators, dependent: :destroy
   has_many :teachers, dependent: :destroy
   has_many :speducators, dependent: :destroy
@@ -17,8 +19,16 @@ class School < ActiveRecord::Base
   def grade_levels
     self.students.map{ |student| student.grade }.uniq.compact.sort
   end
-  def student_count
-    self.students.count
+  def student_count options = {}
+    selectors = make_selectors(options)
+
+    if selectors.length > 0
+      students = self.students.where(selectors)
+    else
+      students = self.students
+    end
+
+    students.count
   end
   def races
     self.students.map{ |student| student.race }.uniq.compact.sort
@@ -35,18 +45,7 @@ class School < ActiveRecord::Base
     self.observations.map{|observation| observation.finish.to_date }.uniq
   end
   def avg_student_performance options = {}
-    trailing = options.fetch(:trailing, nil)
-    date = options.fetch(:date, nil)
-    grade = options.fetch(:grade, nil)
-    gender = options.fetch(:gender, nil)
-    race = options.fetch(:race, nil)
-    speducator_id = options.fetch(:speducator_id, nil)
-
-    selectors = {}
-    selectors[:grade] = grade if grade
-    selectors[:gender] = gender if gender
-    selectors[:race] = race if race
-    selectors[:speducator_id] = speducator_id if speducator_id
+    selectors = make_selectors(options)
 
     if selectors.length > 0
       students = self.students.where(selectors)
