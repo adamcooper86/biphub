@@ -35,6 +35,11 @@ RSpec.describe School, type: :model, focus: false do
       expect(school.users).to eq [coordinator, teacher, speducator]
     end
   end
+  context '#student_count' do
+    it 'returns zero if there are no students assigned' do
+      expect(school.student_count).to eq 0
+    end
+  end
   context '#grade_levels' do
     let(:student2){ FactoryGirl.create :student, school: school, grade: 2 }
     it 'returns nil if there are no students with grades' do
