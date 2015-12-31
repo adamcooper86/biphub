@@ -45,6 +45,8 @@ class School < ActiveRecord::Base
     self.observations.map{|observation| observation.finish.to_date }.uniq
   end
   def avg_student_performance options = {}
+    trailing = options.fetch(:trailing, nil)
+    date = options.fetch(:date, nil)
     selectors = make_selectors(options)
 
     if selectors.length > 0

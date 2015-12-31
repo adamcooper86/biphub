@@ -7,6 +7,7 @@ class ReportsController < ApplicationController
       if params[:school_id]
         @school = School.find(params[:school_id])
       end
+
       @grade = params[:grade_lvl]
       @grade = nil if @grade == ""
 

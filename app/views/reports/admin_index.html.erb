@@ -3,7 +3,11 @@
     <%= form_tag reports_path, method: "get", id: 'schoolFilter', class: "form-inline" do%>
       <div class="form-group">
         <label for="school_id" class="sr-only">School</label>
-        <%= select_tag 'school_id', options_for_select(schools_options(@schools), @school.id), class: "form-control" %>
+        <% if @school %>
+          <%= select_tag 'school_id', options_for_select(schools_options(@schools), @school.id), class: "form-control" %>
+        <% else %>
+          <%= select_tag 'school_id', options_for_select(schools_options(@schools)), class: "form-control" %>
+        <% end %>
       </div>
       <%= submit_tag "Filter Results", class: "btn btn-primary" %>
     <% end %>
