@@ -39,6 +39,13 @@ RSpec.describe School, type: :model, focus: false do
     it 'returns zero if there are no students assigned' do
       expect(school.student_count).to eq 0
     end
+    it 'returns one if there is a student in the school' do
+      student
+      expect(school.student_count).to eq 1
+    end
+
+    context 'it accepts an optional grade level' do
+    end
   end
   context '#grade_levels' do
     let(:student2){ FactoryGirl.create :student, school: school, grade: 2 }

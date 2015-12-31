@@ -18,7 +18,7 @@ class School < ActiveRecord::Base
     self.students.map{ |student| student.grade }.uniq.compact.sort
   end
   def student_count
-    0
+    self.students.count
   end
   def races
     self.students.map{ |student| student.race }.uniq.compact.sort
