@@ -1,8 +1,15 @@
-<section id="reportsPanel" class="container panel">
-  <div class="row panel-body">
-    <%= form_tag reports_path, method: "get", id: 'schoolFilter' do%>
-      School: <%= select_tag 'school_id', options_for_select(schools_options(@schools)) %>
-      <%= submit_tag "Filter Results" %>
+<section id="reportsPanel" class="container">
+  <div class="row">
+    <%= form_tag reports_path, method: "get", id: 'schoolFilter', class: "form-inline" do%>
+      <div class="form-group">
+        <label for="school_id" class="sr-only">School</label>
+        <% if @school %>
+          <%= select_tag 'school_id', options_for_select(schools_options(@schools), @school.id), class: "form-control" %>
+        <% else %>
+          <%= select_tag 'school_id', options_for_select(schools_options(@schools)), class: "form-control" %>
+        <% end %>
+      </div>
+      <%= submit_tag "Filter Results", class: "btn btn-primary" %>
     <% end %>
 
     <% unless @school %>
@@ -10,13 +17,25 @@
     <% else %>
       <h3>Reports for: <%= @school.name %><%= " - Grade Level: #{@grade}" if @grade %><%= " - Gender: #{@gender.capitalize}" if @gender %><%= " - Race: #{@race.capitalize}" if @race %><%= " - Special Educator: #{Speducator.find(@speducator_id).first_name}" if @speducator_id %></h3>
       <p>Select the subgroups from the options below to filter the graph results</p>
-      <%= form_tag reports_path, method: "get", id: 'sliceFilter' do%>
+      <%= form_tag reports_path, method: "get", id: 'sliceFilter', class: "form-inline" do%>
         <%= hidden_field_tag 'school_id', @school.id %>
-        Grade Level: <%= select_tag 'grade_lvl', options_for_select(grade_level_options(@school), @grade) %>
-        Race: <%= select_tag 'race', options_for_select(race_options(@school), @race) %>
-        Gender: <%= select_tag 'gender', options_for_select(gender_options, @gender) %>
-        Special Educator: <%= select_tag 'speducator_id', options_for_select(speducator_options(@school.speducators), @speducator_id) %>
-        <%= submit_tag "Filter Results" %>
+        <div class="form-group">
+          <label for="grade_lvl">Grade Level</label>
+          <%= select_tag 'grade_lvl', options_for_select(grade_level_options(@school), @grade), class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <label for="race">Race</label>
+          <%= select_tag 'race', options_for_select(race_options(@school), @race), class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <label for="gender">Gender</label>
+          <%= select_tag 'gender', options_for_select(gender_options, @gender), class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <label for="Special Educator">Special Educator</label>
+          <%= select_tag 'speducator_id', options_for_select(speducator_options(@school.speducators), @speducator_id), class: "form-control" %>
+        </div>
+        <%= submit_tag "Filter Results", class: "btn btn-primary" %>
       <% end %>
      <% end %>
    </div>
@@ -51,10 +70,10 @@
             <th>Records</th>
           </tr>
           <tr>
-            <td><%= @school.students.count %></td>
-            <td><%= @school.active_goals.count %></td>
-            <td><%= @school.observations.count %></td>
-            <td><%= @school.records.count %></td>
+            <td><%= @school.student_count(@filter) %></td>
+            <td><%= @school.active_goals_count(@filter) %></td>
+            <td><%= @school.observations_count(@filter) %></td>
+            <td><%= @school.records_count(@filter) %></td>
           </tr>
           <tr>
             <th>Open Observations</th>

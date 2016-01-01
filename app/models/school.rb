@@ -1,4 +1,6 @@
 class School < ActiveRecord::Base
+  include Sliceable
+
   has_many :coordinators, dependent: :destroy
   has_many :teachers, dependent: :destroy
   has_many :speducators, dependent: :destroy
@@ -14,8 +16,40 @@ class School < ActiveRecord::Base
   def active_goals
     self.students.map{ |student| student.active_goals }.flatten
   end
+  def active_goals_count filters = {}
+    if filters.length > 0
+      self.students.where(filters).map{ |student| student.active_goals }.flatten.count
+    else
+      self.students.map{ |student| student.active_goals }.flatten.count
+    end
+  end
+  def observations_count filters = {}
+    if filters.length > 0
+      self.students.where(filters).map{ |student| student.observations }.flatten.count
+    else
+      self.students.map{ |student| student.observations }.flatten.count
+    end
+  end
+  def records_count filters = {}
+    if filters.length > 0
+      self.students.where(filters).map{ |student| student.records }.flatten.count
+    else
+      self.students.map{ |student| student.records }.flatten.count
+    end
+  end
   def grade_levels
     self.students.map{ |student| student.grade }.uniq.compact.sort
+  end
+  def student_count options = {}
+    selectors = make_selectors(options)
+
+    if selectors.length > 0
+      students = self.students.where(selectors)
+    else
+      students = self.students
+    end
+
+    students.count
   end
   def races
     self.students.map{ |student| student.race }.uniq.compact.sort
@@ -34,41 +68,10 @@ class School < ActiveRecord::Base
   def avg_student_performance options = {}
     trailing = options.fetch(:trailing, nil)
     date = options.fetch(:date, nil)
-    grade = options.fetch(:grade, nil)
-    gender = options.fetch(:gender, nil)
-    race = options.fetch(:race, nil)
-    speducator_id = options.fetch(:speducator_id, nil)
+    selectors = make_selectors(options)
 
-    # if grade && gender && race && speducator_id
-    #   students = self.students.where(grade: grade, gender: gender, race: race, speducator_id: speducator_id)
-    # elsif grade && gender && race
-    #   students = self.students.where(grade: grade, gender: gender, race: race)
-    # elsif grade && gender && speducator_id
-    #   students = self.students.where(grade: grade, gender: gender, speducator_id: speducator_id)
-    # elsif grade && speducator_id && race
-    #   students = self.students.where(grade: grade, speducator_id: speducator_id, race: race)
-    # elsif speducator_id && gender && race
-    #   students = self.students.where(speducator_id: speducator_id, gender: gender, race: race)
-    if grade && gender
-      students = self.students.where(grade: grade, gender: gender)
-    elsif grade && race
-      students = self.students.where(grade: grade, race: race)
-    elsif gender && race
-      students = self.students.where(gender: gender, race: race)
-    elsif speducator_id && gender
-      students = self.students.where(speducator_id: speducator_id, gender: gender)
-    elsif speducator_id && race
-      students = self.students.where(speducator_id: speducator_id, race: race)
-    elsif speducator_id && grade
-      students = self.students.where(grade: grade, speducator_id: speducator_id)
-    elsif gender
-      students = self.students.where(gender: gender)
-    elsif speducator_id
-      students = self.students.where(speducator_id: speducator_id)
-    elsif grade
-      students = self.students.where(grade: grade)
-    elsif race
-      students = self.students.where(race: race)
+    if selectors.length > 0
+      students = self.students.where(selectors)
     else
       students = self.students
     end

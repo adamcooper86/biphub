@@ -1,11 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe School, type: :model, focus: false do
+
+  it_behaves_like "sliceable"
+
   let(:school){ FactoryGirl.create :school }
-  let(:student){ FactoryGirl.create :student, school: school }
+  let(:student){ FactoryGirl.create :student, school: school, grade: 1 }
+  let(:student2){ FactoryGirl.create :student, school: school, grade: 2 }
   let(:bip){ FactoryGirl.create :bip, student: student }
+  let(:bip2){ FactoryGirl.create :bip, student: student2 }
   let(:goal){ FactoryGirl.create :goal, bip: bip, meme: "Qualitative" }
+  let(:goal2){ FactoryGirl.create :goal, bip: bip2, meme: "Qualitative" }
   let(:observation){ FactoryGirl.create :observation, student: student }
+  let(:observation2){ FactoryGirl.create :observation, student: student2 }
   let(:teacher){ FactoryGirl.create(:teacher, school: school) }
 
   context 'validations' do
@@ -33,6 +40,20 @@ RSpec.describe School, type: :model, focus: false do
       coordinator = FactoryGirl.create(:coordinator)
       school.coordinators << coordinator
       expect(school.users).to eq [coordinator, teacher, speducator]
+    end
+  end
+  context '#student_count' do
+    it 'returns zero if there are no students assigned' do
+      expect(school.student_count).to eq 0
+    end
+    it 'returns one if there is a student in the school' do
+      student
+      expect(school.student_count).to eq 1
+    end
+
+    it 'it accepts an optional grade level' do
+      student.update_attribute(:grade, 1)
+      expect(school.student_count(grade: 2)).to eq 0
     end
   end
   context '#grade_levels' do
@@ -81,6 +102,42 @@ RSpec.describe School, type: :model, focus: false do
     it 'returns an array of goal objects' do
       3.times{ FactoryGirl.create(:goal, bip: bip) }
       expect(school.active_goals).to eq Goal.all
+    end
+  end
+  context '#active_goals_count' do
+    it 'returns an integer count of goals' do
+      3.times{ FactoryGirl.create(:goal, bip: bip) }
+      expect(school.active_goals_count).to eq 3
+    end
+    it 'accepts filters and returns the correct count' do
+      3.times{ FactoryGirl.create(:goal, bip: bip) }
+      3.times{ FactoryGirl.create(:goal, bip: bip2) }
+
+      expect(school.active_goals_count(grade: 1)).to eq 3
+    end
+  end
+  context '#observations_count' do
+    it 'returns an integer count of observations' do
+      3.times{ FactoryGirl.create(:observation, student: student) }
+      expect(school.observations_count).to eq 3
+    end
+    it 'accepts filters and returns the correct count' do
+      3.times{ FactoryGirl.create(:observation, student: student) }
+      3.times{ FactoryGirl.create(:observation, student: student2) }
+
+      expect(school.observations_count(grade: 1)).to eq 3
+    end
+  end
+  context '#records_count' do
+    it 'returns an integer count of records' do
+      3.times{ FactoryGirl.create(:record, observation: observation) }
+      expect(school.records_count).to eq 3
+    end
+    it 'accepts filters and returns the correct count' do
+      3.times{ FactoryGirl.create(:record, observation: observation) }
+      3.times{ FactoryGirl.create(:record, observation: observation2) }
+
+      expect(school.records_count(grade: 1)).to eq 3
     end
   end
   context '#unanswered_observations' do
