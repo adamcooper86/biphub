@@ -20,6 +20,7 @@ class ReportsController < ApplicationController
       @speducator_id = params[:speducator_id]
       @speducator_id = nil if @speducator_id == ""
 
+      @filter = { grade: @grade, gender: @gender, race: @race, speducator_id: @speducator_id }
       render "admin_index"
     elsif @user
       @students = @user.case_students

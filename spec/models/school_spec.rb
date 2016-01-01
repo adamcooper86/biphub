@@ -5,8 +5,10 @@ RSpec.describe School, type: :model, focus: false do
   it_behaves_like "sliceable"
 
   let(:school){ FactoryGirl.create :school }
-  let(:student){ FactoryGirl.create :student, school: school }
+  let(:student){ FactoryGirl.create :student, school: school, grade: 1 }
+  let(:student2){ FactoryGirl.create :student, school: school, grade: 2 }
   let(:bip){ FactoryGirl.create :bip, student: student }
+  let(:bip2){ FactoryGirl.create :bip, student: student2 }
   let(:goal){ FactoryGirl.create :goal, bip: bip, meme: "Qualitative" }
   let(:observation){ FactoryGirl.create :observation, student: student }
   let(:teacher){ FactoryGirl.create(:teacher, school: school) }
@@ -98,6 +100,18 @@ RSpec.describe School, type: :model, focus: false do
     it 'returns an array of goal objects' do
       3.times{ FactoryGirl.create(:goal, bip: bip) }
       expect(school.active_goals).to eq Goal.all
+    end
+  end
+  context '#active_goals_count' do
+    it 'returns an array of goal objects' do
+      3.times{ FactoryGirl.create(:goal, bip: bip) }
+      expect(school.active_goals_count).to eq 3
+    end
+    it 'accepts filters and returns the correct count' do
+      3.times{ FactoryGirl.create(:goal, bip: bip) }
+      3.times{ FactoryGirl.create(:goal, bip: bip2) }
+
+      expect(school.active_goals_count(grade: 1)).to eq 3
     end
   end
   context '#unanswered_observations' do
