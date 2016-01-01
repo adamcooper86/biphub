@@ -10,7 +10,9 @@ RSpec.describe School, type: :model, focus: false do
   let(:bip){ FactoryGirl.create :bip, student: student }
   let(:bip2){ FactoryGirl.create :bip, student: student2 }
   let(:goal){ FactoryGirl.create :goal, bip: bip, meme: "Qualitative" }
+  let(:goal2){ FactoryGirl.create :goal, bip: bip2, meme: "Qualitative" }
   let(:observation){ FactoryGirl.create :observation, student: student }
+  let(:observation2){ FactoryGirl.create :observation, student: student2 }
   let(:teacher){ FactoryGirl.create(:teacher, school: school) }
 
   context 'validations' do
@@ -124,6 +126,18 @@ RSpec.describe School, type: :model, focus: false do
       3.times{ FactoryGirl.create(:observation, student: student2) }
 
       expect(school.observations_count(grade: 1)).to eq 3
+    end
+  end
+  context '#records_count' do
+    it 'returns an integer count of records' do
+      3.times{ FactoryGirl.create(:record, observation: observation) }
+      expect(school.records_count).to eq 3
+    end
+    it 'accepts filters and returns the correct count' do
+      3.times{ FactoryGirl.create(:record, observation: observation) }
+      3.times{ FactoryGirl.create(:record, observation: observation2) }
+
+      expect(school.records_count(grade: 1)).to eq 3
     end
   end
   context '#unanswered_observations' do

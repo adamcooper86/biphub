@@ -72,8 +72,8 @@
           <tr>
             <td><%= @school.student_count(@filter) %></td>
             <td><%= @school.active_goals_count(@filter) %></td>
-            <td><%= @school.observations.count %></td>
-            <td><%= @school.records.count %></td>
+            <td><%= @school.observations_count(@filter) %></td>
+            <td><%= @school.records_count(@filter) %></td>
           </tr>
           <tr>
             <th>Open Observations</th>

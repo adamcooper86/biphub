@@ -30,6 +30,13 @@ class School < ActiveRecord::Base
       self.students.map{ |student| student.observations }.flatten.count
     end
   end
+  def records_count filters = {}
+    if filters.length > 0
+      self.students.where(filters).map{ |student| student.records }.flatten.count
+    else
+      self.students.map{ |student| student.records }.flatten.count
+    end
+  end
   def grade_levels
     self.students.map{ |student| student.grade }.uniq.compact.sort
   end
