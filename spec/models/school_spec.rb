@@ -103,7 +103,7 @@ RSpec.describe School, type: :model, focus: false do
     end
   end
   context '#active_goals_count' do
-    it 'returns an array of goal objects' do
+    it 'returns an integer count of goals' do
       3.times{ FactoryGirl.create(:goal, bip: bip) }
       expect(school.active_goals_count).to eq 3
     end
@@ -112,6 +112,18 @@ RSpec.describe School, type: :model, focus: false do
       3.times{ FactoryGirl.create(:goal, bip: bip2) }
 
       expect(school.active_goals_count(grade: 1)).to eq 3
+    end
+  end
+  context '#observations_count' do
+    it 'returns an integer count of observations' do
+      3.times{ FactoryGirl.create(:observation, student: student) }
+      expect(school.observations_count).to eq 3
+    end
+    it 'accepts filters and returns the correct count' do
+      3.times{ FactoryGirl.create(:observation, student: student) }
+      3.times{ FactoryGirl.create(:observation, student: student2) }
+
+      expect(school.observations_count(grade: 1)).to eq 3
     end
   end
   context '#unanswered_observations' do

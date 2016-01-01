@@ -23,6 +23,13 @@ class School < ActiveRecord::Base
       self.students.map{ |student| student.active_goals }.flatten.count
     end
   end
+  def observations_count filters = {}
+    if filters.length > 0
+      self.students.where(filters).map{ |student| student.observations }.flatten.count
+    else
+      self.students.map{ |student| student.observations }.flatten.count
+    end
+  end
   def grade_levels
     self.students.map{ |student| student.grade }.uniq.compact.sort
   end
