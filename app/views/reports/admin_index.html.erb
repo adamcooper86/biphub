@@ -85,9 +85,9 @@
             <th># of teachers</th>
           </tr>
           <tr>
-            <td><%= @school.unanswered_observations.count %></td>
-            <td><%= @school.unanswered_observations(1).count %></td>
-            <td><%= @school.unanswered_observations(7).count %></td>
+            <td><%= @school.unanswered_observations(filter: @filter).count %></td>
+            <td><%= @school.unanswered_observations(trailing: 1, filter: @filter).count %></td>
+            <td><%= @school.unanswered_observations(trailing: 7, filter: @filter).count %></td>
             <td><%= @school.teachers_with_unanswered_observations.count %></td>
           </tr>
           <tr>
@@ -100,15 +100,15 @@
             <th>Average Growth</th>
           </tr>
           <tr>
-            <td id="avg_student_performance"><%= @school.avg_student_performance(grade: @grade, gender: @gender, race: @race, speducator_id: @speducator_id) %></td>
-            <td><%= @school.avg_student_performance(trailing: 7, grade: @grade, gender: @gender, race: @race, speducator_id: @speducator_id) %></td>
-            <td><%= @school.avg_student_performance(trailing: 30, grade: @grade, gender: @gender, race: @race, speducator_id: @speducator_id) %></td>
-            <td><%= @school.avg_student_growth %></td>
+            <td id="avg_student_performance"><%= @school.avg_student_performance(@filter) %></td>
+            <td><%= @school.avg_student_performance({trailing: 7}.merge(@filter)) %></td>
+            <td><%= @school.avg_student_performance({trailing: 30}.merge(@filter)) %></td>
+            <td><%= @school.avg_student_growth(@filter) %></td>
           </tr>
         </table>
       </div>
       <div class="col-sm-12 col-md-5">
-        <%= content_tag 'div', class: "graph", id: "chart_div", data: { school: school_data(@school), title: "Average Performance - Whole Year's", type: "line", xlabel: 'Date', ylabel: 'Performance'} do %>
+        <%= content_tag 'div', class: "graph", id: "chart_div", data: { school: school_data(@school, @filter), title: "Average Performance - Whole Year's", type: "line", xlabel: 'Date', ylabel: 'Performance'} do %>
         <% end %>
       </div>
     </div>

@@ -4,8 +4,8 @@ FactoryGirl.define do
   factory :observation do
     student
     user
-    start { Time.now }
-    finish { Time.now + 60 }
+    start { Time.now - 60}
+    finish { Time.now }
   end
 
   factory :record do

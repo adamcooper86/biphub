@@ -10,6 +10,32 @@ RSpec.describe School, type: :model, focus: false do
   let(:teacher){ FactoryGirl.create(:teacher, school: school) }
 
   context '#avg_student_performance' do
+    #This is the begining work for refactoring with method stubs
+    #the major issue is that allow any instance of always returns
+    #the same thing
+    # before(:each){
+    #   allow_any_instance_of(Student).to receive(:avg_performance).and_return(100.0)
+    # }
+
+    # it 'returns a float representing average student performance' do
+    #   expect(school.avg_student_performance).to be_a Float
+    #   expect(school.avg_student_performance).to eq 100.0
+    # end
+
+    # context "some students have nil values" do
+    #   before(:each){
+    #     allow(student).to receive(:avg_performance).and_return(nil)
+    #     allow(student2).to receive(:avg_performance).and_return(nil)
+    #   }
+
+    #   it 'ignores nil values' do
+    #     student2
+    #     expect(school.avg_student_performance).to eq 100.0
+    #   end
+    #   it 'handles all nil values' do
+    #     expect(school.avg_student_performance).to eq nil
+    #   end
+    # end
     let!(:record){ FactoryGirl.create :record, goal: goal, result: 5 }
 
     it 'returns a float representing average student performance' do
@@ -172,6 +198,20 @@ RSpec.describe School, type: :model, focus: false do
       record2.update_attribute(:result, 4)
 
       expect(school.avg_student_growth).to eq -20.00
+    end
+    context 'it takes an optional filter of student slicers' do
+      let(:student2){ FactoryGirl.create :student, school: school, grade: 2, gender: "male", race: "Asian", speducator: speducator }
+      let(:bip2){ FactoryGirl.create :bip, student: student2 }
+      let(:goal2){ FactoryGirl.create :goal, bip: bip2, meme: "Qualitative" }
+      let(:record3){ FactoryGirl.create :record, goal: goal2, result: 5 }
+      let(:record4){ FactoryGirl.create :record, goal: goal2, result: 4 }
+
+      it 'returns that avg growth for only selected slice' do
+        [record1, record2, record3, record4]
+        filter = { grade: 2, gender: "male", race: "Asian", speducator_id: speducator.id }
+
+        expect(school.avg_student_growth(filter)).to eq -20
+      end
     end
     context "some students have nil values" do
       let(:student2){ FactoryGirl.create :student, school: school }
