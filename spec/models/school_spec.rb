@@ -5,8 +5,8 @@ RSpec.describe School, type: :model, focus: false do
   it_behaves_like "sliceable"
 
   let(:school){ FactoryGirl.create :school }
-  let(:student){ FactoryGirl.create :student, school: school, grade: 1 }
-  let(:student2){ FactoryGirl.create :student, school: school, grade: 2 }
+  let(:student){ FactoryGirl.create :student, school: school, grade: 1, race: "African" }
+  let(:student2){ FactoryGirl.create :student, school: school, grade: 2, race: "White" }
   let(:bip){ FactoryGirl.create :bip, student: student }
   let(:bip2){ FactoryGirl.create :bip, student: student2 }
   let(:goal){ FactoryGirl.create :goal, bip: bip, meme: "Qualitative" }
@@ -34,17 +34,9 @@ RSpec.describe School, type: :model, focus: false do
       expect(FactoryGirl.build(:school, zip: "")).not_to be_valid
     end
   end
-  context '#users' do
-    it 'returns an array of coordinators, teachers, and speducators' do
-      allow(school).to receive(:teachers).and_return([teacher])
-      allow(school).to receive(:speducators).and_return([speducator])
-      allow(school).to receive(:coordinators).and_return([coordinator])
-
-      expect(school.users).to eq [coordinator, teacher, speducator]
-    end
-  end
   context '#student_count' do
     it 'returns zero if there are no students assigned' do
+      allow(school).to receive(:students).and_return([])
       expect(school.student_count).to eq 0
     end
     it 'returns one if there is a student in the school' do
@@ -53,57 +45,71 @@ RSpec.describe School, type: :model, focus: false do
     end
 
     it 'it accepts an optional grade level' do
-      student.update_attribute(:grade, 1)
-      expect(school.student_count(grade: 2)).to eq 0
+      student
+      student2
+      expect(school.student_count(grade: 2)).to eq 1
     end
   end
-  context '#grade_levels' do
+
+  describe 'tests with stubbed .students' do
     before(:each){
       allow(school).to receive(:students).and_return([student, student2])
     }
-    it 'returns [] if there are no students with grades' do
-      student.update_attribute(:grade, nil)
-      student2.update_attribute(:grade, nil)
-      expect(school.grade_levels).to eq []
+
+    context '#users' do
+      it 'returns an array of coordinators, teachers, and speducators' do
+        allow(school).to receive(:teachers).and_return([teacher])
+        allow(school).to receive(:speducators).and_return([speducator])
+        allow(school).to receive(:coordinators).and_return([coordinator])
+
+        expect(school.users).to eq [coordinator, teacher, speducator]
+      end
     end
-    it 'returns an array of grades for a school' do
-      expect(school.grade_levels).to eq [1,2]
+
+    context '#grade_levels' do
+      it 'returns [] if there are no students with grades' do
+        student.update_attribute(:grade, nil)
+        student2.update_attribute(:grade, nil)
+        expect(school.grade_levels).to eq []
+      end
+      it 'returns an array of grades for a school' do
+        expect(school.grade_levels).to eq [1,2]
+      end
+      it 'returns a unique array of grades' do
+        student2.update_attribute(:grade, 1)
+        expect(school.grade_levels).to eq [1]
+      end
+      it 'the return is sorted' do
+        student.update_attribute(:grade, 2)
+        student2.update_attribute(:grade, 1)
+        expect(school.grade_levels).to eq [1, 2]
+      end
+      it 'The return ignores nil before sorting' do
+        student.update_attribute(:grade, nil)
+        student2.update_attribute(:grade, 1)
+        expect(school.grade_levels).to eq [1]
+      end
     end
-    it 'returns a unique array of grades' do
-      student2.update_attribute(:grade, 1)
-      expect(school.grade_levels).to eq [1]
-    end
-    it 'the return is sorted' do
-      student.update_attribute(:grade, 2)
-      student2.update_attribute(:grade, 1)
-      expect(school.grade_levels).to eq [1, 2]
-    end
-    it 'The return ignores nil before sorting' do
-      student.update_attribute(:grade, nil)
-      student2.update_attribute(:grade, 1)
-      expect(school.grade_levels).to eq [1]
-    end
-  end
-  context '#races' do
-    let(:student2){ FactoryGirl.create :student, school: school, race: "African" }
-    it 'returns nil if there are no students with races' do
-      expect(school.races).to eq []
-    end
-    it 'returns an array of races for a school' do
-      student.update_attribute(:race, "White")
-      student2
-      expect(school.races).to eq ["African", "White"]
-    end
-    it 'returns a unique array of races' do
-      student.update_attribute(:race, "White")
-      student2.update_attribute(:race, "White")
-      expect(school.races).to eq ["White"]
+    context '#races' do
+      it 'returns nil if there are no students with races' do
+        student.update_attribute(:race, nil)
+        student2.update_attribute(:race, nil)
+        expect(school.races).to eq []
+      end
+      it 'returns an array of races for a school' do
+        expect(school.races).to eq ["African", "White"]
+      end
+      it 'returns a unique array of races' do
+        student.update_attribute(:race, "White")
+        expect(school.races).to eq ["White"]
+      end
     end
   end
   context '#active_goals' do
     it 'returns an array of goal objects' do
-      3.times{ FactoryGirl.create(:goal, bip: bip) }
-      expect(school.active_goals).to eq Goal.all
+      allow_any_instance_of(Student).to receive(:active_goals).and_return([goal, goal2])
+      expect(school.active_goals.size).to eq 4
+      expect(school.active_goals[0]).to eq goal
     end
   end
   context '#active_goals_count' do
