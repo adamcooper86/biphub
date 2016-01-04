@@ -14,6 +14,8 @@ RSpec.describe School, type: :model, focus: false do
   let(:observation){ FactoryGirl.create :observation, student: student }
   let(:observation2){ FactoryGirl.create :observation, student: student2 }
   let(:teacher){ FactoryGirl.create(:teacher, school: school) }
+  let(:speducator){ FactoryGirl.create(:speducator, school: school) }
+  let(:coordinator){ FactoryGirl.create(:coordinator, school: school) }
 
   context 'validations' do
     it 'requires a school name' do
@@ -34,11 +36,10 @@ RSpec.describe School, type: :model, focus: false do
   end
   context '#users' do
     it 'returns an array of coordinators, teachers, and speducators' do
-      teacher
-      speducator = FactoryGirl.create(:speducator)
-      school.speducators << speducator
-      coordinator = FactoryGirl.create(:coordinator)
-      school.coordinators << coordinator
+      allow(school).to receive(:teachers).and_return([teacher])
+      allow(school).to receive(:speducators).and_return([speducator])
+      allow(school).to receive(:coordinators).and_return([coordinator])
+
       expect(school.users).to eq [coordinator, teacher, speducator]
     end
   end
@@ -47,7 +48,7 @@ RSpec.describe School, type: :model, focus: false do
       expect(school.student_count).to eq 0
     end
     it 'returns one if there is a student in the school' do
-      student
+      allow(school).to receive(:students).and_return([student])
       expect(school.student_count).to eq 1
     end
 
@@ -57,17 +58,18 @@ RSpec.describe School, type: :model, focus: false do
     end
   end
   context '#grade_levels' do
-    let(:student2){ FactoryGirl.create :student, school: school, grade: 2 }
-    it 'returns nil if there are no students with grades' do
+    before(:each){
+      allow(school).to receive(:students).and_return([student, student2])
+    }
+    it 'returns [] if there are no students with grades' do
+      student.update_attribute(:grade, nil)
+      student2.update_attribute(:grade, nil)
       expect(school.grade_levels).to eq []
     end
     it 'returns an array of grades for a school' do
-      student.update_attribute(:grade, 1)
-      student2
       expect(school.grade_levels).to eq [1,2]
     end
     it 'returns a unique array of grades' do
-      student.update_attribute(:grade, 1)
       student2.update_attribute(:grade, 1)
       expect(school.grade_levels).to eq [1]
     end
