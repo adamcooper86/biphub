@@ -191,7 +191,8 @@ RSpec.describe School, type: :model, focus: false do
   end
   context '#observation_date_range' do
     let!(:record1){ FactoryGirl.create :record, goal: goal, observation: observation, result: 5 }
-    let(:observation2){ FactoryGirl.create :observation, student: student }
+    let(:student2){ FactoryGirl.create :student, school: school, grade: 2 }
+    let(:observation2){ FactoryGirl.create :observation, student: student2 }
     let(:record2){ FactoryGirl.create :record, goal: goal, observation: observation2, result: 5 }
 
     it 'returns an array with the date of the observations' do
@@ -200,6 +201,14 @@ RSpec.describe School, type: :model, focus: false do
     it 'the array has only unique dates' do
       record2
       expect(school.observation_date_range).to eq [observation.finish.to_date]
+    end
+    context 'it takes optional filter arguement' do
+      it 'selects only the dates where observations match the filter passed in' do
+        observation2.update_attribute(:finish, Date.today - 1.day)
+        FactoryGirl.create(:record, observation: observation2)
+
+        expect(school.observation_date_range(grade: 2).length).to eq 1
+      end
     end
   end
 end

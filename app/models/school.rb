@@ -71,8 +71,17 @@ class School < ActiveRecord::Base
   def teachers_with_unanswered_observations
     self.unanswered_observations.map{ |observation| observation.user }.uniq
   end
-  def observation_date_range
-    self.observations.map{|observation| observation.finish.to_date }.uniq
+  def observation_date_range options = {}
+    selectors = make_selectors options
+
+    if selectors.compact.length > 0
+      students = self.students.where(selectors.compact)
+      observations = students.map{|student| student.observations }.flatten
+    else
+      observations = self.observations
+    end
+
+    observations.map{|observation| observation.finish.to_date }.uniq
   end
   def avg_student_performance options = {}
     trailing = options.fetch(:trailing, nil)

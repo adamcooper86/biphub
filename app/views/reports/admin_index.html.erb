@@ -108,7 +108,7 @@
         </table>
       </div>
       <div class="col-sm-12 col-md-5">
-        <%= content_tag 'div', class: "graph", id: "chart_div", data: { school: school_data(@school), title: "Average Performance - Whole Year's", type: "line", xlabel: 'Date', ylabel: 'Performance'} do %>
+        <%= content_tag 'div', class: "graph", id: "chart_div", data: { school: school_data(@school, @filter), title: "Average Performance - Whole Year's", type: "line", xlabel: 'Date', ylabel: 'Performance'} do %>
         <% end %>
       </div>
     </div>
