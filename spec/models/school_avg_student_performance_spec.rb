@@ -173,6 +173,20 @@ RSpec.describe School, type: :model, focus: false do
 
       expect(school.avg_student_growth).to eq -20.00
     end
+    context 'it takes an optional filter of student slicers' do
+      let(:student2){ FactoryGirl.create :student, school: school, grade: 2, gender: "male", race: "Asian", speducator: speducator }
+      let(:bip2){ FactoryGirl.create :bip, student: student2 }
+      let(:goal2){ FactoryGirl.create :goal, bip: bip2, meme: "Qualitative" }
+      let(:record3){ FactoryGirl.create :record, goal: goal2, result: 5 }
+      let(:record4){ FactoryGirl.create :record, goal: goal2, result: 4 }
+
+      it 'returns that avg growth for only selected slice' do
+        [record1, record2, record3, record4]
+        filter = { grade: 2, gender: "male", race: "Asian", speducator_id: speducator.id }
+
+        expect(school.avg_student_growth(filter)).to eq -20
+      end
+    end
     context "some students have nil values" do
       let(:student2){ FactoryGirl.create :student, school: school }
       let(:bip2){ FactoryGirl.create :bip, student: student }
