@@ -54,9 +54,18 @@ class School < ActiveRecord::Base
   def races
     self.students.map{ |student| student.race }.uniq.compact.sort
   end
-  def unanswered_observations limit = 0
+  def unanswered_observations options = {}
+    trailing = options.fetch(:trailing, 0)
+    selectors = options.fetch(:filter, nil)
+
+    if selectors
+      students = self.students.where(selectors.compact)
+    end
+
     unanswered = self.observations.select{|observation| !observation.is_answered? }
-    limit = DateTime.now - limit
+    unanswered = unanswered.select{|observation| students.any?{|student| student ==observation.student } } if selectors
+
+    limit = DateTime.now - trailing
     unanswered.select{|observation| observation.finish < limit }
   end
   def teachers_with_unanswered_observations

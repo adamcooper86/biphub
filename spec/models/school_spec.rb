@@ -154,15 +154,25 @@ RSpec.describe School, type: :model, focus: false do
       day_old = FactoryGirl.create(:observation, student: student, start: Time.now - 1.day, finish: Time.now - 1.day)
       FactoryGirl.create(:record, observation: day_old)
 
-      expect(school.unanswered_observations(1).length).to eq 1
-      expect(school.unanswered_observations(1)[0]).to eq day_old
+      expect(school.unanswered_observations(trailing: 1).length).to eq 1
+      expect(school.unanswered_observations(trailing: 1)[0]).to eq day_old
     end
     it 'returns only the ones greater than 7 days past finish day' do
       seven_day_old = FactoryGirl.create(:observation, student: student, start: Time.now - 7.day, finish: Time.now - 7.day)
       FactoryGirl.create(:record, observation: seven_day_old)
 
-      expect(school.unanswered_observations(7).length).to eq 1
-      expect(school.unanswered_observations(7)[0]).to eq seven_day_old
+      expect(school.unanswered_observations(trailing: 7).length).to eq 1
+      expect(school.unanswered_observations(trailing: 7)[0]).to eq seven_day_old
+    end
+    it 'selects only the observations that match the filter passed in' do
+      FactoryGirl.create(:record, observation: observation2)
+
+      expect(school.unanswered_observations(filter: {grade: 2}).length).to eq 1
+    end
+    it 'handles nil values in filter' do
+      FactoryGirl.create(:record, observation: observation2)
+
+      expect(school.unanswered_observations(filter: {grade: nil, race: nil}).length).to eq 4
     end
     context "#teachers_with_unanswered_observations" do
       it "returns a collection of teachers" do
