@@ -81,7 +81,8 @@ class School < ActiveRecord::Base
       observations = self.observations
     end
 
-    observations.map{|observation| observation.finish.to_date }.uniq
+    answered_observations = observations.select{ |observation| observation.is_answered? }
+    answered_observations.map{|observation| observation.finish.to_date }.uniq.sort
   end
   def avg_student_performance options = {}
     trailing = options.fetch(:trailing, nil)

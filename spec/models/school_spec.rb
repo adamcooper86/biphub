@@ -202,10 +202,20 @@ RSpec.describe School, type: :model, focus: false do
       record2
       expect(school.observation_date_range).to eq [observation.finish.to_date]
     end
+    it 'it filters out dates where student-performance is nil' do
+      observation2.update_attribute(:finish, Date.today - 1.day)
+      record2.update_attribute(:result, nil)
+      expect(school.observation_date_range).to eq [observation.finish.to_date]
+    end
+    it 'sorts the dates oldest to newest' do
+      observation2.update_attribute(:finish, Date.today - 1.day)
+      record2
+      expect(school.observation_date_range).to eq [observation2.finish.to_date, observation.finish.to_date]
+    end
     context 'it takes optional filter arguement' do
       it 'selects only the dates where observations match the filter passed in' do
         observation2.update_attribute(:finish, Date.today - 1.day)
-        FactoryGirl.create(:record, observation: observation2)
+        FactoryGirl.create(:record, observation: observation2, result: 1)
 
         expect(school.observation_date_range(grade: 2).length).to eq 1
       end
